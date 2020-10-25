@@ -1,4 +1,6 @@
-# Vanilla
+# [Vanilla](https://vanilla-box.netlify.app/)
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c01282dc-87f1-4197-847e-06436e52329a/deploy-status)](https://app.netlify.com/sites/vanilla-box/deploys)
 
 A digital place for collecting, storing, and sharing recipes alike a physical cookbook or recipe box.
 
