@@ -101,3 +101,35 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+# Development Notes
+
+## 2020-10-25
+
+While researching further into [Material Design](https://material.io/), I discovered their [Material Studies](https://material.io/design/material-studies/about-our-material-studies.html).
+Especially the [Basil](https://material.io/design/material-studies/basil.html) study, and certainly took inspiration from it.
+I generated a series of thumbnail sketches on sticky notes over the past few weeks to think about how I ma want to design the application within the requirements.
+
+I've done some development in the past with React, but this was prior to the creation of the [hooks API](https://reactjs.org/docs/hooks-intro.html) and I had learned very little about [Redux](https://redux.js.org/api/api-reference).
+So, I'm primarily approaching this from my experience developing with Vue.
+
+I set up this repository on GitHub and deployed the application using Netlify.
+As part of that, I came across the [Netlify Identity Widget](https://github.com/netlify/netlify-identity-widget), and wondered if I should include authentication in the application and if this might be a good addition to abstract that functionality.
+
+Having explored Thor's GitHub, I found a few repositories which seemed like they may be useful for referencing:
+
+- https://github.com/thortek/dgm3790-initial-react-app
+- https://github.com/thortek/DGM-3790/tree/master/JaredFinalProject
+
+After an initial setup, I decided it would be best to create a mockup or wireframe using AdobeXD.
+Ideally, this would be sent to Thor to get permission to register for the class, and set up a delivery plan to show progress on the application.
+The design wouldn't be intended as the final implementation, only as a guiding document.
+
+For a color scheme, the page might use the following as created using the [Material Design Color Tool](https://material.io/resources/color/):
+
+- Primary `#4e342e`
+  - Primary (Light) `#7b5e57`
+  - Primary (Dark) `#260e04`
+- Secondary `#f3e5ab` [_"Vanilla"_](<https://en.wikipedia.org/wiki/Vanilla_(color)>)
+  - Secondary (Light) `#ffffdd`
+  - Secondary (Dark) `#c0b37b`
