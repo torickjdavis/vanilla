@@ -8,27 +8,27 @@ A digital place for collecting, storing, and sharing recipes alike a physical co
 
 The following is an overview checklist created from the requirements set out by [Thor Anderson](https://github.com/thortek).
 
-- [] App is Primarily Functional Components using React Hooks
-  - [] Demonstrating `useState`
-  - [] Demonstrating `useEffect`
-  - [] Demonstrating `useContext`
-- [] Minimum of 3 Routes
-  - [] Uses a Redirected Route
-  - [] Uses a Guarded Route
-- [] Uses a UI Framework
+- [ ] App is Primarily Functional Components using React Hooks
+  - [ ] Demonstrating `useState`
+  - [ ] Demonstrating `useEffect`
+  - [ ] Demonstrating `useContext`
+- [ ] Minimum of 3 Routes
+  - [ ] Uses a Redirected Route
+  - [ ] Uses a Guarded Route
+- [ ] Uses a UI Framework
   - Free to choose, but they are using Material UI this semester.
-  - [] Navigation Bar
-  - [] Expanding & Collapsing Side Drawer
-  - [] Modal Dialog
-  - [] Form with Validation
-- [] Scoped Component Styles
+  - [ ] Navigation Bar
+  - [ ] Expanding & Collapsing Side Drawer
+  - [ ] Modal Dialog
+  - [ ] Form with Validation
+- [ ] Scoped Component Styles
   - Free to choose whatever method.
-- [] Retrieves Large Data List with Axios
-- [] Renders a Large List with Discrete React Components
+- [ ] Retrieves Large Data List with Axios
+- [ ] Renders a Large List with Discrete React Components
   - Not just text list.
-- [] Redux or Context API for Data Storage
-- [] App Source on GitHub
-- [] App is Deployed
+- [ ] Redux or Context API for Data Storage
+- [x] App Source on GitHub
+- [x] App is Deployed
   - Uses Netlify or something similar.
 
 # Create React App Information
