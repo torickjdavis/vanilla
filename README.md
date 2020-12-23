@@ -12,17 +12,19 @@ The following is an overview checklist created from the requirements set out by 
   - [ ] Demonstrating `useState`
   - [ ] Demonstrating `useEffect`
   - [ ] Demonstrating `useContext`
-- [ ] Minimum of 3 Routes
+- Routing
+  - [x] Minimum of 3 Routes
   - [ ] Uses a Redirected Route
   - [ ] Uses a Guarded Route
-- [ ] Uses a UI Framework
+- [x] Uses a UI Framework
   - Free to choose, but they are using Material UI this semester.
-  - [ ] Navigation Bar
+- Uses Components of UI Framework
+  - [x] Navigation Bar
   - [ ] Expanding & Collapsing Side Drawer
   - [ ] Modal Dialog
   - [ ] Form with Validation
-- [ ] Scoped Component Styles
-  - Free to choose whatever method.
+  - [x] Scoped Component Styles
+    - Free to choose whatever method.
 - [ ] Retrieves Large Data List with Axios
 - [ ] Renders a Large List with Discrete React Components
   - Not just text list.
@@ -133,3 +135,29 @@ For a color scheme, the page might use the following as created using the [Mater
 - Secondary `#f3e5ab` [_"Vanilla"_](<https://en.wikipedia.org/wiki/Vanilla_(color)>)
   - Secondary (Light) `#ffffdd`
   - Secondary (Dark) `#c0b37b`
+
+## 2020-10-26
+
+Learning React through YouTube:
+
+- [React Hooks - Web Dev Simplified](https://www.youtube.com/playlist?list=PLZlA0Gpn_vH8EtggFGERCwMY5u5hOjf-h)
+- [React Context & Hooks Tutorial - The Net Ninja](https://www.youtube.com/playlist?list=PL4cUxeGkcC9hNokByJilPg5g9m2APUePI)
+- [Complete React Tutorial (with Redux) - The Net Ninja](https://www.youtube.com/playlist?list=PL4cUxeGkcC9ij8CfkAY2RAGb-tmkNwQHG)
+- [Material UI](https://www.youtube.com/playlist?list=PLQg6GaokU5CwiVmsZ0d_9Zsg_DnIP_xwr)
+- [Full React Course 2020 - Learn Fundamentals, Hooks, Context API, React Router, Custom Hooks](https://www.youtube.com/watch?v=4UZrsTqkcW4&ab_channel=freeCodeCamp.org)
+
+Potential APIs:
+
+- https://spoonacular.com/food-api/docs
+- https://api2.bigoven.com/web/documentation/
+
+## 2020-12-22
+
+After a stressful end to the semester, and reviewing many materials to learn React, I've begun working on this project again.
+I feel that I have a really good grasp of how React works along with some of the similarities and differences between it and Vue.
+
+Instead of using Redux, I've decided to use the Context API, as it is one less dependency and now comes with React.
+Additionally, for component styling I've decided to try and go forward with the `makeStyles` hook from MaterialUI.
+
+Initialized application with various components and a router with many components to load as views along with a fallback `ErrorView` which is intended be used for all HTTP error pages, such as 404 and 500 errors.
+Each view will act as a single page for content.
