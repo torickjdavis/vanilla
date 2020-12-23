@@ -2,6 +2,7 @@ import { IconButton, Menu, MenuItem } from '@material-ui/core';
 
 import { AccountCircle as ProfileIcon } from '@material-ui/icons';
 import { useState } from 'react';
+import { NavLink } from './Link';
 
 export default function Profile() {
   const [anchor, setAnchor] = useState(null);
@@ -26,10 +27,18 @@ export default function Profile() {
         open={!!anchor}
         onClose={closeMenu}
       >
-        <MenuItem>Profile</MenuItem>
-        <MenuItem>Account</MenuItem>
-        <MenuItem>Login</MenuItem>
-        <MenuItem>Logout</MenuItem>
+        <MenuItem>
+          <NavLink to="/profile">Profile</NavLink>
+        </MenuItem>
+        <MenuItem>
+          <NavLink to="/account">Account</NavLink>
+        </MenuItem>
+        <MenuItem>
+          <NavLink to="/login">Login</NavLink>
+        </MenuItem>
+        <MenuItem>
+          <NavLink to="/logout">Logout</NavLink>
+        </MenuItem>
       </Menu>
     </>
   );
