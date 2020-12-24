@@ -8,6 +8,9 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none',
     '&.active, &:focus, &:hover': {
       textDecoration: 'underline',
+      textDecorationThickness: '0.2em',
+      textUnderlineOffset: 0,
+      // ? textDecorationSkipInk
     },
   },
   linkText: {
@@ -26,7 +29,6 @@ export default function Link({ children, className, ...routeOptions }) {
 
 export function NavLink({ children, className, ...routeOptions }) {
   const classes = useStyles();
-  console.log(routeOptions);
   return (
     <RouterNavLink {...routeOptions} className={clsx(classes.link, className)}>
       <div className={classes.linkText}>{children}</div>

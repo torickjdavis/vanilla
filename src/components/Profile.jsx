@@ -10,6 +10,8 @@ export default function Profile() {
   const openMenu = (event) => setAnchor(event.currentTarget);
   const closeMenu = () => setAnchor(null);
 
+  // ? when a menu item is clicked, there area areas which aren't the nav link, so the click isn't processed
+
   return (
     <>
       <IconButton
