@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Navbar() {
   const classes = useStyles();
   return (
-    <AppBar color="primary" position="static">
+    <AppBar color="primary" position="sticky">
       <Toolbar>
         <NavLink exact to="/" className={classes.titleLink}>
           <div className={classes.titleLinkContent}>

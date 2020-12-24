@@ -161,3 +161,22 @@ Additionally, for component styling I've decided to try and go forward with the 
 
 Initialized application with various components and a router with many components to load as views along with a fallback `ErrorView` which is intended be used for all HTTP error pages, such as 404 and 500 errors.
 Each view will act as a single page for content.
+
+## 2020-12-23
+
+Work on the navigation, getting it all connected with router links to each view.
+Added `clsx` as a dependency.
+First used it with custom `Link` component which is a wrapper around the `react-router-dom` `Link` and `NavLink`.
+It separates the underline color from the text color in the links and makes use of the app's accent color.
+
+One idea I want to explore, is showing a dialog when accessed by a route.
+That way it can be linked to and show on top of any page.
+Might have to create a wrapper which displays modal routes over the existing component.
+
+Lastly, mocked out the `HomeView` content.
+Built and styled in such a way that the main content exists above the "_fold_", as a cover.
+Any additional content adds scrolling and is visible below the fold.
+As part of this, a number of global utility styles were added to the `base.css`.
+The font was also added to the `index.html`, but with all font weights.
+
+The `NavBar` has also been updated to be sticky instead of static.
