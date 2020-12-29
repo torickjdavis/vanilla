@@ -1,12 +1,20 @@
-import { IconButton, Menu, MenuItem } from '@material-ui/core';
+import { Avatar, IconButton, Menu, MenuItem } from '@material-ui/core';
 
-import { AccountCircle as ProfileIcon } from '@material-ui/icons';
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import { NavLink } from './Link';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function Profile() {
-  const [anchor, setAnchor] = useState(null);
+  const { isAuthenticated, user } = useAuth();
 
+  console.log(useAuth());
+
+  const history = useHistory();
+  const redirect = () => history.push('/authentication?action=login');
+
+  const [anchor, setAnchor] = useState(null);
   const openMenu = (event) => setAnchor(event.currentTarget);
   const closeMenu = () => setAnchor(null);
 
@@ -18,9 +26,12 @@ export default function Profile() {
         aria-controls="profile-menu"
         aria-haspopup="true"
         aria-label="Profile Menu"
-        onClick={openMenu}
+        onClick={isAuthenticated ? openMenu : redirect}
       >
-        <ProfileIcon />
+        <Avatar
+          src={user?.picture.thumbnail}
+          alt={`${user?.name.first} ${user?.name.last}`}
+        />
       </IconButton>
       <Menu
         id="profile-menu"
@@ -36,10 +47,7 @@ export default function Profile() {
           <NavLink to="/account">Account</NavLink>
         </MenuItem>
         <MenuItem>
-          <NavLink to="/login">Login</NavLink>
-        </MenuItem>
-        <MenuItem>
-          <NavLink to="/logout">Logout</NavLink>
+          <NavLink to="/authentication?action=logout">Logout</NavLink>
         </MenuItem>
       </Menu>
     </>

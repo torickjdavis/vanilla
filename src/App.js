@@ -5,12 +5,16 @@ import Navbar from './components/Navbar';
 import RouterView from './views/RouterView';
 import routes from './routes';
 
+import AuthContextProvider from './contexts/AuthContext';
+
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <Navbar />
-      <RouterView routes={routes} />
-    </ThemeProvider>
+    <AuthContextProvider>
+      <ThemeProvider theme={theme}>
+        <Navbar />
+        <RouterView routes={routes} />
+      </ThemeProvider>
+    </AuthContextProvider>
   );
 }
 

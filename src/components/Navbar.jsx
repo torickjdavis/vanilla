@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core';
 
 import {
-  MenuBook as MenuBookIcon,
+  MenuBookTwoTone as MenuBookIcon,
   Search as SearchIcon,
 } from '@material-ui/icons';
 
@@ -34,7 +34,7 @@ export default function Navbar() {
       <Toolbar>
         <NavLink exact to="/" className={classes.titleLink}>
           <div className={classes.titleLinkContent}>
-            <MenuBookIcon className={classes.logo} />
+            <MenuBookIcon fontSize="large" className={classes.logo} />
             <Typography variant="h6" noWrap className={classes.title}>
               Vanilla
             </Typography>
