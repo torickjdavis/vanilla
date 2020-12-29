@@ -8,20 +8,20 @@ A digital place for collecting, storing, and sharing recipes alike a physical co
 
 The following is an overview checklist created from the requirements set out by [Thor Anderson](https://github.com/thortek).
 
-- [ ] App is Primarily Functional Components using React Hooks
-  - [ ] Demonstrating `useState`
-  - [ ] Demonstrating `useEffect`
-  - [ ] Demonstrating `useContext`
+- [x] App is Primarily Functional Components using React Hooks
+  - [x] Demonstrating `useState`
+  - [x] Demonstrating `useEffect`
+  - [x] Demonstrating `useContext`
 - Routing
   - [x] Minimum of 3 Routes
-  - [ ] Uses a Redirected Route
-  - [ ] Uses a Guarded Route
+  - [x] Uses a Redirected Route
+  - [x] Uses a Guarded Route
 - [x] Uses a UI Framework
   - Free to choose, but they are using Material UI this semester.
 - Uses Components of UI Framework
   - [x] Navigation Bar
   - [ ] Expanding & Collapsing Side Drawer
-  - [ ] Modal Dialog
+  - [x] Modal Dialog
   - [ ] Form with Validation
   - [x] Scoped Component Styles
     - Free to choose whatever method.
@@ -180,3 +180,60 @@ As part of this, a number of global utility styles were added to the `base.css`.
 The font was also added to the `index.html`, but with all font weights.
 
 The `NavBar` has also been updated to be sticky instead of static.
+
+## 2020-12-28
+
+Fleshed out the `AuthContext`.
+Researched some options for better programmatic navigation with React Router.
+Options primarily `useHistory` and the `Redirect` component.
+Researched ideas for a route-able modal.
+Taking inspiration from Unsplash, where the modal works, or if directly visited it is a standalone page.
+There are a number of promising options to look further into and try out.
+I would like to spike them in isolation, but have opted against that.
+
+Promising Route-able Modal Options:
+
+- [React Router Modal Gallery Example](https://reactrouter.com/web/example/modal-gallery)
+- [Create a Modal Route with Link and Nav State in React Router](https://codedaily.io/tutorials/47/Create-a-Modal-Route-with-Link-and-Nav-State-in-React-Router)
+- [Building a modal module for React with React-Router](https://blog.logrocket.com/building-a-modal-module-for-react-with-react-router/)
+- [How to make routable modals in react with react-router](https://dev.to/unorthodev/how-to-make-routable-modals-in-react-with-react-router-3hgp)
+
+Additionally, updated the applications icons/logo to match the navbar.
+Used [`pwa-asset-generator`](https://github.com/onderceylan/pwa-asset-generator) to create the icon assets to be referenced in the manifest and meta tags.
+With that same update, I changed the `<title>` for the application.
+
+I also updated the `Navbar` icon to the correct duotone icon to
+match the logo.
+The AuthContext currently also mocks a random user from [RandomUser.me](https://randomuser.me/) to display content in the avatar when signed in.
+Currently, there is no way to actively sign in or out, but this can be simulated to view the functionality.
+
+Next, I updated the `HomeView` to make use of a `<Redirect>` route instead of programmatic navigation with `useHistory`.
+The `Profile` was left making use of `useHistory` to demonstrate the differences between the two, as each has their own use cases.
+
+At this point, I also went back to the original checklist and marked items complete.
+Since the app makes use of the requested hooks, and I know they'll be used again later, I decided to mark that item off.
+However, I did not mark off the item concerning data storage, as I feel that's better suited to when I fetch data from an API with Axios.
+
+Following the update to the `HomeView` and checklist review, I then revisited the `RouterView` and `routes`.
+I added a `guard` flag to each route which the `RouterView` would then load a `GuardRoute` instead of a regular `Route`.
+This is a new component which will redirect to the `redirectTo` prop when the `allow` prop is falsy; otherwise, it will act like a regular `Route`.
+This then also checks-off the need for a guarded route.
+To give credit where credit is due, the development of the `GuardRoute` component was heavily inspired by the logic presented in ["How to create guarded routes for your React-App"](https://blog.netcetera.com/how-to-create-guarded-routes-for-your-react-app-d2fe7c7b6122).
+
+_As an aside, any of these development log entries may roll over into the next day if the application is worked on past midnight, so I will try to be consistent and not start the next day's entry until after I've slept._
+
+After a lot of trial and error, I believe I am finally able to get the modals to show up as I want them.
+The first two links of my exploration proved to be the most useful in creating what I wanted.
+
+The key takeaways are as follows:
+
+- Assignment of the `backdrop` to the `location` prop of the `Switch`.
+- Displaying the routed component outside the `Switch`, but still in the `Router`, if the `backdrop` has been set.
+
+With that, I'm committing the current addition of `Modal` and `RoutedModal`.
+This did cause modifications to the `Profile`, but it should be ready for the other dialog components.
+I'm debating renaming those to be suffixed with _modal_ instead of _dialog_.
+Regardless, I'm committing the application in what I believe is a working state.
+Additionally, I feel this checks-off the requirement to use a modal dialog.
+
+The next plan is to flesh out the `AuthenticationDialog` for login, registration, and logout.

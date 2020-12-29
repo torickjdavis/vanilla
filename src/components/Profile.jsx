@@ -1,7 +1,7 @@
 import { Avatar, IconButton, Menu, MenuItem } from '@material-ui/core';
 
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import { NavLink } from './Link';
 import { useAuth } from '../contexts/AuthContext';
@@ -9,10 +9,11 @@ import { useAuth } from '../contexts/AuthContext';
 export default function Profile() {
   const { isAuthenticated, user } = useAuth();
 
-  console.log(useAuth());
+  const location = useLocation();
 
   const history = useHistory();
-  const redirect = () => history.push('/authentication?action=login');
+  // prettier-ignore
+  const redirect = () => history.push('/authentication?action=login', { backdrop: location });
 
   const [anchor, setAnchor] = useState(null);
   const openMenu = (event) => setAnchor(event.currentTarget);
@@ -44,10 +45,24 @@ export default function Profile() {
           <NavLink to="/profile">Profile</NavLink>
         </MenuItem>
         <MenuItem>
-          <NavLink to="/account">Account</NavLink>
+          <NavLink
+            to={{
+              pathname: '/account',
+              state: { backdrop: location },
+            }}
+          >
+            Account
+          </NavLink>
         </MenuItem>
         <MenuItem>
-          <NavLink to="/authentication?action=logout">Logout</NavLink>
+          <NavLink
+            to={{
+              pathname: '/authentication?action=logout',
+              state: { backdrop: location },
+            }}
+          >
+            Logout
+          </NavLink>
         </MenuItem>
       </Menu>
     </>
