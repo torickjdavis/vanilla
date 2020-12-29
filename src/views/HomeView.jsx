@@ -9,6 +9,8 @@ import {
 import { Search as SearchIcon } from '@material-ui/icons';
 
 import clsx from 'clsx';
+import { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,6 +50,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function HomeView() {
   const classes = useStyles();
+  const [redirect, setRedirect] = useState(false);
+
+  if (redirect) return <Redirect to={redirect} />;
+
   return (
     <Grid container className={clsx(classes.root, 'fill-height')}>
       <Grid
@@ -70,9 +76,8 @@ export default function HomeView() {
               color="secondary"
               className={classes.callToAction}
               startIcon={<SearchIcon />}
-              href="/explore"
+              onClick={() => setRedirect('/explore')}
             >
-              {/* ? use router link instead to prevent reload */}
               Explore Recipes
             </Button>
           </Container>
