@@ -24,7 +24,6 @@ export default function Modal({
   return (
     <Dialog open={isOpen} onClose={close} {...dialogOptions}>
       {title && <DialogTitle>{title}</DialogTitle>}
-      {console.log(typeof children)}
       <DialogContent>
         {typeof children === 'string' ? (
           <DialogContentText>{children}</DialogContentText>

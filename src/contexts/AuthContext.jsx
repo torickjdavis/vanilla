@@ -31,6 +31,7 @@ const AuthContextProvider = ({ children }) => {
       }
     };
     if (isAuthenticated) fetchData();
+    else setUser(null);
   }, [isAuthenticated]);
 
   return (

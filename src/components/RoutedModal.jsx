@@ -1,18 +1,23 @@
 import { useState } from 'react';
-import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import Modal from './Modal';
 
-export default function RoutedModal({ children, ...rest }) {
+export const useInModal = () => {
   const location = useLocation();
   const { state = {} } = location;
   const { backdrop } = state;
+  return !!backdrop;
+};
 
-  const [isOpen, setIsOpen] = useState(!!backdrop); // a routed modal is open by default
+export default function RoutedModal({ children, ...rest }) {
+  const inModal = useInModal();
+
+  const [isOpen, setIsOpen] = useState(inModal); // a routed modal is open by default
 
   const history = useHistory();
 
-  if (!backdrop) return children;
+  if (!inModal) return children;
 
   const close = () => {
     setIsOpen(false);

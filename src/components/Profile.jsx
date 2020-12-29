@@ -1,6 +1,6 @@
 import { Avatar, IconButton, Menu, MenuItem } from '@material-ui/core';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { NavLink } from './Link';
@@ -18,6 +18,10 @@ export default function Profile() {
   const [anchor, setAnchor] = useState(null);
   const openMenu = (event) => setAnchor(event.currentTarget);
   const closeMenu = () => setAnchor(null);
+
+  useEffect(() => {
+    closeMenu(); // if authentication state changes, close menu
+  }, [isAuthenticated]);
 
   // ? when a menu item is clicked, there area areas which aren't the nav link, so the click isn't processed
 
