@@ -8,14 +8,23 @@ export default function RouterView({ routes }) {
   const location = useLocation();
   const backdrop = location.state?.backdrop;
 
-  // prettier-ignore
-  const modal = backdrop && routes.find((r) => r.path === location.pathname).component;
+  const findRoute = (path) => routes.find((r) => r.path === path);
+
+  const modal = backdrop && findRoute(location.pathname)?.component;
+
+  const text = [
+    'Route',
+    backdrop ? `from(${backdrop?.pathname})` : null,
+    `to(${location.pathname})`,
+    modal ? `using ${modal.name}` : null,
+  ];
+  console.debug(text.filter((t) => !!t).join(' '));
 
   return (
     <>
       <Switch location={backdrop || location}>
-        {routes.map(({ path, component, guarded, ...options }) =>
-          guarded ? (
+        {routes.map(({ path, component, guard, ...options }) =>
+          guard ? (
             <GuardRoute
               key={path}
               path={path}

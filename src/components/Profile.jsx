@@ -57,7 +57,8 @@ export default function Profile() {
         <MenuItem>
           <NavLink
             to={{
-              pathname: '/authentication?action=logout',
+              pathname: '/authentication',
+              search: '?action=logout',
               state: { backdrop: location },
             }}
           >
