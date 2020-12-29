@@ -1,6 +1,5 @@
 import { Route, Switch, useLocation } from 'react-router-dom';
 import GuardRoute from '../components/GuardRoute';
-import RoutedModal from '../components/RoutedModal';
 import { useAuth } from '../contexts/AuthContext';
 import ErrorView from './ErrorView';
 
