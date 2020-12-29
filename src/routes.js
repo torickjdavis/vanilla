@@ -4,7 +4,7 @@ import ExploreView from './views/ExploreView';
 import HomeView from './views/HomeView';
 import ProfileView from './views/ProfileView';
 import RecipeView from './views/RecipeView';
-import LoginDialog from './views/LoginDialog';
+import AuthenticationDialog from './views/AuthenticationDialog';
 
 const routes = [
   {
@@ -18,10 +18,12 @@ const routes = [
   {
     path: '/account',
     component: AccountDialog,
+    guard: true,
   },
   {
     path: '/profile',
     component: ProfileView,
+    guard: true,
   },
   {
     path: '/recipe/:id',
@@ -32,8 +34,8 @@ const routes = [
     component: BoxView,
   },
   {
-    path: '/login',
-    component: LoginDialog,
+    path: '/authentication',
+    component: AuthenticationDialog,
   },
 ];
 
