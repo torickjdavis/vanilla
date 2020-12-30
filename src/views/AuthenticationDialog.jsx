@@ -5,37 +5,62 @@ import { useAuth } from '../contexts/AuthContext';
 
 const useStyles = makeStyles((theme) => {});
 
-const LoginForm = () => {};
-const RegisterForm = () => {};
-const Logout = ({ onLogout }) => {
+const LoginForm = ({ onLogin }) => {
   return (
-    <RoutedModal
-      title="Authentication - Logout"
-      closeActionText="Cancel"
-      actions={<Button onClick={() => onLogout()}>Logout</Button>}
-    >
-      Are you sure you want to logout?
+    <RoutedModal title="Authentication - Login &amp; Register">
+      <Button onClick={onLogin}>Login</Button>
     </RoutedModal>
   );
 };
 
+const Logout = ({ onLogout }) => {
+  const inModal = useInModal();
+
+  const confirmationText = 'Are you sure you want to logout?';
+
+  const logoutButton = (
+    <Button variant="contained" color="primary" onClick={() => onLogout()}>
+      Logout
+    </Button>
+  );
+
+  if (inModal) {
+    return (
+      <RoutedModal
+        title="Authentication - Logout"
+        closeActionText="Cancel"
+        actions={logoutButton}
+      >
+        {confirmationText}
+      </RoutedModal>
+    );
+  }
+
+  return <Grid container></Grid>;
+};
+
 export default function AuthenticationDialog() {
   const classes = useStyles();
-  const inModal = useInModal();
   const { isAuthenticated, login, logout } = useAuth();
   const query = new URLSearchParams(useLocation().search);
   const action = query.get('action');
 
-  // prettier-ignore
-  if (isAuthenticated && (action === 'login' || action === 'register')) return <Redirect to="/profile" />;
-  else if (!isAuthenticated && action === 'logout') return <Redirect to="/" />;
-  else if (isAuthenticated && action === 'logout') return <Logout onLogout={logout} />;
+  if (!isAuthenticated) {
+    if (action === 'login') return <LoginForm onLogin={login} />;
+    else if (action === 'logout') return <Redirect to="/" />;
+  } else {
+    if (action === 'login') return <Redirect to="/profile" />;
+    else if (action === 'logout') return <Logout onLogout={logout} />;
+  }
 
+  // with an unknown action, swap to login
+  console.warn(`Unhandled Action (${action})`);
   return (
-    <RoutedModal title="Authentication">
-      <Grid container>
-        <Grid item></Grid>
-      </Grid>
-    </RoutedModal>
+    <Redirect
+      to={{
+        pathname: '/authentication',
+        search: '?action=login',
+      }}
+    />
   );
 }
