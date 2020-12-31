@@ -237,3 +237,76 @@ Regardless, I'm committing the application in what I believe is a working state.
 Additionally, I feel this checks-off the requirement to use a modal dialog.
 
 The next plan is to flesh out the `AuthenticationDialog` for login, registration, and logout.
+
+## 2020-12-29
+
+So far today I've worked on the `AuthenticationDialog`, but mostly I've been testing and correcting issues with the `RoutedModal` and guarded routes.
+
+I've developed a system in the `Modal` which takes a `closeAction` prop and mutates it to add a click handler to it.
+After writing it, I will likely not ever change anything about the close action other than the text.
+Yet it was very informational to learn how to use `React.cloneElement` in order to mutate the props on a child element.
+
+```js
+// inside src/components/Modal.jsx
+
+const CloseAction = ({ children }) => {
+  children = [children].flat(); // works if children is array or single element to create array
+  return children.map((child) => {
+    return React.cloneElement(
+      child,
+      { ...child.props, onClick: close, key: child },
+      child.props.children
+    );
+    // return child;
+  });
+};
+```
+
+That would then be used as any other component, but it would add the `close` handler from the greater scope to each of the children of the `CloseAction` component.
+Interestingly, I did consider `useContext`, and that may have really been a better route, had I understood how to use it better, but I would need it to work across multiple instances.
+
+So, with that sample documented, I've refactored it to a text prop instead; `closeActionText`.
+
+I then worked on and off on the `AuthenticationDialog`.
+At one point I got a login/log out prototype working, so that I can design the look independent of the functionality.
+
+Then, I worked on the standalone designs for the authentication dialogs as cards.
+Specifically, I abstracted this into a `ViewportCard` component within the file.
+It makes use of a new separate component for the `ViewportGrid` to display content above the fold in a Material UI `Grid`.
+
+## 2020-12-30
+
+Since it was late, _again_, I didn't commit the README development notes.
+_(Fun short-terms for this documentation would be a devlog, devblog, or something similar.)_
+
+Anyway, today I started by checking out some more React videos.
+Some for new content and concepts, like various hooks such as `useMemo` and `useCallback` among others.
+While some videos I watched, and articles I read were intentionally topics I'd seen before.
+It was intentional to reinforce the ideas behind them.
+I was especially curious to learn more about `useContext`.
+Although I built an `AuthContext` in the past inspired by [Thor's](https://github.com/thortek/dgm3790-initial-react-app/blob/fafe568b95e39eedd8aabb6736eacdd4caae89fc/src/contexts/AuthContext.js), I really didn't feel I understood the concepts behind it and how each part worked together.
+
+- [React Hooks - Web Dev Simplified](https://www.youtube.com/playlist?list=PLZlA0Gpn_vH8EtggFGERCwMY5u5hOjf-h)
+  - This is a playlist of really good overviews for many hooks, and even creating your own.
+- [React Context Explained (2020) - uidotdev](https://www.youtube.com/watch?v=rFnfvhtrNbQ&ab_channel=uidotdev)
+  - This was great to show the differences between the `Context.Consumer` API and `useContext` Hook API.
+- [React Hooks useContext Tutorial - Ben Awad](https://www.youtube.com/watch?v=lhMKvyLRWo0&ab_channel=BenAwad)
+  - I'm not sure what it was about this video, maybe just the number of times I've been exposed to the concepts; however, at this point I now feel much more confident with `useContext`.
+  - Since I liked this tutorial quite a bit, I watched a few others Ben had on `useReducer` and `useEffect`.
+    - [React Hooks useReducer Tutorial - Ben Awad](https://www.youtube.com/watch?v=wcRawY6aJaw&ab_channel=BenAwad)
+      - Since I'm mostly familiar Vue, with a little React from a few years ago, I found this to be reminiscent to Vuex or Redux (at least what I remember of it.)
+      - It's important to remember, **DO NOT MUTATE STATE**, you will always return a new version of the state.
+      - So, the question arises, as to when to use `useState` vs `useReducer`; as state gets more complex, it is nicer to use `useReducer`.
+      - There's also a recommendation to check out [`use-immer`](https://github.com/immerjs/use-immer), as it allows mutating reducer state.
+    - [React Hooks useEffect Tutorial - Ben Awad](https://www.youtube.com/watch?v=j1ZRyw7OtZs&ab_channel=BenAwad)
+      - In short, `useEffect` is a way to interact with React in a way similar to lifecycle hooks.
+      - The returned function from `useEffect` is a cleanup function, in a way it runs when the component is unmounted.
+      - Importantly, multiple `useEffect` calls will be called sequentially.
+      - Additionally, the callback to `useEffect` can't be `async`, but it can call an `async` function.
+
+Vue has the concept of slots in components, instead of just children, I wonder if there's a way to mimic this in React without props.
+However, that appears to be the way it's meant to be done.
+
+Also, I've noticed components which immediately have a function in their body.
+One example is the route matcher from React Router, or the context consumer.
+I feel this would be useful to know how to create in some cases.
