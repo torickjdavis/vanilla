@@ -1,10 +1,9 @@
-import { Button, Grid, makeStyles, TextField } from '@material-ui/core';
+import { Button, makeStyles, TextField } from '@material-ui/core';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useLocation, Redirect } from 'react-router-dom';
 import RoutedModal, { useInModal } from '../components/RoutedModal';
 import ViewportCard from '../components/ViewportCard';
-import ViewportGrid from '../components/ViewportGrid';
 import { useAuth } from '../contexts/AuthContext';
 
 const useStyles = makeStyles((theme) => ({
@@ -32,8 +31,8 @@ const LoginForm = ({ onLogin }) => {
       })}
       onSubmit={(values, { setSubmitting }) => {
         console.log('Form submitted with', values);
-        onLogin();
         setSubmitting(false);
+        onLogin();
       }}
     >
       {({
@@ -143,7 +142,7 @@ const Logout = ({ onLogout }) => {
   );
 };
 
-export default function AuthenticationDialog() {
+export default function AuthDialog() {
   const { isAuthenticated, login, logout } = useAuth();
   const query = new URLSearchParams(useLocation().search);
   const action = query.get('action');

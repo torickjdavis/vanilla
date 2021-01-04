@@ -354,3 +354,8 @@ After that, all that will remain is the account page/dialog, which I feel should
 Somewhere, probably only on the profile page, I would like to add a button for showing a form dialog to add data.
 That form may or may not get mocked out.
 It will depend on what time I have before the semester starts.
+
+Lastly, I've renamed the `AuthenticationDialog` to `AuthDialog`.
+That'll better match the naming of _auth_ related items throughout the application.
+Namely, it better matches the `AuthContext`.
+With that, I've also slightly modified the order of the `onSubmit` handler to fix an error.

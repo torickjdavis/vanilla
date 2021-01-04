@@ -4,7 +4,7 @@ import ExploreView from './views/ExploreView';
 import HomeView from './views/HomeView';
 import ProfileView from './views/ProfileView';
 import RecipeView from './views/RecipeView';
-import AuthenticationDialog from './views/AuthenticationDialog';
+import AuthDialog from './views/AuthDialog';
 
 const routes = [
   {
@@ -35,7 +35,7 @@ const routes = [
   },
   {
     path: '/authentication',
-    component: AuthenticationDialog,
+    component: AuthDialog,
   },
 ];
 
