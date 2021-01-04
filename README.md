@@ -22,7 +22,7 @@ The following is an overview checklist created from the requirements set out by 
   - [x] Navigation Bar
   - [ ] Expanding & Collapsing Side Drawer
   - [x] Modal Dialog
-  - [ ] Form with Validation
+  - [x] Form with Validation
   - [x] Scoped Component Styles
     - Free to choose whatever method.
 - [ ] Retrieves Large Data List with Axios
@@ -310,3 +310,47 @@ However, that appears to be the way it's meant to be done.
 Also, I've noticed components which immediately have a function in their body.
 One example is the route matcher from React Router, or the context consumer.
 I feel this would be useful to know how to create in some cases.
+
+## 2020-12-31
+
+As an additional note for hooks, `useState` can accept a function which returns the value of the initial state.
+Regardless if the function is used to create the initial state, say such as from _some expensive computation_, it will only ever be executed once on the initial render.
+I also just want to jot down the [Hooks API Reference](https://reactjs.org/docs/hooks-reference.html) in the React documentation.
+From this documentation, there's a nice note that the setter returned from `useState` has a "stable identity; meaning it won't change on re-renders."
+That's why it is safe to omit from `useEffect` or `useCallback` dependency lists.
+On the same note I had about lifecycle methods, there's [documentation for how many of the lifecycle methods correspond to hooks](https://reactjs.org/docs/hooks-faq.html#how-do-lifecycle-methods-correspond-to-hooks).
+
+## 2021-01-02
+
+Between the last log and today, I spent a lot of time celebrating the new year.
+May this new year be better than the last one.
+Between that time, I did answer one of the questions I had on a Vue `slot`-like API for React instead of props.
+I found a Medium article titled [Vue Slots in React](https://medium.com/@srph/react-imitating-vue-slots-eab8393f96fd).
+It discusses using static properties of a class in order to act like slots.
+The alternative is to `map` over the children or `find` in the children in order to find children with specific types.
+It ends with making use of the [_render prop pattern_](https://reactjs.org/docs/render-props.html).
+
+Next, I wanted to make use of [Formik](https://formik.org/docs/overview) and [Yup](https://github.com/jquense/yup) for form validation, because that's what what used in Thor's sample repository.
+I would just use native browser validation; however, I feel it important to have a more flexible validation scheme.
+
+I found it interesting that `noValidate` property was applied and `autocomplete` was turned off in Thor's repository.
+I didn't find any information in the commit text associated with the blame of that code which would indicate why that was done.
+I've opted not to do that, unless I run into any issues when using Formik that it becomes prevalent as a need.
+
+## 2021-01-04
+
+The time I was able to spend on the project today was very short, but quite productive.
+I didn't do much research today; rather, I completed the login form and the form validation using Formik and Yup.
+So, with that, I've checked off the related requirement.
+
+Next, I plan on working on the explore page, so that I can feel confident checking off the requirement for using the Context API for data storage.
+With that I will also feel confident with marking off the requirements on using Axios.
+
+Either with that, before or after it, I feel the profile can be added.
+That page I intend to make use of a sidebar drawer, which will then check off the final requirement.
+
+After that, all that will remain is the account page/dialog, which I feel should be fairly straight forward and will look just like another form.
+
+Somewhere, probably only on the profile page, I would like to add a button for showing a form dialog to add data.
+That form may or may not get mocked out.
+It will depend on what time I have before the semester starts.
