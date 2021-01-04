@@ -22,6 +22,7 @@ export default function ViewportCard({
   subheader = '',
   actions,
   children,
+  hasCancel = true,
 }) {
   return (
     <ViewportGrid backgroundImageURL="/assets/gaelle-marcel-qMIGJmx41EM-unsplash.jpg">
@@ -31,10 +32,12 @@ export default function ViewportCard({
           <CardContent>
             <Typography>{children}</Typography>
           </CardContent>
-          <CardActions>
-            <CancelButton />
-            {actions}
-          </CardActions>
+          {(actions || hasCancel) && (
+            <CardActions>
+              {hasCancel && <CancelButton />}
+              {actions}
+            </CardActions>
+          )}
         </Card>
       </Grid>
     </ViewportGrid>
