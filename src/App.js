@@ -6,14 +6,17 @@ import RouterView from './views/RouterView';
 import routes from './routes';
 
 import AuthContextProvider from './contexts/AuthContext';
+import RecipeContextProvider from './contexts/RecipeContext';
 
 function App() {
   return (
     <AuthContextProvider>
-      <ThemeProvider theme={theme}>
-        <Navbar />
-        <RouterView routes={routes} />
-      </ThemeProvider>
+      <RecipeContextProvider>
+        <ThemeProvider theme={theme}>
+          <Navbar />
+          <RouterView routes={routes} />
+        </ThemeProvider>
+      </RecipeContextProvider>
     </AuthContextProvider>
   );
 }
