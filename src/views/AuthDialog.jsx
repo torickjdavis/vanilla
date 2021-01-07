@@ -30,7 +30,6 @@ const LoginForm = ({ onLogin }) => {
           .required('Password is required.'),
       })}
       onSubmit={(values, { setSubmitting }) => {
-        console.log('Form submitted with', values);
         setSubmitting(false);
         onLogin();
       }}
