@@ -16,7 +16,8 @@ const BoxContextProvider = ({ children }) => {
       setBoxes(
         jsonData.map((box) => {
           for (let i = 0; i < randomInt(3, 10); i++) {
-            box.recipeIds.push(recipes[randomInt(0, recipes.length)].id);
+            const recipeId = recipes[randomInt(0, recipes.length)].id;
+            if (!box.recipeIds.includes(recipeId)) box.recipeIds.push(recipeId);
           }
           return box;
         })
