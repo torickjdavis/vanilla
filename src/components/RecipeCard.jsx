@@ -21,7 +21,7 @@ import {
   Favorite as FavoriteIcon,
   FavoriteBorder as FavoriteBorderIcon,
   Receipt as InstructionsIcon,
-  ExitToApp as ExternalLinkIcon,
+  OpenInNew as ExternalLinkIcon,
 } from '@material-ui/icons';
 
 import { colorHash } from '../theme';
