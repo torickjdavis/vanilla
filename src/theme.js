@@ -16,3 +16,23 @@ export default createMuiTheme({
     },
   },
 });
+
+export function colorHash(string) {
+  // inspired by https://github.com/mui-org/material-ui/issues/12700#issuecomment-416869593
+  // potentially should memoize?
+
+  const hash = string
+    .split('')
+    .map((s) => s.charCodeAt(0))
+    .reduce((hash, code) => code + ((hash << 5) - hash), 0);
+
+  let color = '#';
+
+  // loop three times; rgb
+  for (let i = 0; i < 3; i++) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += value.toString(16).padStart(2, '0'); // base-16
+  }
+
+  return color;
+}
