@@ -5,7 +5,6 @@ import {
   CardContent,
   CardHeader,
   Grid,
-  Typography,
 } from '@material-ui/core';
 
 import { useHistory } from 'react-router-dom';
@@ -29,9 +28,7 @@ export default function ViewportCard({
       <Grid item>
         <Card>
           <CardHeader title={title} subheader={subheader} />
-          <CardContent>
-            <Typography>{children}</Typography>
-          </CardContent>
+          <CardContent>{children}</CardContent>
           {(actions || hasCancel) && (
             <CardActions>
               {hasCancel && <CancelButton />}

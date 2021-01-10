@@ -1,4 +1,4 @@
-import { Button, makeStyles, TextField } from '@material-ui/core';
+import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useLocation, Redirect } from 'react-router-dom';
@@ -136,7 +136,7 @@ const Logout = ({ onLogout }) => {
 
   return (
     <ViewportCard title="Logout Confirmation" actions={logoutButton}>
-      {confirmationText}
+      <Typography>{confirmationText}</Typography>
     </ViewportCard>
   );
 };
