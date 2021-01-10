@@ -4,6 +4,7 @@ import {
   CardActions,
   CardContent,
   CardHeader,
+  CardMedia,
   Grid,
   Typography,
 } from '@material-ui/core';
@@ -20,7 +21,7 @@ const CancelButton = () => {
 export default function ViewportCard({
   title,
   subheader = '',
-  actions,
+  actions = null,
   children,
   hasCancel = true,
 }) {
