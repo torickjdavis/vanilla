@@ -25,7 +25,7 @@ const BoxContextProvider = ({ children }) => {
   }, [recipes]);
 
   return (
-    <BoxContext.Provider value={{ loading, boxes: jsonData }}>
+    <BoxContext.Provider value={{ loading, boxes: boxes }}>
       {children}
     </BoxContext.Provider>
   );
