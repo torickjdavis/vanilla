@@ -35,8 +35,9 @@ export default function BoxList({ boxes }) {
             state: { backdrop: location },
           }}
           className={classes.link}
+          key={`box-${id}`}
         >
-          <ListItem button key={id}>
+          <ListItem button>
             <ListItemIcon>
               <BoxIcon />
             </ListItemIcon>

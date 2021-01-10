@@ -15,7 +15,7 @@ export default function RecipeList({ recipes, loading }) {
           ))}
       {!loading &&
         recipes?.map((recipe) => (
-          <Grid item xs={12} md={4} lg={3} key={recipe.id}>
+          <Grid item xs={12} md={4} lg={3} key={`recipe-${recipe.id}`}>
             <RecipeCard recipe={recipe} />
           </Grid>
         ))}
