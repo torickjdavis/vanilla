@@ -49,3 +49,5 @@ export const useAxios = (initialURL, config = null) => {
     },
   };
 };
+
+export default useAxios;
