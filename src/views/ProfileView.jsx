@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     background: theme.palette.primary.main,
     padding: theme.spacing(4),
+    overflowY: 'auto',
   },
   spacerToolbar: {
     minHeight: theme.spacing(8), // override for visual consistency on mobile and desktop
