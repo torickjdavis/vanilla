@@ -35,11 +35,12 @@ export default function ViewportCard({
   children,
   hasCancel = true,
   disablePadding = false,
+  className = null,
 }) {
   const classes = useStyles();
   return (
     <ViewportGrid backgroundImageURL="/assets/gaelle-marcel-qMIGJmx41EM-unsplash.jpg">
-      <Grid item>
+      <Grid item className={className}>
         <Card>
           <CardHeader title={title} subheader={subheader} />
           <CardContent
