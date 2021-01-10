@@ -17,7 +17,7 @@ import clsx from 'clsx';
 import {
   Menu as MenuIcon,
   MenuOpen as MenuOpenIcon,
-  Inbox as BoxIcon,
+  AllInbox as BoxesIcon,
   Receipt as RecipeIcon,
 } from '@material-ui/icons';
 import { useState } from 'react';
@@ -89,7 +89,7 @@ export default function ProfileView() {
     {
       primaryText: 'Boxes',
       secondaryText: 'Your collections.',
-      icon: BoxIcon,
+      icon: BoxesIcon,
       content: <BoxContent />,
     },
     {
