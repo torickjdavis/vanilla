@@ -1,5 +1,5 @@
 import AccountDialog from './views/AccountDialog';
-import BoxView from './views/BoxView';
+import BoxDialog from './views/BoxDialog';
 import ExploreView from './views/ExploreView';
 import HomeView from './views/HomeView';
 import ProfileView from './views/ProfileView';
@@ -31,7 +31,7 @@ const routes = [
   },
   {
     path: '/box/:id',
-    component: BoxView,
+    component: BoxDialog,
   },
   {
     path: '/authentication',
