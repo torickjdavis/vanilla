@@ -1,0 +1,14 @@
+[
+  {
+    "id": 0,
+    "name": "Favorites",
+    "description": "Your personally favorite recipes.",
+    "recipes": []
+  },
+  {
+    "id": 1,
+    "name": "Grandma's Desserts",
+    "description": "",
+    "recipes": []
+  }
+]
