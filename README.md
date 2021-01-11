@@ -20,15 +20,15 @@ The following is an overview checklist created from the requirements set out by 
   - Free to choose, but they are using Material UI this semester.
 - Uses Components of UI Framework
   - [x] Navigation Bar
-  - [ ] Expanding & Collapsing Side Drawer
+  - [x] Expanding & Collapsing Side Drawer
   - [x] Modal Dialog
   - [x] Form with Validation
   - [x] Scoped Component Styles
     - Free to choose whatever method.
-- [ ] Retrieves Large Data List with Axios
-- [ ] Renders a Large List with Discrete React Components
+- [x] Retrieves Large Data List with Axios
+- [x] Renders a Large List with Discrete React Components
   - Not just text list.
-- [ ] Redux or Context API for Data Storage
+- [x] Redux or Context API for Data Storage
 - [x] App Source on GitHub
 - [x] App is Deployed
   - Uses Netlify or something similar.
@@ -359,3 +359,110 @@ Lastly, I've renamed the `AuthenticationDialog` to `AuthDialog`.
 That'll better match the naming of _auth_ related items throughout the application.
 Namely, it better matches the `AuthContext`.
 With that, I've also slightly modified the order of the `onSubmit` handler to fix an error.
+
+## 2021-01-05
+
+Although it's now early morning, I believe I'll be working more on the project this afternoon.
+So, I've started the log for today.
+
+No further work was done yesterday after the late evening development.
+This is another round of such late night/early morning developments.
+
+<!-- At this point, I'm also still unsure if a provider abstraction is necessary.
+Or how that works if we only call `useContext` in the application. -->
+
+One thing to note for myself, the provider for a context is always necessary.
+The creation of the abstracted provider just makes it easier to use.
+Any child within the provider can then all make use of the custom hook.
+
+## 2021-01-06
+
+Due to work on my thesis project for Honors and my Bachelor's, I didn't actually end up doing any more work on the project tomorrow.
+The work I did do early yesterday morning was creation of a custom `useAxios` hook to make stateful `GET` requests to APIs.
+Originally it was mocked as part of a `AxiosContext`, but that was scrapped for re-usability of a custom hook instead.
+In place of the `AxiosContext`, I want to create something like and `RecipeContext` or something similarly named.
+
+I initially tested the `useAxios` hook by using [JSON Placeholder](https://jsonplaceholder.typicode.com/).
+Then I decided to go forward with the [Spoonacular Food API](https://spoonacular.com/food-api) since it had a _free_ tier that I could use.
+So, I signed up for their service and got an API key.
+
+Knowing I didn't want to accidentally post this key to GitHub, but I wanted to use it in my React code, I looked to see if there was a proper way to do it.
+I knew I wanted to use a `.env` file, but wasn't sure how I would get the variables into the application.
+Thankfully, there was some nice documentation for `create-react-app`.
+It described [how to add custom environment variable to React applications](https://create-react-app.dev/docs/adding-custom-environment-variables/) created with `create-react-app`.
+
+Alternatively, I could've created a proxy server to handle the requests, and run both the React development server along side my own proxy API server using `concurrently` or some other method.
+However, I wasn't sure how I would then launch it in Netlify, so I checked for a simpler alternative first.
+Really, this should probably be done at some point; otherwise, the API could potentially get extracted from the deployed application.
+
+So, I also added the environment variable to Netlify.
+To figure that out, I just followed [their documentation](https://docs.netlify.com/configure-builds/environment-variables/).
+
+At some point it might be beneficial to go an add types to all of the props of my custom components in order to make them more usable.
+Such as marking the expected datatype, if it's required, etc.
+As to how to do this, React has a separate package called `prop-types`.
+There's [additional documentation](https://reactjs.org/docs/typechecking-with-proptypes.html) on using it.
+
+I've changed the `RecipeView` to be a `RecipeDialog` so it semantically will match the other dialogs and will also allows standalone viewing of the route.
+Again, my real world example is Unsplash.
+
+With that, I've also added a `RecipeList` which simply creates a `React.Fragment` and populates the children with a map over the recipes prop each as a `RecipeCard`.
+That's another component, but it's still being worked on at this point in time.
+
+## 2021-01-08
+
+I've considered using the [`Skeleton` component](https://material-ui.com/components/skeleton/) in the `RecipeList` while the data is loading; however, I've decided that's more of a stretch and qualifies more as scope creep.
+
+## 2021-01-10
+
+Todays changes start just after midnight.
+I took a nap yesterday, and I don't feel tired enough to sleep again, so I've decided to just work as much as I can on this project.
+
+I implemented using a `Drawer` on the profile page.
+It was a challenge in order to get it to display how I wanted.
+That is, the _mini_ format, but clipped underneath the main navigation.
+The solution was to change the `z-index` of the drawer and an empty `Toolbar` to make the list offset by just the right amount for the `AppBar`.
+With that drawer, I've checked off the final item requirement.
+
+Although I originally flagged the use of the `Skeleton` component as scope creep, I've gone ahead and added a `SkeletonCard` component which makes use of it.
+I've then used that component within the `RecipeContent` view.
+
+I've just added a lot of content relating to the `RecipeContent` and `BoxContent`.
+With the `BoxContent` I added a few new components to help display the data I store with a new `BoxContext`.
+
+I also updated the routes for the `BoxView` to `BoxDialog`, since that will be more semantic to what the view is intended to be used for.
+
+With those changes, the application feels a lot closer to being done.
+I feel that I really just need to add the functionality for a few of the dialogs, and then I'll feel confident to submit a final update.
+I'll also need to add something to the explore page.
+That'll probably just be a nice search input for now.
+
+I know that I planned on sending the final update much earlier, but I guess I didn't anticipate a number of things.
+Regardless, I'm glad to have learned so much about React in what feels like such a short time.
+Additionally, I'd rather submit this late than never.
+
+As an aside, or more like a **TODO** for myself.
+I should add logic to the `RouterView` so that only one modal ever shows.
+Potentially by tracking if there's already a backdrop.
+
+As another **TODO**, it would be nice to see the forms added for creating a new recipe, new box, or adding a recipe to a box.
+
+At some point, I probably ought to make the `RecipeList` and `BoxList` [virtualized](https://material-ui.com/components/lists/#virtualized-list) for performance.
+
+I've just now (it's ~7:50 AM) committed the `BoxDialog`.
+So that's another dialog down, and only one dialog to go.
+I already committed the `AccountDialog`.
+
+I took a break during the middle of the day, but I've now returned to finish the application.
+The time is now roughly 15 minutes to midnight; however, I've just completed the `RecipeDialog` view.
+It's not perfect, but done is better than perfect.
+
+The last thing to do is to add some basic content to the `ExploreView`.
+I'm not going to connect it to any APIs or have any functionality.
+It'll mostly just be something to look at instead of the blank view.
+
+It's now just after midnight and I've added some content to the `ExploreView` and the `ErrorView`, just so they aren't so empty.
+Being honest, I'm not terribly happy with how they look; however, I'm going to call them done for tonight.
+
+With that, I'm probably going to call this project done.
+At the very least, this phase of the project.
