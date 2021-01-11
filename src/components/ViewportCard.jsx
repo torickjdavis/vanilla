@@ -5,12 +5,23 @@ import {
   CardContent,
   CardHeader,
   Grid,
-  Typography,
+  makeStyles,
 } from '@material-ui/core';
+import clsx from 'clsx';
 
 import { useHistory } from 'react-router-dom';
 
 import ViewportGrid from '../components/ViewportGrid';
+
+const useStyles = makeStyles((theme) => ({
+  disablePadding: {
+    padding: 0,
+
+    '&:last-child': {
+      padding: 0,
+    },
+  },
+}));
 
 const CancelButton = () => {
   const history = useHistory();
@@ -20,17 +31,22 @@ const CancelButton = () => {
 export default function ViewportCard({
   title,
   subheader = '',
-  actions,
+  actions = null,
   children,
   hasCancel = true,
+  disablePadding = false,
+  className = null,
 }) {
+  const classes = useStyles();
   return (
     <ViewportGrid backgroundImageURL="/assets/gaelle-marcel-qMIGJmx41EM-unsplash.jpg">
-      <Grid item>
+      <Grid item className={className}>
         <Card>
           <CardHeader title={title} subheader={subheader} />
-          <CardContent>
-            <Typography>{children}</Typography>
+          <CardContent
+            className={clsx({ [classes.disablePadding]: disablePadding })}
+          >
+            {children}
           </CardContent>
           {(actions || hasCancel) && (
             <CardActions>

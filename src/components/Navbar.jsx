@@ -41,7 +41,7 @@ export default function Navbar() {
           </div>
         </NavLink>
         <NavLink to="/explore">
-          <IconButton>
+          <IconButton title="Explore">
             <SearchIcon aria-label="Search and Explore" />
           </IconButton>
         </NavLink>
