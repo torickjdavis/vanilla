@@ -3,7 +3,7 @@ import BoxList from '../components/BoxList';
 import { useBoxes } from '../contexts/BoxContext';
 
 export default function BoxContent() {
-  const { loading, boxes } = useBoxes();
+  const { boxes } = useBoxes();
   return (
     <>
       <Typography variant="h2" paragraph>
