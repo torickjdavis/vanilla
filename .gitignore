@@ -86,7 +86,7 @@ web_modules/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+# .env # allowed, used for sample files
 .env.test
 .env.local
 .env.development.local
