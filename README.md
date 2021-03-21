@@ -466,3 +466,15 @@ Being honest, I'm not terribly happy with how they look; however, I'm going to c
 
 With that, I'm probably going to call this project done.
 At the very least, this phase of the project.
+
+## 2021-03-20
+
+Worked on migrating application to a more monorepo style.
+Separating the `client` and `server` as separate folders in the repository.
+Each will have their own `package.json` and `.env` file(s).
+
+I've implemented a `config/env.js` file for the `server` to mimic how the [`react-scripts`](https://create-react-app.dev/docs/adding-custom-environment-variables/#what-other-env-files-can-be-used) work.
+With that I've used `dotenv-expand` to allow more complex environment variables if needed or preferred.
+
+The root `package.json` has scripts to run the server and client.
+It would be nice to potentially use cross-env in order to set the `NODE_ENV` in the `start` and `dev` scripts.
