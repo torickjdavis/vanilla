@@ -11,9 +11,13 @@ import * as middleware from './middleware.js';
 
 import { isDev } from './utils.js';
 
+import { connect } from './config/database.js';
+
 import apiRouter from './routes/api.js';
 
 const { PORT = 8080, HOST = 'localhost', PUBLIC_PATH } = process.env;
+
+const db = await connect(); // connect to mongodb
 
 const app = express();
 
