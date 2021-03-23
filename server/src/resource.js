@@ -95,7 +95,22 @@ const remove = ({ model, name }) => async (req, res, next) => {
 // List (Paginated)
 const list = ({ model, collection }) => async (req, res, next) => {
   try {
-    const { limit = 10, page = 1 } = req.query;
+    let { limit = 10, page = 1 } = req.query;
+    limit = parseInt(limit);
+    page = parseInt(page);
+
+    if (isNaN(limit) || limit !== Number(limit)) {
+      return res
+        .status(status.BAD_REQUEST)
+        .json({ message: 'Limit must be an Integer.' });
+    }
+
+    if (isNaN(page) || page !== Number(page)) {
+      return res
+        .status(status.BAD_REQUEST)
+        .json({ message: 'Page must be an Integer.' });
+    }
+
     const instances = await model
       .find({})
       .skip(limit * Math.max(page - 1, 0)) // no lower than the first page (0)
