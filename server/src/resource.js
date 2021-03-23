@@ -95,19 +95,20 @@ const remove = ({ model, name }) => async (req, res, next) => {
 // List (Paginated)
 const list = ({ model, collection }) => async (req, res, next) => {
   try {
-    const { limit = 10, page = 0 } = req.query;
+    const { limit = 10, page = 1 } = req.query;
     const instances = await model
       .find({})
-      .skip(limit * page)
+      .skip(limit * Math.max(page - 1, 0)) // no lower than the first page (0)
       .limit(limit)
       .exec();
-    const count = await model.countDocuments({}).exec();
+    const total = await model.countDocuments({}).exec();
     res.json({
       [collection]: instances,
       meta: {
-        count,
+        count: instances.length, // normally will be equal to limit, except for the final page
+        total,
         page,
-        pages: Math.ceil(count / limit),
+        pages: Math.ceil(total / limit),
         limit,
       },
     });
