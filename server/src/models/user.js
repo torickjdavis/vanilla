@@ -6,16 +6,16 @@ export const UserSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  password: {
+    type: String,
+    required: true,
+  },
   name: {
     first: String,
     last: String,
     // TODO add virtual for "full" name
   },
   picture: String, // potentially added sizes
-  password: {
-    type: String,
-    required: true,
-  },
 });
 
 export default mongoose.model('user', UserSchema);
