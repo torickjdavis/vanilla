@@ -72,7 +72,7 @@ const remove = ({ model, name }) => async (req, res, next) => {
 };
 
 // List (Paginated)
-const list = ({ model, name, collection }) => async (req, res, next) => {
+const list = ({ model, collection }) => async (req, res, next) => {
   try {
     const { limit = 10, page = 0 } = req.query;
     const instances = await model
