@@ -15,11 +15,8 @@ export const RecipeSchema = new mongoose.Schema({
   },
   image: String,
   summary: String,
-  time: {
-    prep: Date, // duration
-    cook: Date, // duration
-  },
-  serves: Number, // portion count
+  readyIn: Number, // minutes
+  servings: Number, // portion count
   directions: [
     {
       step: String,
@@ -37,7 +34,7 @@ export const RecipeSchema = new mongoose.Schema({
       type: Date,
       default: Date.now,
     },
-    edit: Date, // last time edited if applicable
+    // edit: Date, // last time edited if applicable
   },
   ingredients: [
     {

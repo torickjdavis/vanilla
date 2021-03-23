@@ -28,7 +28,7 @@ export const BoxSchema = new mongoose.Schema({
       type: Date,
       default: Date.now,
     },
-    edit: Date, // last time edited if applicable
+    // edit: Date, // last time edited if applicable
   },
 });
 
