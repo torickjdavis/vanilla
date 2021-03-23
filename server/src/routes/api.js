@@ -6,7 +6,6 @@ import resource from '../resource.js';
 import authRouter from '../routes/auth.js';
 import Recipe from '../models/recipe.js';
 import Box from '../models/box.js';
-// import RecipeLike from '../models/recipeLike.js';
 
 const apiRouter = Router();
 
