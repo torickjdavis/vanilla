@@ -1,6 +1,7 @@
 import { Router } from 'express';
 // import status from 'statuses';
 import status from 'http-status';
+import mongoose from 'mongoose';
 
 // Create
 const create = ({ model }) => async (req, res, next) => {
@@ -26,7 +27,12 @@ const read = ({ model, name }) => async (req, res, next) => {
         .json({ message: `No ${name} Found (${id})` });
     }
   } catch (error) {
-    next(error);
+    if (error instanceof mongoose.Error.CastError) {
+      res.status(status.BAD_REQUEST).json({
+        message: `Invalid ${error.kind}`,
+        reason: error.reason.message,
+      });
+    } else next(error);
   }
 };
 
@@ -40,7 +46,12 @@ const replace = ({ model, name }) => async (req, res, next) => {
       message: `Replaced ${name} Instance (${id})`,
     });
   } catch (error) {
-    next(error);
+    if (error instanceof mongoose.Error.CastError) {
+      res.status(status.BAD_REQUEST).json({
+        message: `Invalid ${error.kind}`,
+        reason: error.reason.message,
+      });
+    } else next(error);
   }
 };
 
@@ -53,7 +64,12 @@ const modify = ({ model, name }) => async (req, res, next) => {
       message: `Modified ${name} Instance (${id})`,
     });
   } catch (error) {
-    next(error);
+    if (error instanceof mongoose.Error.CastError) {
+      res.status(status.BAD_REQUEST).json({
+        message: `Invalid ${error.kind}`,
+        reason: error.reason.message,
+      });
+    } else next(error);
   }
 };
 
@@ -67,7 +83,12 @@ const remove = ({ model, name }) => async (req, res, next) => {
       message: `Removed ${name} Instance (${id})`,
     });
   } catch (error) {
-    next(error);
+    if (error instanceof mongoose.Error.CastError) {
+      res.status(status.BAD_REQUEST).json({
+        message: `Invalid ${error.kind}`,
+        reason: error.reason.message,
+      });
+    } else next(error);
   }
 };
 
@@ -80,7 +101,7 @@ const list = ({ model, collection }) => async (req, res, next) => {
       .skip(limit * page)
       .limit(limit)
       .exec();
-    const count = await model.count({}).exec();
+    const count = await model.countDocuments({}).exec();
     res.json({
       [collection]: instances,
       meta: {
