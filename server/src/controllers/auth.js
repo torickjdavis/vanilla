@@ -5,6 +5,8 @@ import status from 'http-status';
 
 const SALT_ROUNDS = 10;
 
+const { JWT_SECRET } = process.env;
+
 // create
 export async function register(req, res, next) {
   // use body and let schema validation handle keys
@@ -14,19 +16,11 @@ export async function register(req, res, next) {
     await user.save();
     res.status(status.CREATED).json(user);
   } catch (error) {
-    next(error);
+    if (error.name === 'MongoError' && error.code === 11000) {
+      res.status(status.BAD_REQUEST).json({ message: 'Account Exists' });
+    } else next(error);
   }
 }
-
-// read
-// export async function details(req, res, next) {
-//   try {
-//     const user = await User.findById(id).exec();
-//     if (user) res.json(user);
-//   } catch (error) {
-//     next(error);
-//   }
-// }
 
 // update (modify)
 export async function modify(req, res, next) {
@@ -76,7 +70,10 @@ export async function login(req, res, next) {
 
     if (!validPassword) return res.sendStatus(status.FORBIDDEN);
 
-    const accessToken = jwt.sign(user.toJSON(), process.env.JWT_SECRET); // TODO implement refresh tokens
+    // TODO implement refresh tokens
+    const accessToken = jwt.sign(user.toJSON(), JWT_SECRET, {
+      expiresIn: '1d',
+    });
 
     res.json({ accessToken }); // user details in signed token
   } catch (error) {
@@ -93,7 +90,7 @@ export function authenticateToken(req, res, next) {
 
   if (!token) return res.sendStatus(status.UNAUTHORIZED);
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+  jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) return res.sendStatus(status.FORBIDDEN);
     req.user = User.hydrate(user);
     next();
