@@ -7,11 +7,8 @@ import {
   Card,
   CardHeader,
   CardMedia,
-  CardContent,
   CardActions,
-  Chip,
   IconButton,
-  Link,
   makeStyles,
   Typography,
   useTheme,
@@ -63,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RecipeCard({ recipe }) {
+export default function RecipeCard({ recipe, user }) {
   const classes = useStyles();
   const location = useLocation();
   const theme = useTheme();
@@ -71,41 +68,21 @@ export default function RecipeCard({ recipe }) {
 
   const {
     // * overview data
-    id,
+    _id,
     title,
     image,
-    // * source data
-    sourceName,
-    sourceUrl,
-    // * detail information
-    // summary,
-    // analyzedInstructions,
-    // extendedIngredients,
-    // * tags to display as pills/chips
-    cuisines,
-    dishTypes,
-    occasions,
   } = recipe;
 
-  const chips = [...new Set([...cuisines, ...dishTypes, ...occasions])]; // unique items
-  const avatarBackground = colorHash(sourceName);
+  const avatarBackground = colorHash(user?._id || '');
+  const fullname = `${user?.name.first} ${user?.name.last}`;
 
   return (
-    <Card id={`recipe-${id}`} className={classes.root}>
+    <Card id={`recipe-${_id}`} className={classes.root}>
       <CardHeader
         title={title}
-        action={
-          sourceUrl && (
-            <Link href={sourceUrl} target="_blank">
-              <IconButton title={`Source (${sourceUrl})`}>
-                <ExternalLinkIcon />
-              </IconButton>
-            </Link>
-          )
-        }
         avatar={
           <Avatar
-            title={sourceName}
+            title={fullname}
             style={{
               background: avatarBackground,
               color: theme.palette.getContrastText(avatarBackground),
@@ -113,7 +90,7 @@ export default function RecipeCard({ recipe }) {
           >
             {
               // first letter of each word in name
-              sourceName
+              fullname
                 .split(' ')
                 .map((n) => n[0])
                 .join('')
@@ -128,14 +105,6 @@ export default function RecipeCard({ recipe }) {
           This recipe is missing an image. Sorry.
         </Typography>
       )}
-
-      <CardContent>
-        <div className={classes.chipContainer}>
-          {chips.map((chip) => (
-            <Chip label={chip} key={chip} className={classes.chip} />
-          ))}
-        </div>
-      </CardContent>
       <CardActions>
         <IconButton
           onClick={() => setLiked(!liked)}
@@ -145,7 +114,7 @@ export default function RecipeCard({ recipe }) {
         </IconButton>
         <RouteLink
           to={{
-            pathname: `/recipe/${id}`,
+            pathname: `/recipe/${_id}`,
             state: { backdrop: location },
           }}
         >

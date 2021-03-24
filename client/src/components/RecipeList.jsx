@@ -2,7 +2,7 @@ import SkeletonCard from '../components/SkeletonCard';
 import { Grid } from '@material-ui/core';
 import RecipeCard from './RecipeCard';
 
-export default function RecipeList({ recipes, loading }) {
+export default function RecipeList({ recipes, users, loading }) {
   return (
     <Grid container spacing={2}>
       {loading &&
@@ -14,11 +14,14 @@ export default function RecipeList({ recipes, loading }) {
             </Grid>
           ))}
       {!loading &&
-        recipes?.map((recipe) => (
-          <Grid item xs={12} md={4} lg={3} key={`recipe-${recipe.id}`}>
-            <RecipeCard recipe={recipe} />
-          </Grid>
-        ))}
+        recipes?.map((recipe) => {
+          const user = users?.find((u) => u._id === recipe.created.by);
+          return (
+            <Grid item xs={12} md={4} lg={3} key={`recipe-${recipe._id}`}>
+              <RecipeCard recipe={recipe} user={user} />
+            </Grid>
+          );
+        })}
     </Grid>
   );
 }

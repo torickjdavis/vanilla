@@ -18,6 +18,7 @@ import RoutedModal, { useInModal } from '../components/RoutedModal';
 import ViewportCard from '../components/ViewportCard';
 
 import { useRecipes } from '../contexts/RecipeContext';
+import { useUsers } from '../contexts/UserContext';
 
 import { useRouterViewParams } from './RouterView';
 import routes from '../routes';
@@ -90,33 +91,30 @@ const useStyles = (imageURL) =>
 
 function RecipeDetails() {
   const { recipes } = useRecipes();
+  const { users } = useUsers();
   const params = useRouterViewParams(routes);
-  const id = Number(params.id);
+  const id = params.id;
 
   const [tabIndex, setTabIndex] = useState(0);
 
-  const recipe = recipes?.find((b) => b.id === id); // intentional similarity instead of identity
+  const recipe = recipes?.find((r) => r._id === id); // intentional similarity instead of identity
 
   const {
     // * overview data
+    created,
     title,
     image,
-    // * source data
-    sourceName,
-    // sourceUrl,
-    // * detail information
     summary,
-    analyzedInstructions,
-    extendedIngredients,
-    // * tags to display as pills/chips
-    // cuisines,
-    // dishTypes,
-    // occasions,
+    directions,
+    ingredients,
   } = recipe || {};
+
+  const user = users?.find((u) => u._id === created?.by);
 
   const classes = useStyles(image);
   const theme = useTheme();
-  const avatarBackground = colorHash(sourceName);
+  const avatarBackground = colorHash(user?._id || '');
+  const fullname = `${user?.name.first} ${user?.name.last}`;
 
   return (
     <>
@@ -128,7 +126,7 @@ function RecipeDetails() {
                 title={title}
                 avatar={
                   <Avatar
-                    title={sourceName}
+                    title={fullname}
                     style={{
                       background: avatarBackground,
                       color: theme.palette.getContrastText(avatarBackground),
@@ -136,7 +134,7 @@ function RecipeDetails() {
                   >
                     {
                       // first letter of each word in name
-                      sourceName
+                      fullname
                         .split(' ')
                         .map((n) => n[0])
                         .join('')
@@ -161,7 +159,7 @@ function RecipeDetails() {
           </Paper>
           <Paper className={classes.tabContent} square>
             {tabIndex === 0 && (
-              <Typography className={classes.summary}>
+              <Typography className={classes.summary} component="div">
                 <div
                   dangerouslySetInnerHTML={{
                     __html: DOMPurify.sanitize(summary),
@@ -171,20 +169,24 @@ function RecipeDetails() {
             )}
             {tabIndex === 1 && (
               <List>
-                {analyzedInstructions.map(({ steps }) =>
-                  steps.map(({ step, number }) => (
-                    <ListItem>
-                      <ListItemText primary={`${number}. ${step}`} />
-                    </ListItem>
-                  ))
-                )}
+                {directions.map(({ step, details, _id }, index) => (
+                  <ListItem key={_id}>
+                    <ListItemText
+                      primary={`${index + 1}. ${step}`}
+                      secondary={details}
+                    />
+                  </ListItem>
+                ))}
               </List>
             )}
             {tabIndex === 2 && (
               <List>
-                {extendedIngredients.map(({ originalString }) => (
-                  <ListItem>
-                    <ListItemText primary={originalString} />
+                {ingredients.map(({ name, quantity, unit, _id }) => (
+                  <ListItem key={_id}>
+                    <ListItemText
+                      primary={name}
+                      secondary={`${quantity} ${unit}`}
+                    />
                   </ListItem>
                 ))}
               </List>

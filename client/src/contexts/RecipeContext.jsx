@@ -4,10 +4,10 @@ import useAxios from '../hooks/useAxios';
 const RecipeContext = createContext();
 
 const RecipeContextProvider = ({ children }) => {
-  const apiKey = process.env.REACT_APP_SPOONACULAR_API_KEY;
-  const resultCount = 50;
+  const apiURL = process.env.REACT_APP_API_URL;
+  const resultCount = 25;
   // prettier-ignore
-  const { loading, error, response, data } = useAxios(`https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&number=${resultCount}&limitLicense=true`);
+  const { loading, error, response, data } = useAxios(`${apiURL}/recipe?limit=${resultCount}`);
 
   return (
     <RecipeContext.Provider
