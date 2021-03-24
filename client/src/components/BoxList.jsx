@@ -28,14 +28,14 @@ export default function BoxList({ boxes }) {
 
   return (
     <List>
-      {boxes?.map(({ id, name, description }) => (
+      {boxes?.map(({ _id, name, description }) => (
         <RouteLink
           to={{
-            pathname: `/box/${id}`,
+            pathname: `/box/${_id}`,
             state: { backdrop: location },
           }}
           className={classes.link}
-          key={`box-${id}`}
+          key={`box-${_id}`}
         >
           <ListItem button>
             <ListItemIcon>

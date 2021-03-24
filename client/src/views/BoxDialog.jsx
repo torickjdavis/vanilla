@@ -37,10 +37,10 @@ function BoxDetails() {
   const { boxes } = useBoxes();
   const { recipes } = useRecipes();
   const params = useRouterViewParams(routes);
-  const id = Number(params.id);
+  const id = params.id;
 
-  const box = boxes?.find((b) => b.id === id); // intentional similarity instead of identity
-  const { name, description, recipeIds } = box || {};
+  const box = boxes?.find((b) => b._id === id); // intentional similarity instead of identity
+  const { name, description, recipes: recipeIds } = box || {};
 
   return (
     <>
@@ -48,11 +48,11 @@ function BoxDetails() {
       <Typography variant="subtitle1">{description}</Typography>
       <List>
         {recipeIds?.map((recipeId) => {
-          const recipe = recipes.find((r) => r.id === recipeId);
+          const recipe = recipes.find((r) => r._id === recipeId);
           return (
             <RouteLink
               to={{
-                pathname: `/recipe/${recipe.id}`,
+                pathname: `/recipe/${recipe._id}`,
                 // state: { backdrop: location },
               }}
               className={classes.link}
