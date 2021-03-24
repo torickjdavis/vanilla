@@ -34,7 +34,7 @@ export default function Profile() {
         onClick={isAuthenticated ? openMenu : redirect}
       >
         <Avatar
-          src={user?.picture.thumbnail}
+          src={user?.picture}
           alt={`${user?.name.first} ${user?.name.last}`}
         />
       </IconButton>

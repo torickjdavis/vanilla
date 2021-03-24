@@ -18,8 +18,8 @@ const LoginForm = ({ onLogin }) => {
   return (
     <Formik
       initialValues={{
-        email: 'foo.bar@example.com',
-        password: 'foo.bar:password@example.com',
+        email: '',
+        password: '',
       }}
       validationSchema={Yup.object().shape({
         email: Yup.string()
@@ -31,7 +31,7 @@ const LoginForm = ({ onLogin }) => {
       })}
       onSubmit={(values, { setSubmitting }) => {
         setSubmitting(false);
-        onLogin();
+        onLogin(values);
       }}
     >
       {({

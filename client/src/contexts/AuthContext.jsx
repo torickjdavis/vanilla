@@ -1,5 +1,6 @@
-import { useState, createContext, useContext, useEffect } from 'react';
+import { useState, createContext, useContext } from 'react';
 import axios from 'axios';
+import jwt from 'jsonwebtoken';
 
 // creates context to be used, with default values (only used without a provider)
 // const AuthContext = createContext({
@@ -13,32 +14,35 @@ const AuthContext = createContext();
 // provides state to all children through context provider, reassigning initial values
 const AuthContextProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const login = () => setIsAuthenticated(true);
-  const logout = () => setIsAuthenticated(false);
-
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+  const apiURL = process.env.REACT_APP_API_URL;
 
-  useEffect(() => {
-    // used to simulate loading user information from a request
-    const fetchData = async () => {
-      try {
-        // prettier-ignore
-        const response = await axios.get('https://randomuser.me/api/?inc=name,email,login,picture&seed=DGM3790');
-        setUser(response.data.results[0]);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    if (isAuthenticated) fetchData();
-    else setUser(null);
-  }, [isAuthenticated]);
+  const login = async ({ email, password }) => {
+    const token = await axios
+      .post(`${apiURL}/auth/login`, {
+        email,
+        password,
+      })
+      .then((res) => res.data.accessToken);
+    const user = jwt.decode(token); // get payload, signature check is done on secure operations
+    setUser(user);
+    setToken(token);
+    setIsAuthenticated(true);
+  };
+
+  const logout = async () => {
+    setIsAuthenticated(false);
+    setToken(null);
+    setUser(null);
+  };
 
   return (
     <AuthContext.Provider
       value={{
         isAuthenticated,
         user,
+        token,
         login,
         logout,
       }}

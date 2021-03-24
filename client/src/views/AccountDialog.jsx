@@ -19,7 +19,7 @@ function AccountInformation() {
     <List>
       <ListItem disableGutters>
         <ListItemAvatar>
-          <Avatar src={user?.picture.large} alt={fullName} />
+          <Avatar src={user?.picture} alt={fullName} />
         </ListItemAvatar>
         <ListItemText primary={fullName} secondary={user?.email} />
       </ListItem>
