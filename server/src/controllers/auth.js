@@ -22,6 +22,27 @@ export async function register(req, res, next) {
   }
 }
 
+// read (details only)
+export async function details(req, res, next) {
+  try {
+    const id = req.params.id;
+    const user = await User.findById(id).select('-password').exec(); // exclude password hash
+    if (user) res.json(user);
+    else {
+      res
+        .status(status.NOT_FOUND)
+        .json({ message: `No ${User.modelName} Found (${id})` });
+    }
+  } catch (error) {
+    if (error instanceof mongoose.Error.CastError) {
+      res.status(status.BAD_REQUEST).json({
+        message: `Invalid ${error.kind}`,
+        reason: error.reason.message,
+      });
+    } else next(error);
+  }
+}
+
 // update (modify)
 export async function modify(req, res, next) {
   try {
@@ -53,6 +74,46 @@ export async function remove(req, res, next) {
   }
 }
 
+// list
+export async function list(req, res, next) {
+  try {
+    let { limit = 10, page = 1 } = req.query;
+    limit = parseInt(limit);
+    page = parseInt(page);
+
+    if (isNaN(limit) || limit !== Number(limit)) {
+      return res
+        .status(status.BAD_REQUEST)
+        .json({ message: 'Limit must be an Integer.' });
+    }
+
+    if (isNaN(page) || page !== Number(page)) {
+      return res
+        .status(status.BAD_REQUEST)
+        .json({ message: 'Page must be an Integer.' });
+    }
+
+    const users = await User.find({})
+      .select('-password') // exclude hashes
+      .skip(limit * Math.max(page - 1, 0)) // no lower than the first page (0)
+      .limit(limit)
+      .exec();
+    const total = await User.countDocuments({}).exec();
+    res.json({
+      [User.collection.name]: users,
+      meta: {
+        count: users.length, // normally will be equal to limit, except for the final page
+        total,
+        page,
+        pages: Math.ceil(total / limit),
+        limit,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 // other
 export async function login(req, res, next) {
   try {
@@ -60,7 +121,7 @@ export async function login(req, res, next) {
     if (!user) {
       return res
         .status(status.NOT_FOUND)
-        .json({ message: `No ${User.modelName} Found (${id})` });
+        .json({ message: `No ${User.modelName} Found` });
     }
 
     const validPassword = await bcrypt.compare(

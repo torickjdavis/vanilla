@@ -18,4 +18,6 @@ export const UserSchema = new mongoose.Schema({
   picture: String, // potentially added sizes
 });
 
+// TODO add pre('save') to handle password hashing; https://mongoosejs.com/docs/api/schema.html#schema_Schema-pre
+
 export default mongoose.model('user', UserSchema);

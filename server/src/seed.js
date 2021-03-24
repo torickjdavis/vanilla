@@ -2,7 +2,7 @@ import './config/env.js';
 import jwt from 'jsonwebtoken';
 import axios from 'axios';
 
-const [register = false] = process.argv.slice(2); // any value passed with resolve as truthy
+const [register = false, count] = process.argv.slice(2);
 
 const {
   HOST = 'localhost',
@@ -10,13 +10,15 @@ const {
   SPOONACULAR_API_KEY,
   JWT_SECRET,
 } = process.env;
-const resultCount = 5;
+const resultCount = parseInt(count) || 5;
+const shouldRegister = JSON.parse(register); // true/false
 
 const baseURL = `http://${HOST}:${PORT}/api`;
 const spoonacularURL = `https://api.spoonacular.com/recipes/random?apiKey=${SPOONACULAR_API_KEY}&number=${resultCount}&limitLicense=true`;
 
 try {
-  if (register) {
+  console.log(`Making Requests to ${baseURL}`);
+  if (shouldRegister) {
     await axios.post(`${baseURL}/auth/register`, {
       email: 'demo@example.com',
       password: 'demo-user',
@@ -68,7 +70,9 @@ try {
         summary,
         readyIn: readyInMinutes,
         serves: servings,
-        directions: analyzedInstructions.map(({ step }) => ({ step })),
+        directions: analyzedInstructions
+          .flatMap((instruction) => instruction.steps)
+          .map(({ step }) => ({ step })),
         created: { by: demoUser._id },
         ingredients: extendedIngredients.map(({ name, measures }) => ({
           name,
@@ -78,7 +82,7 @@ try {
       })
       .then((res) => res.data);
     createRecipeIds.push(recipe._id);
-    console.log('Recipe', recipe._id, recipe.title);
+    console.log('Recipe', recipe._id, `"${recipe.title}"`);
   }
   console.groupEnd();
 
