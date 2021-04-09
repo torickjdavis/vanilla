@@ -10,7 +10,11 @@ export const BoxSchema = new mongoose.Schema({
   //   type: Boolean,
   //   default: true,
   // },
-  name: String,
+  name: {
+    type: String,
+    required: true,
+  },
+  description: String,
   recipes: [
     {
       type: ObjectId,
