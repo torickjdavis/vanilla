@@ -478,3 +478,104 @@ With that I've used `dotenv-expand` to allow more complex environment variables 
 
 The root `package.json` has scripts to run the server and client.
 It would be nice to potentially use cross-env in order to set the `NODE_ENV` in the `start` and `dev` scripts.
+
+## 2021-03-22
+
+Created `resource.js` for basic CRUDL functionality and fundamental models yesterday.
+
+Primarily spent today refactoring and creating authentication for the `User` model with [JSON Web Tokens](https://jwt.io/).
+
+Inspired by two videos from WebDevSimplified:
+
+- [Build Node.js User Authentication](https://www.youtube.com/watch?v=Ud5xKCYQTjM&ab_channel=WebDevSimplified)
+- [JWT Authentication](https://www.youtube.com/watch?v=mbsmsi7l3r4&ab_channel=WebDevSimplified)
+
+Additionally, I think a [similar video from DevEd](https://www.youtube.com/watch?v=2jqok-WgelI&ab_channel=DevEd) would also be beneficial.
+
+So far, I believe I've got authentication working.
+It needed entirely custom routes, so it couldn't use the `resource` wrapper.
+To test the authentication routes, I could use Postman or another tool, so I decided to use the [REST Client VSCode extension by Huachao Mao](https://marketplace.visualstudio.com/items?itemName=humao.rest-client).
+
+So far the syntax for writing the request files has been pretty simple and straightforward.
+
+## 2021-03-23
+
+Would like to add [Joi](https://joi.dev/api/) for `req.body` validation.
+Right now my APIs just leverage the Mongoose schema, but silently ignore additional data.
+Potentially might even use something like [Joigoose](https://github.com/yoitsro/joigoose).
+
+I've now got a successful `seed.js` file to add data to the database and register a user if needed.
+Otherwise, I've made a few changes to `resource.js` to provide clarity in the pagination metadata.
+
+I've also update the authentication to properly respond when registering an account with the same email.
+With that, for security reasons, I've added an expiration to the JWTs.
+I would like to implement a refresh token in addition to the access token; however, that'll have to wait.
+For now, I've let the tokens expire after a day.
+
+Now that I've got the API to a point I'm happy with, I need to reintegrate it into my front-end React application.
+Originally I wanted to migrate this to Vue, because I wanted to learn more about that; however, that was going to take to much time, and I decided against it too late.
+So now I'm late for the RESTful CRUD API; however, I feel I am nearly there.
+I just hope it won't take too much to integrate it with the API.
+
+### API Routes
+
+\*All routes are prefixed with `/api`, and expect a `Conten-Type: application/json`.
+
+#### Authentication Routes
+
+| Method   | Route\*          | Description                    |
+| -------- | ---------------- | ------------------------------ |
+| `POST`   | `/auth/register` | Create Account                 |
+| `PATCH`  | `/auth/user`     | Update Account; Requires Token |
+| `DELETE` | `/auth/user`     | Delete Account; Requires Token |
+| `POST`   | `/auth/login`    | Login and Receive Token        |
+
+#### Recipe Routes
+
+| Method   | Route\*       | Description                    |
+| -------- | ------------- | ------------------------------ |
+| `POST`   | `/recipe`     | Create Recipe                  |
+| `GET`    | `/recipe/:id` | Read/Get One Recipe            |
+| `PUT`    | `/recipe/:id` | Update Recipe via Replacement  |
+| `PATCH`  | `/recipe/:id` | Update Recipe via Modification |
+| `DELETE` | `/recipe/:id` | Delete Recipe                  |
+| `GET`    | `/recipe`     | List Recipes _(Paginated)_     |
+
+#### Box Routes
+
+| Method   | Route\*    | Description                 |
+| -------- | ---------- | --------------------------- |
+| `POST`   | `/box`     | Create Box                  |
+| `GET`    | `/box/:id` | Read/Get One Box            |
+| `PUT`    | `/box/:id` | Update Box via Replacement  |
+| `PATCH`  | `/box/:id` | Update Box via Modification |
+| `DELETE` | `/box/:id` | Delete Box                  |
+| `GET`    | `/box`     | List Boxes _(Paginated)_    |
+
+### 2021-03-24
+
+After having gone to a few courses today, attended a capstone meeting, and helping out some peers, I finally was able to get back to try and finish this up.
+
+Unfortunately, it's now after midnight.
+
+Thankfully, _(I believe)_ I've now got the application back to a working state.
+At least to what it was before having a custom API.
+
+I now need to add forms to the applications to register accounts, create recipes and boxes.
+
+After having slept, I started off the day with work and then decided to pivot to this again in the afternoon.
+
+## 2021-03-27
+
+After a few days struggling to find time to get back to this, I finally found some time during the evening.
+It was informative to help out [_Daniel Purrington_](https://github.com/TREX1883) and try to get him rolling with his RESTful API.
+I spent a few hours on Thursday just working through it with him.
+
+## 2021-04-04
+
+I have not kept up with this dev log over the past week. I've change a number of things and now feel that I can commit the changes to GitHub.
+The forms are not yet connected to sending API requests; however, they get the collect data appropriately.
+
+## 2021-04-08
+
+Spent the late evening adding a number of commits in order to be able to work on the project from another computer over the weekend.

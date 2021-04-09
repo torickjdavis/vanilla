@@ -124,9 +124,12 @@ function RecipeDetails() {
             <Card>
               <CardHeader
                 title={title}
+                subheader={`By: ${fullname}`}
                 avatar={
                   <Avatar
                     title={fullname}
+                    src={user?.picture}
+                    alt={fullname}
                     style={{
                       background: avatarBackground,
                       color: theme.palette.getContrastText(avatarBackground),

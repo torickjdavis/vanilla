@@ -1,41 +1,63 @@
-import {
-  Grid,
-  makeStyles,
-  Paper,
-  TextField,
-  Typography,
-} from '@material-ui/core';
-import { Search as SearchIcon } from '@material-ui/icons';
-import ViewportGrid from '../components/ViewportGrid';
+import { Grid, makeStyles, Paper, Tab, Tabs } from '@material-ui/core';
+import { useState } from 'react';
+import BoxContent from './BoxContent';
+import RecipeContent from './RecipeContent';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    position: 'relative',
+    background: theme.palette.primary.main,
+    height: '100%',
+  },
   paper: {
     padding: theme.spacing(2),
+    background: theme.palette.primary.main,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  spacerToolbar: {
+    minHeight: theme.spacing(8), // override for visual consistency on mobile and desktop
+  },
+  tabs: {
+    background: theme.palette.secondary.dark,
   },
 }));
 
+// TODO add search functionality for each type
+
+/*
+  <Fab variant="extended">
+    <AddIcon />
+    Create Box
+  </Fab>
+ */
+
 export default function ExploreView() {
   const classes = useStyles();
+  const [tabIndex, setTabIndex] = useState(0);
+
   return (
-    <ViewportGrid backgroundImageURL="/assets/andy-chilton-0JFveX0c778-unsplash.jpg">
-      <Grid item>
-        <Paper className={classes.paper}>
-          <Typography variant="h2">Explore Recipes</Typography>
-          <Grid container spacing={2} alignItems="flex-end" justify="center">
-            <Grid item xs={1}>
-              <SearchIcon />
-            </Grid>
-            <Grid item xs={10}>
-              <TextField
-                id="search-query"
-                label="Search"
-                type="search"
-                fullWidth
-              />
-            </Grid>
-          </Grid>
-        </Paper>
+    <div className={classes.root}>
+      <Grid container>
+        <Grid item xs={12}>
+          <Paper className={classes.tabs} square>
+            <Tabs
+              value={tabIndex}
+              onChange={(event, value) => setTabIndex(value)}
+              centered
+            >
+              <Tab label="Recipes" />
+              <Tab label="Boxes" />
+            </Tabs>
+          </Paper>
+          <Paper className={classes.paper} square elevation={0}>
+            <div>
+              {tabIndex === 0 && <RecipeContent />}
+              {tabIndex === 1 && <BoxContent />}
+            </div>
+          </Paper>
+        </Grid>
       </Grid>
-    </ViewportGrid>
+    </div>
   );
 }

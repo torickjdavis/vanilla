@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { default as RouteLink } from './Link';
+import { useAuth } from '../contexts/AuthContext';
 
 import {
   Avatar,
@@ -18,6 +19,8 @@ import {
   Favorite as FavoriteIcon,
   FavoriteBorder as FavoriteBorderIcon,
   Receipt as InstructionsIcon,
+  Edit as EditIcon,
+  Delete as DeleteIcon,
 } from '@material-ui/icons';
 
 import { colorHash } from '../theme';
@@ -43,23 +46,19 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  chipContainer: {
-    width: '100%',
-    overflow: 'hidden',
-    height: `${theme.spacing(4)}px`, // create only a single row
+  userActions: {
+    marginLeft: 'auto !important', // hate to use, but necessary for now
   },
-  chip: {
-    margin: `0 ${theme.spacing(1)}px`,
-    '&:first-child': {
-      marginLeft: '0',
-    },
-    '&:last-child': {
-      marginRight: '0',
-    },
+  deleteButton: {
+    color: theme.palette.error.main,
+  },
+  editButton: {
+    color: theme.palette.info.main,
   },
 }));
 
 export default function RecipeCard({ recipe, user }) {
+  const { user: authUser, isAuthenticated } = useAuth();
   const classes = useStyles();
   const location = useLocation();
   const theme = useTheme();
@@ -82,6 +81,8 @@ export default function RecipeCard({ recipe, user }) {
         avatar={
           <Avatar
             title={fullname}
+            src={user?.picture}
+            alt={fullname}
             style={{
               background: avatarBackground,
               color: theme.palette.getContrastText(avatarBackground),
@@ -121,6 +122,16 @@ export default function RecipeCard({ recipe, user }) {
             <InstructionsIcon />
           </IconButton>
         </RouteLink>
+        {isAuthenticated && authUser._id === user._id && (
+          <div className={classes.userActions}>
+            <IconButton className={classes.editButton}>
+              <EditIcon />
+            </IconButton>
+            <IconButton className={classes.deleteButton}>
+              <DeleteIcon />
+            </IconButton>
+          </div>
+        )}
       </CardActions>
     </Card>
   );
