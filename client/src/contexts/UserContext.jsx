@@ -1,13 +1,10 @@
 import { createContext, useContext } from 'react';
-import useAxios from '../hooks/useAxios';
+import useAPI from '../hooks/useAPI';
 
 const UserContext = createContext();
 
 const UserContextProvider = ({ children }) => {
-  const apiURL = process.env.REACT_APP_API_URL;
-  const resultCount = 25;
-  // prettier-ignore
-  const { loading, error, response, data } = useAxios(`${apiURL}/auth/user?limit=${resultCount}`);
+  const { loading, error, response, data } = useAPI('/auth/user?all');
 
   return (
     <UserContext.Provider

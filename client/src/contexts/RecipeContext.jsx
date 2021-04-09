@@ -1,13 +1,10 @@
 import { createContext, useContext } from 'react';
-import useAxios from '../hooks/useAxios';
+import useAPI from '../hooks/useAPI';
 
 const RecipeContext = createContext();
 
 const RecipeContextProvider = ({ children }) => {
-  const apiURL = process.env.REACT_APP_API_URL;
-  const resultCount = 25;
-  // prettier-ignore
-  const { loading, error, response, data } = useAxios(`${apiURL}/recipe?limit=${resultCount}`);
+  const { loading, error, response, data } = useAPI('/recipe?all');
 
   return (
     <RecipeContext.Provider

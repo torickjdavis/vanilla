@@ -1,13 +1,10 @@
 import { createContext, useContext } from 'react';
-import useAxios from '../hooks/useAxios';
+import useAPI from '../hooks/useAPI';
 
 const BoxContext = createContext();
 
 const BoxContextProvider = ({ children }) => {
-  const apiURL = process.env.REACT_APP_API_URL;
-  const resultCount = 25;
-  // prettier-ignore
-  const { loading, error, response, data } = useAxios(`${apiURL}/box?limit=${resultCount}`);
+  const { loading, error, response, data } = useAPI('/box?all');
 
   return (
     <BoxContext.Provider

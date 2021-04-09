@@ -1,52 +1,35 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-export const useAxios = (initialURL, config = null) => {
+export const useAxios = (url, config = { method: 'GET' }) => {
   const [loading, setLoading] = useState(false);
-  const [url, setURL] = useState(initialURL);
-  const [error, setError] = useState(null);
   const [response, setResponse] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.debug('Axios Request to', url);
-    // only overwrites the response if something changes
+    console.debug('Axios Request to', url, config);
     // potentially make the request cancelable?
-    // potentially reformat to axios configurable request to allow requests other than GET https://github.com/axios/axios#axios-api
     (async function () {
       setLoading(true);
       try {
-        const response = await axios.get(url, config);
-        setError(null);
+        const response = await axios({
+          url,
+          ...config,
+        });
         setResponse(response);
       } catch (error) {
         setError(error);
-        if (error.response) setResponse(error.response);
       } finally {
         setLoading(false);
       }
     })();
-  }, [url, config]);
+  }, [url]); // adding config causes infinite loop (not sure why)
 
   return {
-    get loading() {
-      return loading;
-    },
-    get url() {
-      return url;
-    },
-    set url(value) {
-      // when destructured, getters are evaluated, and setters are not referenced
-      setURL(value); // triggers a new axios request
-    },
-    get data() {
-      return response?.data;
-    },
-    get error() {
-      return error;
-    },
-    get response() {
-      return response;
-    },
+    loading,
+    response,
+    data: response?.data,
+    error,
   };
 };
 
