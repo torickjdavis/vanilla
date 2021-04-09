@@ -26,6 +26,9 @@ const useStyles = ({ backgroundBase, imageURL }) => {
       maxHeight: '100vh',
       zIndex: 1,
     },
+    afterFold: {
+      zIndex: 1,
+    },
   }))();
 };
 
@@ -56,7 +59,7 @@ export default function ViewportGrid({
       </Grid>
       {/* additional content below the fold */}
       {afterFold && (
-        <Grid container item>
+        <Grid container item className={classes.afterFold}>
           {afterFold}
         </Grid>
       )}
