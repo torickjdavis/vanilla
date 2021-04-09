@@ -1,21 +1,32 @@
-import { useState, createContext, useContext } from 'react';
+import { createContext, useContext, useReducer } from 'react';
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 
-// creates context to be used, with default values (only used without a provider)
-// const AuthContext = createContext({
-//   isAuthenticated: false,
-//   login: () => {},
-//   logout: () => {},
-// });
-
 const AuthContext = createContext();
+
+const stateChanged = 'AUTH_STATE_CHANGED';
+
+const reducer = (state, { type, payload }) => {
+  switch (type) {
+    case stateChanged:
+      return {
+        ...state,
+        ...payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const initialState = {
+  isAuthenticated: false,
+  user: null,
+  token: null,
+};
 
 // provides state to all children through context provider, reassigning initial values
 const AuthContextProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const apiURL = process.env.REACT_APP_API_URL;
 
   const login = async ({ email, password }) => {
@@ -26,23 +37,29 @@ const AuthContextProvider = ({ children }) => {
       })
       .then((res) => res.data.accessToken);
     const user = jwt.decode(token); // get payload, signature check is done on secure operations
-    setUser(user);
-    setToken(token);
-    setIsAuthenticated(true);
+    console.debug('Auth Login', user);
+    dispatch({
+      type: stateChanged,
+      payload: {
+        isAuthenticated: true,
+        user,
+        token,
+      },
+    });
   };
 
   const logout = async () => {
-    setIsAuthenticated(false);
-    setToken(null);
-    setUser(null);
+    console.debug('Auth Logout');
+    dispatch({
+      type: stateChanged,
+      payload: initialState,
+    });
   };
 
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated,
-        user,
-        token,
+        ...state,
         login,
         logout,
       }}
