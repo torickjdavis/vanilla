@@ -1,5 +1,4 @@
 import { Router } from 'express';
-// import status from 'statuses';
 import status from 'http-status';
 import mongoose from 'mongoose';
 
@@ -27,12 +26,7 @@ const read = ({ model, name }) => async (req, res, next) => {
         .json({ message: `No ${name} Found (${id})` });
     }
   } catch (error) {
-    if (error instanceof mongoose.Error.CastError) {
-      res.status(status.BAD_REQUEST).json({
-        message: `Invalid ${error.kind}`,
-        reason: error.reason.message,
-      });
-    } else next(error);
+    next(error); // forward on to middleware; handleCastError
   }
 };
 
@@ -46,12 +40,7 @@ const replace = ({ model, name }) => async (req, res, next) => {
       message: `Replaced ${name} Instance (${id})`,
     });
   } catch (error) {
-    if (error instanceof mongoose.Error.CastError) {
-      res.status(status.BAD_REQUEST).json({
-        message: `Invalid ${error.kind}`,
-        reason: error.reason.message,
-      });
-    } else next(error);
+    next(error); // forward on to middleware; handleCastError
   }
 };
 
@@ -64,12 +53,7 @@ const modify = ({ model, name }) => async (req, res, next) => {
       message: `Modified ${name} Instance (${id})`,
     });
   } catch (error) {
-    if (error instanceof mongoose.Error.CastError) {
-      res.status(status.BAD_REQUEST).json({
-        message: `Invalid ${error.kind}`,
-        reason: error.reason.message,
-      });
-    } else next(error);
+    next(error);
   }
 };
 
@@ -83,12 +67,7 @@ const remove = ({ model, name }) => async (req, res, next) => {
       message: `Removed ${name} Instance (${id})`,
     });
   } catch (error) {
-    if (error instanceof mongoose.Error.CastError) {
-      res.status(status.BAD_REQUEST).json({
-        message: `Invalid ${error.kind}`,
-        reason: error.reason.message,
-      });
-    } else next(error);
+    next(error); // forward on to middleware; handleCastError
   }
 };
 

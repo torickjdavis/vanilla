@@ -1,9 +1,19 @@
 import { isDev } from './utils.js';
+import mongoose from 'mongoose';
 import status from 'http-status';
 
 export function notFound(req, res, next) {
   res.status(status.NOT_FOUND);
   next(new Error(`Not Found ${req.originalUrl}`));
+}
+
+export function handleCastError(error, req, res, next) {
+  if (error instanceof mongoose.Error.CastError) {
+    res.status(status.BAD_REQUEST).json({
+      message: `Invalid ${error.kind}`,
+      reason: error.reason.message,
+    });
+  } else next(error);
 }
 
 export function error(err, req, res, next) {
