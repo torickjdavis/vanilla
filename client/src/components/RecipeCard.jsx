@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { default as RouteLink } from './Link';
 import { useAuth } from '../contexts/AuthContext';
+import { useUsers } from '../contexts/UserContext';
 
 import {
   Avatar,
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   media: {
-    height: 0,
+    height: '100%',
     paddingTop: '56.25%', // 16:9
   },
   mediaText: {
@@ -57,19 +58,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RecipeCard({ recipe, user }) {
+export default function RecipeCard({ recipe }) {
   const { user: authUser, isAuthenticated } = useAuth();
+  const { users } = useUsers();
+  const user = users.find((u) => u._id === recipe.created.by);
   const classes = useStyles();
   const location = useLocation();
   const theme = useTheme();
   const [liked, setLiked] = useState(false);
 
-  const {
-    // * overview data
-    _id,
-    title,
-    image,
-  } = recipe;
+  const { _id, title, image } = recipe;
 
   const avatarBackground = colorHash(user?._id || '');
   const fullname = `${user?.name.first} ${user?.name.last}`;
