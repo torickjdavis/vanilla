@@ -579,3 +579,8 @@ The forms are not yet connected to sending API requests; however, they get the c
 ## 2021-04-08
 
 Spent the late evening adding a number of commits in order to be able to work on the project from another computer over the weekend.
+
+## 2021-04-12
+
+Work on committing weekend progress.
+Most of the changes were on 2021-04-09 and 2021-04-10.
