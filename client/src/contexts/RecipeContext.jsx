@@ -4,11 +4,11 @@ import useAPI from '../hooks/useAPI';
 const RecipeContext = createContext();
 
 const RecipeContextProvider = ({ children }) => {
-  const { loading, error, response, data } = useAPI('/recipe?all');
+  const { loading, refresh, error, response, data } = useAPI('/recipe?all');
 
   return (
     <RecipeContext.Provider
-      value={{ loading, error, response, recipes: data?.recipes }}
+      value={{ loading, refresh, error, response, recipes: data?.recipes }}
     >
       {children}
     </RecipeContext.Provider>
