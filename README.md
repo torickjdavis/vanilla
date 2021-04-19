@@ -38,21 +38,21 @@ The following is an overview checklist created from the requirements set out by 
 - [ ] Properly use Git with an Established Record of Commits
 - [ ] Detailed `README` for running code on Docker or accessing from deployed sites.
 - Front-End Client (General)
-  - [ ] Conditional Logic, JS Array Methods, and Front-End Framework Elements for Lists
-  - [ ] Use VueJS or React to Manage Front-End Client
-  - [ ] Use NPM Scripts and Node for Backend
+  - [x] Conditional Logic, JS Array Methods, and Front-End Framework Elements for Lists
+  - [x] Use VueJS or React to Manage Front-End Client
+- [x] Use NPM Scripts and Node for Backend
 - Data Stores Contain at Least _25 Items_
   - [ ] GraphQL API
   - [ ] RESTful API
 - RESTful API
-  - [ ] [Mongoose](https://mongoosejs.com/) for Data Modeling
-  - [ ] Use MongoDB Atlas for Data Store
-  - [ ] `seed` Script for Populating Data Store
+  - [x] [Mongoose](https://mongoosejs.com/) for Data Modeling
+  - [x] Use MongoDB Atlas for Data Store
+  - [x] `seed` Script for Populating Data Store
   - [ ] User Interface for RESTful API
-  - [ ] 1+ `CREATE` Endpoints
-  - [ ] 3+ `GET` Endpoints
-  - [ ] 1+ `UPDATE` Endpoints
-  - [ ] 1+ `DELETE` Endpoints
+  - [x] 1+ `CREATE` Endpoints
+  - [x] 3+ `GET` Endpoints
+  - [x] 1+ `UPDATE` Endpoints
+  - [x] 1+ `DELETE` Endpoints
 - GraphQL API
   - [ ] [Prisma](https://www.prisma.io/) for Data Modeling
   - [ ] Use Docker-based PostgreSQL or MySQL
@@ -62,6 +62,10 @@ The following is an overview checklist created from the requirements set out by 
   - [ ] 3+ Read/Get `Query` Resolvers
   - [ ] 1+ Update `Mutation` Resolvers
   - [ ] 1+ Delete `Mutation` Resolvers
+
+## Application Details
+
+### Available Scripts
 
 # Create React App Information
 
