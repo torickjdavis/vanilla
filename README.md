@@ -33,6 +33,36 @@ The following is an overview checklist created from the requirements set out by 
 - [x] App is Deployed
   - Uses Netlify or something similar.
 
+## Rich Internet Application Development 2 Project Requirements
+
+- [ ] Properly use Git with an Established Record of Commits
+- [ ] Detailed `README` for running code on Docker or accessing from deployed sites.
+- Front-End Client (General)
+  - [ ] Conditional Logic, JS Array Methods, and Front-End Framework Elements for Lists
+  - [ ] Use VueJS or React to Manage Front-End Client
+  - [ ] Use NPM Scripts and Node for Backend
+- Data Stores Contain at Least _25 Items_
+  - [ ] GraphQL API
+  - [ ] RESTful API
+- RESTful API
+  - [ ] [Mongoose](https://mongoosejs.com/) for Data Modeling
+  - [ ] Use MongoDB Atlas for Data Store
+  - [ ] `seed` Script for Populating Data Store
+  - [ ] User Interface for RESTful API
+  - [ ] 1+ `CREATE` Endpoints
+  - [ ] 3+ `GET` Endpoints
+  - [ ] 1+ `UPDATE` Endpoints
+  - [ ] 1+ `DELETE` Endpoints
+- GraphQL API
+  - [ ] [Prisma](https://www.prisma.io/) for Data Modeling
+  - [ ] Use Docker-based PostgreSQL or MySQL
+  - [ ] `seed` Script for Populating Data Store
+  - [ ] UI Interface for GraphQL API
+  - [ ] 1+ Create `Mutation` Resolvers
+  - [ ] 3+ Read/Get `Query` Resolvers
+  - [ ] 1+ Update `Mutation` Resolvers
+  - [ ] 1+ Delete `Mutation` Resolvers
+
 # Create React App Information
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
