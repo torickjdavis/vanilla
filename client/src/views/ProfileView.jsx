@@ -141,7 +141,7 @@ export default function ProfileView() {
               onSubmit={(values) => console.log('Box', values)}
             />
           )}
-          <BoxContent userOnly={true} />
+          <BoxContent userOnly />
         </>
       ),
     },
@@ -165,7 +165,7 @@ export default function ProfileView() {
               onSubmit={(values) => console.log('Recipe', values)}
             />
           )}
-          <RecipeContent userOnly={true} />
+          <RecipeContent userOnly />
         </>
       ),
     },
