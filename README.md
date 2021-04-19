@@ -584,3 +584,16 @@ Spent the late evening adding a number of commits in order to be able to work on
 
 Work on committing weekend progress.
 Most of the changes were on 2021-04-09 and 2021-04-10.
+
+## 2021-04-19
+
+To put it simply at this point, I definitely grossly underestimated the amount of refactoring I would do in order to add CRUD functionality to the site.
+The API itself was easy to implement.
+The front end functionality, not as much, because I tend to abstract a lot when possible.
+Regardless, I'm determined to complete this project and realize to myself that it's very uncharacteristic to not have a project done at this point.
+
+Currently, I just refactored my `useAxios` hook to have a `skipRequest` option in the config.
+This is used in order to conditionally call a request in the hook since hooks themselves cannot be called conditionally.
+
+Since it's late at night, I'm primarily reviewing and committing my changes.
+That way I can focus on progress tomorrow.
