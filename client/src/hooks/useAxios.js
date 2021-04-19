@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-export const useAxios = (url, config = { method: 'GET' }) => {
+const defaultConfig = { method: 'GET' };
+
+export const useAxios = (url, config = defaultConfig) => {
   const [refresh, setRefresh] = useState(true);
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (refresh) {
+    if (refresh && !config.skipRequest) {
       console.debug('Axios Request to', url, config);
       // potentially make the request cancelable?
       (async function () {
@@ -16,6 +18,7 @@ export const useAxios = (url, config = { method: 'GET' }) => {
         try {
           const response = await axios({
             url,
+            ...defaultConfig,
             ...config,
           });
           setResponse(response);
