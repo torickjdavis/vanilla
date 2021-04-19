@@ -22,4 +22,5 @@ body,
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  background: black;
 }
