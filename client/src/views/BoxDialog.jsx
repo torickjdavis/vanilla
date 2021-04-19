@@ -7,6 +7,7 @@ import {
   ListItemSecondaryAction,
   Typography,
   makeStyles,
+  Paper,
 } from '@material-ui/core';
 
 import {
@@ -15,16 +16,13 @@ import {
 } from '@material-ui/icons';
 
 import { default as RouteLink } from '../components/Link';
-import RoutedModal, { useInModal } from '../components/RoutedModal';
-import ViewportCard from '../components/ViewportCard';
-
+import RoutedModal from '../components/RoutedModal';
 import { useBoxes } from '../contexts/BoxContext';
 import { useRecipes } from '../contexts/RecipeContext';
 
 import { useRouterViewParams } from './RouterView';
 import routes from '../routes';
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   link: {
     '&:hover': {
       textDecoration: 'none',
@@ -43,16 +41,18 @@ function BoxDetails() {
   const { name, description, recipes: recipeIds } = box || {};
 
   return (
-    <>
-      <Typography variant="h3">{name}</Typography>
+    <Paper elevation={0} square className="fill-height">
+      <Typography variant="h3" className={classes.name}>
+        {name}
+      </Typography>
       <Typography variant="subtitle1">{description}</Typography>
       <List>
         {recipeIds?.map((recipeId) => {
-          const recipe = recipes.find((r) => r._id === recipeId);
+          const recipe = recipes?.find((r) => r._id === recipeId);
           return (
             <RouteLink
               to={{
-                pathname: `/recipe/${recipe._id}`,
+                pathname: `/recipe/${recipe?._id}`,
                 // state: { backdrop: location },
               }}
               className={classes.link}
@@ -62,7 +62,7 @@ function BoxDetails() {
                 <ListItemIcon>
                   <RecipeIcon />
                 </ListItemIcon>
-                <ListItemText primary={recipe.title} />
+                <ListItemText primary={recipe?.title} />
                 <ListItemSecondaryAction>
                   <IconButton>
                     <ChevronRightIcon />
@@ -73,28 +73,18 @@ function BoxDetails() {
           );
         })}
       </List>
-    </>
+    </Paper>
   );
 }
 
 export default function BoxDialog() {
-  // a lot of the dialogs have a very similar base structure, it would be beneficial to abstract
-  const inModal = useInModal();
-  if (inModal) {
-    return (
-      <RoutedModal
-        title="Box Details"
-        closeActionText="Close"
-        dialogOptions={{ fullWidth: true, maxWidth: 'md', scroll: 'paper' }}
-      >
-        <BoxDetails />
-      </RoutedModal>
-    );
-  }
-
   return (
-    <ViewportCard title="Box Details">
+    <RoutedModal
+      title="Box Details"
+      closeActionText="Close"
+      dialogOptions={{ fullWidth: true, maxWidth: 'md', scroll: 'paper' }}
+    >
       <BoxDetails />
-    </ViewportCard>
+    </RoutedModal>
   );
 }

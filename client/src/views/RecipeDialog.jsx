@@ -14,8 +14,7 @@ import {
   useTheme,
 } from '@material-ui/core';
 
-import RoutedModal, { useInModal } from '../components/RoutedModal';
-import ViewportCard from '../components/ViewportCard';
+import RoutedModal from '../components/RoutedModal';
 
 import { useRecipes } from '../contexts/RecipeContext';
 import { useUsers } from '../contexts/UserContext';
@@ -30,11 +29,6 @@ import DOMPurify from 'dompurify';
 
 const useStyles = (imageURL) =>
   makeStyles((theme) => ({
-    viewportCardContent: {
-      // mimic dialog options
-      width: 'calc(100% - 64px)',
-      maxWidth: theme.breakpoints.values.lg,
-    },
     tabs: {
       background: theme.palette.secondary.dark,
     },
@@ -118,7 +112,7 @@ function RecipeDetails() {
 
   return (
     <>
-      <Grid container>
+      <Grid container className="fill-height">
         <Grid item xs={12} md={6} className={classes.picture}>
           <div className={classes.creator}>
             <Card>
@@ -171,7 +165,7 @@ function RecipeDetails() {
               </Typography>
             )}
             {tabIndex === 1 && (
-              <List>
+              <List dense>
                 {directions.map(({ step, details, _id }, index) => (
                   <ListItem key={_id}>
                     <ListItemText
@@ -183,7 +177,7 @@ function RecipeDetails() {
               </List>
             )}
             {tabIndex === 2 && (
-              <List>
+              <List dense>
                 {ingredients.map(({ name, quantity, unit, _id }) => (
                   <ListItem key={_id}>
                     <ListItemText
@@ -202,28 +196,13 @@ function RecipeDetails() {
 }
 
 export default function RecipeDialog() {
-  const classes = useStyles();
-  const inModal = useInModal();
-  if (inModal) {
-    return (
-      <RoutedModal
-        title="Recipe Details"
-        dialogOptions={{ fullWidth: true, maxWidth: 'lg', scroll: 'paper' }}
-        disablePadding
-      >
-        <RecipeDetails />
-      </RoutedModal>
-    );
-  }
-
   return (
-    <ViewportCard
+    <RoutedModal
       title="Recipe Details"
-      hasCancel={false}
+      dialogOptions={{ fullWidth: true, maxWidth: 'lg', scroll: 'paper' }}
       disablePadding
-      className={classes.viewportCardContent}
     >
       <RecipeDetails />
-    </ViewportCard>
+    </RoutedModal>
   );
 }

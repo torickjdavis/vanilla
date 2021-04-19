@@ -5,8 +5,7 @@ import {
   ListItemAvatar,
   ListItemText,
 } from '@material-ui/core';
-import RoutedModal, { useInModal } from '../components/RoutedModal';
-import ViewportCard from '../components/ViewportCard';
+import RoutedModal from '../components/RoutedModal';
 import { useAuth } from '../contexts/AuthContext';
 
 function AccountInformation() {
@@ -28,23 +27,13 @@ function AccountInformation() {
 }
 
 export default function AccountDialog() {
-  // a lot of the dialogs have a very similar base structure, it would be beneficial to abstract
-  const inModal = useInModal();
-  if (inModal) {
-    return (
-      <RoutedModal
-        title="Account Information"
-        closeActionText="Close"
-        dialogOptions={{ fullWidth: true, maxWidth: 'md' }}
-      >
-        <AccountInformation />
-      </RoutedModal>
-    );
-  }
-
   return (
-    <ViewportCard title="Account Information">
+    <RoutedModal
+      title="Account Information"
+      closeActionText="Close"
+      dialogOptions={{ fullWidth: true, maxWidth: 'md' }}
+    >
       <AccountInformation />
-    </ViewportCard>
+    </RoutedModal>
   );
 }
