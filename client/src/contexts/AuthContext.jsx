@@ -56,12 +56,24 @@ const AuthContextProvider = ({ children }) => {
     });
   };
 
+  const register = async ({ email, password, name, picture }) => {
+    await axios.post(`${apiURL}/auth/register`, {
+      email,
+      password,
+      name,
+      picture,
+    });
+    console.debug('Auth Register', email);
+    await login({ email, password }); // automatically login after successful registration
+  };
+
   return (
     <AuthContext.Provider
       value={{
         ...state,
         login,
         logout,
+        register,
       }}
     >
       {children}
