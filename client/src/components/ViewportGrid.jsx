@@ -25,6 +25,7 @@ const useStyles = ({ backgroundBase, imageURL }) => {
     content: {
       maxHeight: '100vh',
       zIndex: 1,
+      overflow: 'auto',
     },
     afterFold: {
       zIndex: 1,

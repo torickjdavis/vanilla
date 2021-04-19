@@ -15,9 +15,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
   },
-  spacerToolbar: {
-    minHeight: theme.spacing(8), // override for visual consistency on mobile and desktop
-  },
   tabs: {
     background: theme.palette.secondary.dark,
   },
