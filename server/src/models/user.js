@@ -15,9 +15,14 @@ export const UserSchema = new mongoose.Schema({
   name: {
     first: String,
     last: String,
-    // TODO add virtual for "full" name
   },
   picture: String, // potentially added sizes
+});
+
+UserSchema.virtual('name.full').get(function () {
+  return [this.name.first || null, this.name.last || null]
+    .filter((v) => !!v)
+    .join(' ');
 });
 
 UserSchema.post('remove', async function () {
