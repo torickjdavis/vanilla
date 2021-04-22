@@ -84,7 +84,7 @@ const list = ({ model, collection }) => async (req, res, next) => {
     let { limit = 10, page = 1, all = false } = req.query;
     limit = parseInt(limit);
     page = parseInt(page);
-    all = all !== undefined && all !== 'false';
+    all = queryToBoolean(all);
 
     if (isNaN(limit) || limit !== Number(limit)) {
       return res
@@ -98,14 +98,13 @@ const list = ({ model, collection }) => async (req, res, next) => {
         .json({ message: 'Page must be an Integer.' });
     }
 
-    let instances = null;
+    let query = model.find({});
     if (!all) {
-      instances = await model
-        .find({})
+      query = query
         .skip(limit * Math.max(page - 1, 0)) // no lower than the first page (0)
-        .limit(limit)
-        .exec();
-    } else instances = await model.find({}).exec();
+        .limit(limit);
+    }
+    const instances = await query.exec();
     const total = await model.countDocuments({}).exec();
     res.json({
       [collection]: instances,
@@ -121,6 +120,9 @@ const list = ({ model, collection }) => async (req, res, next) => {
     next(error);
   }
 };
+
+// prettier-ignore
+const queryToBoolean = (query) => typeof query === 'boolean' ? query : query !== 'false';
 
 const wrappedModel = (model) => ({
   model,
