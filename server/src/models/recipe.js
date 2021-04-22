@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+import Box from './box.js';
+
 const ObjectId = mongoose.Types.ObjectId;
 
 export const RecipeSchema = new mongoose.Schema({
@@ -41,6 +43,14 @@ export const RecipeSchema = new mongoose.Schema({
       unit: String,
     },
   ],
+});
+
+RecipeSchema.post('remove', async function () {
+  const recipeId = this._id;
+  await Box.updateMany(
+    { recipes: { $in: [recipeId] } },
+    { $pull: { recipes: recipeId } }
+  ).exec();
 });
 
 export default mongoose.model('recipe', RecipeSchema);
