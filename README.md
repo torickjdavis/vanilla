@@ -631,3 +631,45 @@ This is used in order to conditionally call a request in the hook since hooks th
 
 Since it's late at night, I'm primarily reviewing and committing my changes.
 That way I can focus on progress tomorrow.
+
+## 2021-04-21
+
+I debated adding the ability to `populate` resources based off of any `ref`s in a schema.
+This would just go one level deep, but I decided not to.
+
+After working on my Computer Science capstone, I came back and revised the authentication system.
+In doing so, I made the resource utility _even more_ useful, because it now supports configurable CRUDL authorization.
+Meaning, each of the CRUDL requests can be enabled to be authorized when the `resource` is given a `verifier` in the `authConfig`, along with which CRUDL actions should have an authorization check.
+
+I still need to check to see if I can use that in order to see if the user is the same one that created a resource.
+To further add security instead of just requiring a valid token.
+
+## 2021-04-22
+
+Refactored the API to remove the authentication router.
+Now the `user` model follows the resource pattern.
+The `login` route is now part of the helper controller.
+Additionally, routes can now be configured to check that they were `madeBy` the original person who created it, given the right configuration.
+
+With that, I finished documenting my _RESTful API_.
+It can be seen in the [`restfulAPI.http`](restfulAPI.http) file.
+Additionally, I've added it's content to the start of this file.
+
+So, the only _major_ change is that the API routes for authentication have changed:
+
+| Method   | Route\*  | Description                    |
+| -------- | -------- | ------------------------------ |
+| `POST`   | `/user`  | Create Account                 |
+| `PATCH`  | `/user`  | Update Account; Requires Token |
+| `DELETE` | `/user`  | Delete Account; Requires Token |
+| `POST`   | `/login` | Login and Receive Token        |
+
+\*Like before, each route is prefixed with `/api`.
+
+Additionally each of the create, update, and delete operations require a `Bearer` token in the `Authorization` header.
+Also, the update (modify and replace) and delete operations require that the token be for the `user` that creates the resource.
+
+The `User` resource doesn't require a token to create a user. The `Box` and `Recipe` resources do to create them.
+
+I've also updated the `seed` script to use the new API routes.
+I also updated the front end to use the new routes, and fixed some related bugs.
