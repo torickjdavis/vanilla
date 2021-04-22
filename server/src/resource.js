@@ -61,7 +61,14 @@ const modify = ({ model, name }) => async (req, res, next) => {
 const remove = ({ model, name }) => async (req, res, next) => {
   try {
     const id = req.params.id;
-    await model.findByIdAndDelete(id).exec();
+    const instance = await model.findById(id).exec();
+    if (!instance) {
+      return res.status(status.NOT_FOUND).json({
+        success: false,
+        message: `No ${name} Instance Found (${id})`,
+      });
+    }
+    await instance.remove();
     res.json({
       success: true,
       message: `Removed ${name} Instance (${id})`,
