@@ -1,8 +1,5 @@
 import mongoose from 'mongoose';
 
-import User from './user.js';
-import Recipe from './recipe.js';
-
 const ObjectId = mongoose.Types.ObjectId;
 
 export const BoxSchema = new mongoose.Schema({
@@ -18,13 +15,13 @@ export const BoxSchema = new mongoose.Schema({
   recipes: [
     {
       type: ObjectId,
-      ref: Recipe,
+      ref: 'recipe',
     },
   ],
   created: {
     by: {
       type: ObjectId,
-      ref: User,
+      ref: 'user',
       required: true,
     },
     on: {
