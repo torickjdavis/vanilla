@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import Box from './box.js';
+import Recipe from './recipe.js';
 
 export const UserSchema = new mongoose.Schema({
   email: {
@@ -18,6 +20,10 @@ export const UserSchema = new mongoose.Schema({
   picture: String, // potentially added sizes
 });
 
-// TODO add pre('save') to handle password hashing; https://mongoosejs.com/docs/api/schema.html#schema_Schema-pre
+UserSchema.post('remove', async function () {
+  const userId = this._id;
+  await Box.deleteMany({ 'created.by': { $in: [userId] } }).exec();
+  await Recipe.deleteMany({ 'created.by': { $in: [userId] } }).exec();
+});
 
 export default mongoose.model('user', UserSchema);
