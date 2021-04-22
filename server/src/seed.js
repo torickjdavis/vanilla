@@ -13,27 +13,27 @@ const {
 const resultCount = parseInt(count) || 5;
 const shouldRegister = JSON.parse(register); // true/false
 
+const userDetails = {
+  email: 'demo@example.com',
+  password: 'demo-user',
+  name: {
+    first: 'Demo',
+    last: 'User',
+  },
+  picture: 'https://source.unsplash.com/idTwDKt2j2o/512x512',
+};
+
 const baseURL = `http://${HOST}:${PORT}/api`;
 const spoonacularURL = `https://api.spoonacular.com/recipes/random?apiKey=${SPOONACULAR_API_KEY}&number=${resultCount}&limitLicense=true`;
 
 try {
   console.log(`Making Requests to ${baseURL}`);
-  if (shouldRegister) {
-    await axios.post(`${baseURL}/auth/register`, {
-      email: 'demo@example.com',
-      password: 'demo-user',
-      name: {
-        first: 'John',
-        last: 'Doe',
-      },
-      picture: 'https://randomuser.me/api/portraits/men/84.jpg',
-    });
-  }
+  if (shouldRegister) await axios.post(`${baseURL}/user`, userDetails);
 
   const accessToken = await axios
-    .post(`${baseURL}/auth/login`, {
-      email: 'demo@example.com',
-      password: 'demo-user',
+    .post(`${baseURL}/login`, {
+      email: userDetails.email,
+      password: userDetails.password,
     })
     .then((response) => response.data.accessToken);
 
@@ -64,22 +64,26 @@ try {
     } = spoonacularRecipe;
 
     const recipe = await axios
-      .post(`${baseURL}/recipe`, {
-        title,
-        image,
-        summary,
-        readyIn: readyInMinutes,
-        serves: servings,
-        directions: analyzedInstructions
-          .flatMap((instruction) => instruction.steps)
-          .map(({ step }) => ({ step })),
-        created: { by: demoUser._id },
-        ingredients: extendedIngredients.map(({ name, measures }) => ({
-          name,
-          quantity: measures.us.amount,
-          unit: measures.us.unitLong,
-        })),
-      })
+      .post(
+        `${baseURL}/recipe`,
+        {
+          title,
+          image,
+          summary,
+          readyIn: readyInMinutes,
+          serves: servings,
+          directions: analyzedInstructions
+            .flatMap((instruction) => instruction.steps)
+            .map(({ step }) => ({ step })),
+          created: { by: demoUser._id },
+          ingredients: extendedIngredients.map(({ name, measures }) => ({
+            name,
+            quantity: measures.us.amount,
+            unit: measures.us.unitLong,
+          })),
+        },
+        { headers: { Authorization: `Bearer ${accessToken}` } }
+      )
       .then((res) => res.data);
     createRecipeIds.push(recipe._id);
     console.log('Recipe', recipe._id, `"${recipe.title}"`);
@@ -88,11 +92,15 @@ try {
 
   console.group('Create Box');
   const box = await axios
-    .post(`${baseURL}/box`, {
-      name: 'Demo Box',
-      recipes: createRecipeIds,
-      created: { by: demoUser._id },
-    })
+    .post(
+      `${baseURL}/box`,
+      {
+        name: 'Demo Box',
+        recipes: createRecipeIds,
+        created: { by: demoUser._id },
+      },
+      { headers: { Authorization: `Bearer ${accessToken}` } }
+    )
     .then((res) => res.data);
   console.log('Box', box._id);
   console.groupEnd();

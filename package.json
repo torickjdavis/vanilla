@@ -10,6 +10,8 @@
     "client:build": "cd client && npm run build",
     "server:start": "cd server && npm run start",
     "server:dev": "cd server && npm run dev",
+    "server:seed": "cd server && npm run seed",
+    "server:seed:register": "cd server && npm run seed:register",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
