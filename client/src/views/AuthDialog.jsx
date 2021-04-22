@@ -1,5 +1,5 @@
 import { Button } from '@material-ui/core';
-import { useLocation, Redirect } from 'react-router-dom';
+import { useLocation, Redirect, useHistory } from 'react-router-dom';
 import RoutedModal from '../components/RoutedModal';
 import { useAuth } from '../contexts/AuthContext';
 import { AuthForm } from '../components/AuthForm';
@@ -26,13 +26,21 @@ const Logout = ({ onLogout }) => {
 
 export default function AuthDialog() {
   const { isAuthenticated, login, logout, register } = useAuth();
+  const history = useHistory();
   const query = new URLSearchParams(useLocation().search);
   const action = query.get('action');
 
-  if (isAuthenticated && (action === 'login' || action === 'register')) {
-    return <Redirect to="/" />;
-  } else if (action === 'logout') {
-    return <Logout onLogout={logout} />;
+  const onLogout = () => {
+    logout();
+    history.push('/'); // after logging out, go home
+  };
+
+  if (!isAuthenticated && action === 'logout') return <Redirect to="/" />;
+  if (isAuthenticated && action === 'login') return <Redirect to="/" />;
+  if (isAuthenticated && action === 'register') return <Redirect to="/" />;
+
+  if (action === 'logout') {
+    return <Logout onLogout={onLogout} />;
   } else if (action === 'login') {
     return <AuthForm title="Login" onSubmit={login} />;
   } else if (action === 'register') {
