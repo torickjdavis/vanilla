@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import status from 'http-status';
-import mongoose from 'mongoose';
 
 // Create
 const create = ({ model }) => async (req, res, next) => {
@@ -130,19 +129,86 @@ const wrappedModel = (model) => ({
   collection: model.collection.name,
 });
 
-export function resource(model) {
+// no-op middleware
+const next = (req, res, next) => next();
+
+// middleware to protect a route
+export function authorize(tokenVerifier = null, madeBy = null) {
+  const verify = async (req, res, next) => {
+    const resourceId = req.params.id;
+    if (!tokenVerifier) {
+      throw new Error('Requested Verification without Verifier');
+    }
+
+    const authorization = req.headers['authorization'];
+
+    if (!authorization) {
+      return res
+        .status(status.UNAUTHORIZED)
+        .json({ message: 'Missing Authorization Header' });
+    }
+
+    const [, token] = authorization.match(/Bearer (.+)/); // Bearer TOKEN
+
+    if (!token) {
+      return res
+        .status(status.UNAUTHORIZED)
+        .json({ message: 'Missing Bearer Token' });
+    }
+
+    try {
+      req.user = await tokenVerifier(token);
+      if (madeBy) {
+        const isMadeBy = await madeBy(req.user, resourceId);
+        if (!isMadeBy) {
+          return res
+            .status(status.UNAUTHORIZED)
+            .json({ message: 'This resource was not made by you.' });
+        }
+      }
+      next();
+    } catch (error) {
+      res.status(status.FORBIDDEN);
+      next(error);
+    }
+  };
+
+  return (shouldVerify = false) => {
+    if (shouldVerify) return verify;
+    return next;
+  };
+}
+
+const defaultAuthConfig = {
+  create: false,
+  read: false,
+  update: false, // replace and modify
+  replace: false,
+  modify: false,
+  remove: false,
+  list: false,
+  verifier: null,
+  madeBy: null,
+};
+
+export function resource(model, authConfig = defaultAuthConfig) {
+  const config = { auth: { ...defaultAuthConfig, ...authConfig } };
   const router = new Router();
   const wrapped = wrappedModel(model);
   const { name } = wrapped;
 
-  router.post(`/${name}`, create(wrapped));
+  const auth = authorize(config.auth.verifier, config.auth.madeBy);
+  const createAuth = authorize(config.auth.verifier); // specific auth for create, skip madeBy check
+
+  router.post(`/${name}`, createAuth(config.auth.create), create(wrapped));
   router
     .route(`/${name}/:id`)
-    .get(read(wrapped))
-    .put(replace(wrapped))
-    .patch(modify(wrapped))
-    .delete(remove(wrapped));
-  router.get(`/${name}`, list(wrapped));
+    .get(auth(config.auth.read), read(wrapped))
+    .put(auth(config.auth.update || config.auth.replace), replace(wrapped))
+    .patch(auth(config.auth.update || config.auth.modify), modify(wrapped))
+    .delete(auth(config.auth.remove), remove(wrapped));
+
+  router.get(`/${name}`, auth(authConfig.list), list(wrapped));
 
   return router;
 }
