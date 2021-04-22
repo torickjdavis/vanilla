@@ -4,7 +4,7 @@ import useAPI from '../hooks/useAPI';
 const UserContext = createContext();
 
 const UserContextProvider = ({ children }) => {
-  const { loading, refresh, error, response, data } = useAPI('/auth/user?all');
+  const { loading, refresh, error, response, data } = useAPI('/user?all');
 
   return (
     <UserContext.Provider

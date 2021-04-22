@@ -31,7 +31,7 @@ const AuthContextProvider = ({ children }) => {
 
   const login = async ({ email, password }) => {
     const token = await axios
-      .post(`${apiURL}/auth/login`, {
+      .post(`${apiURL}/login`, {
         email,
         password,
       })
@@ -57,7 +57,7 @@ const AuthContextProvider = ({ children }) => {
   };
 
   const register = async ({ email, password, name, picture }) => {
-    await axios.post(`${apiURL}/auth/register`, {
+    await axios.post(`${apiURL}/user`, {
       email,
       password,
       name,
