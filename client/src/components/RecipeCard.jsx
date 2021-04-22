@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 export default function RecipeCard({ recipe }) {
   const { user: authUser, isAuthenticated } = useAuth();
   const { users } = useUsers();
-  const user = users.find((u) => u._id === recipe.created.by);
+  const user = users?.find((u) => u._id === recipe.created.by);
   const classes = useStyles();
   const location = useLocation();
   const theme = useTheme();
