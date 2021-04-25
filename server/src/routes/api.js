@@ -49,7 +49,7 @@ apiRouter.use(
   }),
   handleDuplicateError
 );
-apiRouter.use('/login', login);
+apiRouter.post('/login', login);
 apiRouter.get('/userBoxes/:userId', userBoxes);
 apiRouter.get('/userRecipes/:userId', userRecipes);
 apiRouter.use(handleCastError);
