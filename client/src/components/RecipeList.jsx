@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Grid, Snackbar } from '@material-ui/core';
+import { Grid, Snackbar, Typography } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import SkeletonCard from '../components/SkeletonCard';
 import RecipeCard from './RecipeCard';
@@ -57,6 +57,14 @@ export default function RecipeList({ userOnly }) {
             </Grid>
           );
         })}
+      {!recipes?.length && (
+        <Grid item>
+          <Typography variant="subtitle1">
+            Sorry, but there are no recipes here. How about you add one, and
+            share something delicious.
+          </Typography>
+        </Grid>
+      )}
     </Grid>
   );
 }

@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react';
 import { default as RouteLink } from './Link';
-import { Grid, List, Snackbar, makeStyles } from '@material-ui/core';
+import {
+  Grid,
+  List,
+  Snackbar,
+  makeStyles,
+  Typography,
+} from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 
 import { useLocation } from 'react-router-dom';
@@ -75,6 +81,14 @@ export default function BoxList({ userOnly }) {
                 />
               </RouteLink>
             ))}
+          {!boxes?.length && (
+            <Grid item>
+              <Typography variant="subtitle1">
+                Sorry, but there are no boxes here. How about you create one,
+                and share something delicious.
+              </Typography>
+            </Grid>
+          )}
         </List>
       </Grid>
     </Grid>
