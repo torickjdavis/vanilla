@@ -66,7 +66,7 @@ export default function BoxForm({
 
   return (
     <FormikForm
-      title="Recipe Details"
+      title="Box Details"
       initialValues={{ ...defaultInitialValues, ...initialValues }}
       validationSchema={validationSchema}
       onSubmit={onSubmit}
