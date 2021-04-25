@@ -2,7 +2,7 @@ import { Button } from '@material-ui/core';
 import { useLocation, Redirect, useHistory } from 'react-router-dom';
 import RoutedModal from '../components/RoutedModal';
 import { useAuth } from '../contexts/AuthContext';
-import { AuthForm } from '../components/AuthForm';
+import AuthForm from '../components/AuthForm';
 
 const Logout = ({ onLogout }) => {
   const confirmationText = 'Are you sure you want to logout?';

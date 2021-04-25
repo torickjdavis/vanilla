@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function AuthForm({
+export default function AuthForm({
   title = null,
   onSubmit = null,
   onClose = null,

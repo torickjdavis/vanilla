@@ -23,8 +23,8 @@ import {
   Add as AddIcon,
 } from '@material-ui/icons';
 import { useState } from 'react';
-import { BoxForm } from '../components/BoxForm';
-import { RecipeForm } from '../components/RecipeForm';
+import BoxForm from '../components/BoxForm';
+import RecipeForm from '../components/RecipeForm';
 
 const drawerWidth = 240;
 

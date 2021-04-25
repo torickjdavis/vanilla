@@ -43,7 +43,7 @@ const MENU_WIDTH = 250;
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
-export function BoxForm({
+export default function BoxForm({
   onSubmit = null,
   onClose = null,
   initialValues = {},

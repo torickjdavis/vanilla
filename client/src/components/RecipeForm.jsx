@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function RecipeForm({
+export default function RecipeForm({
   onSubmit = null,
   onClose = null,
   initialValues = {},
