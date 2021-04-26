@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { default as RouteLink } from './Link';
 import { useAuth } from '../contexts/AuthContext';
@@ -16,15 +15,11 @@ import {
   useTheme,
 } from '@material-ui/core';
 
-import {
-  Favorite as FavoriteIcon,
-  FavoriteBorder as FavoriteBorderIcon,
-  Receipt as InstructionsIcon,
-  Edit as EditIcon,
-  Delete as DeleteIcon,
-} from '@material-ui/icons';
+import { Receipt as InstructionsIcon } from '@material-ui/icons';
 
 import { colorHash } from '../theme';
+import DeleteButton from './DeleteButton';
+import EditButton from './EditButton';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,7 +60,6 @@ export default function RecipeCard({ recipe }) {
   const classes = useStyles();
   const location = useLocation();
   const theme = useTheme();
-  const [liked, setLiked] = useState(false);
 
   const { _id, title, image } = recipe;
 
@@ -104,12 +98,6 @@ export default function RecipeCard({ recipe }) {
         </Typography>
       )}
       <CardActions>
-        <IconButton
-          onClick={() => setLiked(!liked)}
-          title={liked ? 'Unlike' : 'Like'}
-        >
-          {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-        </IconButton>
         <RouteLink
           to={{
             pathname: `/recipe/${_id}`,
@@ -121,14 +109,10 @@ export default function RecipeCard({ recipe }) {
           </IconButton>
         </RouteLink>
         {isAuthenticated && authUser._id === user._id && (
-          <div className={classes.userActions}>
-            <IconButton className={classes.editButton}>
-              <EditIcon />
-            </IconButton>
-            <IconButton className={classes.deleteButton}>
-              <DeleteIcon />
-            </IconButton>
-          </div>
+          <>
+            <EditButton size="small" className={classes.userActions} />
+            <DeleteButton size="small" />
+          </>
         )}
       </CardActions>
     </Card>
