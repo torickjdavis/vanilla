@@ -539,3 +539,41 @@ I've also updated the `seed` script to use the new API routes.
 I also updated the front end to use the new routes, and fixed some related bugs.
 
 I also extracted the development notes into their own DEVLOG file to clean up README.
+
+---
+
+After a break for classes and work on my Computer Science capstone I've started work again.
+The goal for right now is to change the client to use a hash router instead of the current browser router.
+This is so that I don't have to worry about any special routing configuration being needed on the web server.
+
+After doing that, the next item is to revise the UI and define how a user will perform the CRUD operations for the `Recipe` and `Box` resources.
+It would also be a good idea to allow users to update their info.
+These routes already exist, they just need to be connected to the UI.
+
+I came out with a few new components to wrap the styling for the CRUD buttons.
+Specifically, `CreateButton`, `EditButton`, and `DeleteButton`.
+These all are basically fancy `Fab` buttons that also have a loading/`pending` state.
+
+I spent a good hour or so trying to determine how to refactor my `useAPI`, `useAxios`, etc. to also allow the config options.
+
+I've decided that the config isn't really helpful, other than for skipping a request.
+For actions that will not be `GET` requests, I should just call Axios directly.
+That'll make code _a lot_ simpler.
+
+## 2021-04-25
+
+Updated the `login` route to use only `POST`.
+Recently tried out the package `@simbathesailor/use-what-changed` in order to try and determine where and what might have been causing the infinite loop in `useAxios`.
+
+I would like to add the `Snackbar` based `Alert` to every action.
+That way it'd be feedback to the user; however, I feel that'll just be something that's nice to have.
+
+I've spent a good part of today working on integrating the CRUDL actions.
+At some point I would like to integrate the pagination, but have decided that'll also fall into the category of _nice to have_; rather, than a _need to have_.
+
+I fought with the Box actions and I could successfully create, update, and delete items; however, the lists weren't repopulating.
+Eventually I made use of the `refresh` method from my `useAxios` hook through my `useAPI` hook.
+However, that only refreshed the lists relating to all data, and not the user specific content.
+So, I refactored the whole application starting from the `RecipeContext` and `BoxContext` in order to add the _user_ data to it, and make it more accessible across the application.
+
+Lastly, I completed the ability to create both recipes and boxes.
