@@ -42,9 +42,26 @@ export default function AuthDialog() {
   if (action === 'logout') {
     return <Logout onLogout={onLogout} />;
   } else if (action === 'login') {
-    return <AuthForm title="Login" onSubmit={login} />;
+    return (
+      <AuthForm
+        title="Login"
+        onSubmit={async (values) => {
+          await login(values);
+          history.push('/profile');
+        }}
+      />
+    );
   } else if (action === 'register') {
-    return <AuthForm title="Register" onSubmit={register} showRegistration />;
+    return (
+      <AuthForm
+        title="Register"
+        onSubmit={async (values) => {
+          await register(values);
+          history.push('/profile');
+        }}
+        showRegistration
+      />
+    );
   }
 
   // with an unknown action, swap to login
