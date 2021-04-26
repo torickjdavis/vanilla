@@ -69,6 +69,46 @@ The following is an overview checklist created from the requirements set out by 
 
 ### Available Scripts
 
+### RESTful API Endpoints
+
+For examples, see the [`restfulAPI.http`](restfulAPI.http).
+
+**Each route is prefixed with `/api`.**
+
+#### Resource Routes
+
+This applies to the `User`, `Recipe`, and `Box` models.
+In place of `:resource` will be the model's name.
+
+| CRUDL              | Method   | Route            | Authorization Required  |
+| ------------------ | -------- | ---------------- | ----------------------- |
+| _CREATE_           | `POST`   | `/:resource`     | Yes, except for `User`. |
+| _READ_             | `GET`    | `/:resource/:id` | None required.          |
+| _UPDATE (Replace)_ | `PUT`    | `/:resource/:id` | Required.\*             |
+| _UPDATE (Modify)_  | `PATCH`  | `/:resource/:id` | Required.\*             |
+| _DELETE_           | `DELETE` | `/:resource/:id` | Required.\*             |
+| _List (Paginated)_ | `GET`    | `/:resource`     | None required.          |
+
+\*In addition to being required, the resources can only be updated by the `User` that created them.
+
+For _pagination_, there are a number of query parameters allowed:
+
+| Parameter | Type    | Default | Description                                      |
+| --------- | ------- | ------- | ------------------------------------------------ |
+| `limit`   | Integer | `10`    | The number of elements in the response per page. |
+| `page`    | Integer | `1`     | The selected page.                               |
+| `all`     | Boolean | `false` | Query all elements; ignores the other options.   |
+
+#### Utility Routes
+
+No authorization required for these routes, and these all also prefixed with `/api`.
+
+| Method | Route                  | Description                               |
+| ------ | ---------------------- | ----------------------------------------- |
+| `POST` | `/login`               | Request an access token to be authorized. |
+| `GET`  | `/userBoxes/:userId`   | Request all the boxes a user made.        |
+| `GET`  | `/userRecipes/:userId` | Request all the recipes a user made.      |
+
 # Create React App Information
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -79,7 +119,7 @@ In the project directory, you can run:
 
 ### `npm start`
 
-Runs the app in the development mode.\
+Runs the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
