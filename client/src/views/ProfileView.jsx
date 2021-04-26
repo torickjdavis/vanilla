@@ -1,10 +1,10 @@
+import axios from 'axios';
 import BoxContent from './BoxContent';
 import RecipeContent from './RecipeContent';
 import useToggle from '../hooks/useToggle';
 import {
   Divider,
   Drawer,
-  Fab,
   IconButton,
   List,
   ListItem,
@@ -20,11 +20,14 @@ import {
   MenuOpen as MenuOpenIcon,
   AllInbox as BoxesIcon,
   Receipt as RecipeIcon,
-  Add as AddIcon,
 } from '@material-ui/icons';
 import { useState } from 'react';
+import { useAuth } from '../contexts/AuthContext';
+import { useRecipes } from '../contexts/RecipeContext';
+import { useBoxes } from '../contexts/BoxContext';
 import BoxForm from '../components/BoxForm';
 import RecipeForm from '../components/RecipeForm';
+import CreateButton from '../components/CreateButton';
 
 const drawerWidth = 240;
 
@@ -43,15 +46,10 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
   },
   addButton: {
-    background: theme.palette.success.main,
     position: 'sticky',
     top: 0,
     float: 'right', // why does this work, but right: 0 doesn't?
     zIndex: 1,
-
-    '&:hover': {
-      background: theme.palette.success.dark,
-    },
   },
   spacerToolbar: {
     minHeight: theme.spacing(8), // override for visual consistency on mobile and desktop
@@ -116,9 +114,21 @@ export default function ProfileView() {
   const classes = useStyles();
 
   const { state: isOpen, toggle: toggleOpen } = useToggle(false);
+
   const [recipeFormVisible, setRecipeFormVisible] = useState(false);
+  const {
+    user: { refresh: recipeRefresh },
+  } = useRecipes();
+
   const [boxFormVisible, setBoxFormVisible] = useState(false);
+  const {
+    user: { refresh: boxRefresh },
+  } = useBoxes();
+
+  const [working, setWorking] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const { user, token } = useAuth();
 
   const listContent = [
     {
@@ -127,18 +137,33 @@ export default function ProfileView() {
       icon: BoxesIcon,
       content: (
         <>
-          <Fab
+          <CreateButton
             onClick={() => setBoxFormVisible(true)}
-            variant="extended"
             className={classes.addButton}
+            pending={working}
           >
-            <AddIcon />
             Add Box
-          </Fab>
+          </CreateButton>
           {boxFormVisible && (
             <BoxForm
               onClose={() => setBoxFormVisible(false)}
-              onSubmit={(values) => console.log('Box', values)}
+              onSubmit={async (values) => {
+                console.debug('Create Box', values);
+                setWorking(true);
+                try {
+                  await axios.post(
+                    `${process.env.REACT_APP_API_URL}/box`,
+                    { ...values, created: { by: user._id } },
+                    { headers: { Authorization: `Bearer ${token}` } }
+                  );
+                } catch (error) {
+                  alert('An Unhandled Error Occurred');
+                  console.error(error);
+                } finally {
+                  setWorking(false);
+                  boxRefresh();
+                }
+              }}
             />
           )}
           <BoxContent userOnly />
@@ -151,18 +176,33 @@ export default function ProfileView() {
       icon: RecipeIcon,
       content: (
         <>
-          <Fab
+          <CreateButton
             onClick={() => setRecipeFormVisible(true)}
-            variant="extended"
             className={classes.addButton}
+            pending={working}
           >
-            <AddIcon />
             Add Recipe
-          </Fab>
+          </CreateButton>
           {recipeFormVisible && (
             <RecipeForm
               onClose={() => setRecipeFormVisible(false)}
-              onSubmit={(values) => console.log('Recipe', values)}
+              onSubmit={async (values) => {
+                console.log('Recipe', values);
+                setWorking(true);
+                try {
+                  await axios.post(
+                    `${process.env.REACT_APP_API_URL}/recipe`,
+                    { ...values, created: { by: user._id } },
+                    { headers: { Authorization: `Bearer ${token}` } }
+                  );
+                } catch (error) {
+                  alert('An Unhandled Error Occurred');
+                  console.error(error);
+                } finally {
+                  setWorking(false);
+                  recipeRefresh();
+                }
+              }}
             />
           )}
           <RecipeContent userOnly />
