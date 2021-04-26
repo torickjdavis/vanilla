@@ -3,25 +3,18 @@ import { Grid, Snackbar, Typography } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import SkeletonCard from '../components/SkeletonCard';
 import RecipeCard from './RecipeCard';
-import { useAuth } from '../contexts/AuthContext';
 import { useRecipes } from '../contexts/RecipeContext';
-import useAPI from '../hooks/useAPI';
 
 // TODO add error state
 
 export default function RecipeList({ userOnly }) {
-  const { user } = useAuth();
-
-  const allRecipes = useRecipes();
-  const userRecipes = useAPI(`/userRecipes/${user?._id}`, {
-    skipRequest: !user?._id,
-  });
+  const { all: allRecipes, user: userRecipes } = useRecipes();
   const [loading, setLoading] = useState(true);
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
     setLoading(userOnly ? userRecipes.loading : allRecipes.loading);
-    setRecipes(userOnly ? userRecipes.data?.recipes : allRecipes.recipes);
+    setRecipes(userOnly ? userRecipes.recipes : allRecipes.recipes);
   }, [userRecipes, allRecipes, userOnly]);
 
   return (
@@ -57,7 +50,7 @@ export default function RecipeList({ userOnly }) {
             </Grid>
           );
         })}
-      {!recipes?.length && (
+      {!loading && !recipes?.length && (
         <Grid item>
           <Typography variant="subtitle1">
             Sorry, but there are no recipes here. How about you add one, and

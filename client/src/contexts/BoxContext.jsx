@@ -1,14 +1,22 @@
 import { createContext, useContext } from 'react';
 import useAPI from '../hooks/useAPI';
+import { useAuth } from './AuthContext';
 
 const BoxContext = createContext();
 
 const BoxContextProvider = ({ children }) => {
-  const { loading, refresh, error, response, data } = useAPI('/box?all');
+  const { user } = useAuth();
+  const allBoxes = useAPI('/box?all');
+  const userBoxes = useAPI(`/userBoxes/${user?._id}`, {
+    skipRequest: !user?._id,
+  });
 
   return (
     <BoxContext.Provider
-      value={{ loading, refresh, error, response, boxes: data?.boxes }}
+      value={{
+        all: { ...allBoxes, boxes: allBoxes.data?.boxes },
+        user: { ...userBoxes, boxes: userBoxes.data?.boxes },
+      }}
     >
       {children}
     </BoxContext.Provider>

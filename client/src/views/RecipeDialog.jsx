@@ -84,7 +84,9 @@ const useStyles = (imageURL) =>
   }))();
 
 function RecipeDetails() {
-  const { recipes } = useRecipes();
+  const {
+    all: { recipes },
+  } = useRecipes();
   const { users } = useUsers();
   const params = useRouterViewParams(routes);
   const id = params.id;

@@ -22,7 +22,12 @@ import { useRecipes } from '../contexts/RecipeContext';
 
 import { useRouterViewParams } from './RouterView';
 import routes from '../routes';
-const useStyles = makeStyles(() => ({
+import clsx from 'clsx';
+import { useLocation } from 'react-router';
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2),
+  },
   link: {
     '&:hover': {
       textDecoration: 'none',
@@ -32,16 +37,21 @@ const useStyles = makeStyles(() => ({
 
 function BoxDetails() {
   const classes = useStyles();
-  const { boxes } = useBoxes();
-  const { recipes } = useRecipes();
+  const {
+    all: { boxes },
+  } = useBoxes();
+  const {
+    all: { recipes },
+  } = useRecipes();
   const params = useRouterViewParams(routes);
+  const location = useLocation();
   const id = params.id;
 
   const box = boxes?.find((b) => b._id === id); // intentional similarity instead of identity
   const { name, description, recipes: recipeIds } = box || {};
 
   return (
-    <Paper elevation={0} square className="fill-height">
+    <Paper elevation={0} square className={clsx('fill-height', classes.root)}>
       <Typography variant="h3" className={classes.name}>
         {name}
       </Typography>
@@ -53,7 +63,7 @@ function BoxDetails() {
             <RouteLink
               to={{
                 pathname: `/recipe/${recipe?._id}`,
-                // state: { backdrop: location },
+                state: { backdrop: location },
               }}
               className={classes.link}
               key={`box-recipe-${recipeId}`}

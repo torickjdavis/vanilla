@@ -1,14 +1,22 @@
 import { createContext, useContext } from 'react';
 import useAPI from '../hooks/useAPI';
+import { useAuth } from './AuthContext';
 
 const RecipeContext = createContext();
 
 const RecipeContextProvider = ({ children }) => {
-  const { loading, refresh, error, response, data } = useAPI('/recipe?all');
+  const { user } = useAuth();
+  const allRecipes = useAPI('/recipe?all');
+  const userRecipes = useAPI(`/userRecipes/${user?._id}`, {
+    skipRequest: !user?._id,
+  });
 
   return (
     <RecipeContext.Provider
-      value={{ loading, refresh, error, response, recipes: data?.recipes }}
+      value={{
+        all: { ...allRecipes, recipes: allRecipes.data?.recipes },
+        user: { ...userRecipes, recipes: userRecipes.data?.recipes },
+      }}
     >
       {children}
     </RecipeContext.Provider>

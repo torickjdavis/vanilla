@@ -49,7 +49,9 @@ export default function BoxForm({
   initialValues = {},
 }) {
   const classes = useStyles();
-  const { recipes } = useRecipes();
+  const {
+    all: { recipes },
+  } = useRecipes();
   const blank = ' '; // used in help text to avoid reflow if an error is set, also adds some whitespace
 
   const defaultInitialValues = {

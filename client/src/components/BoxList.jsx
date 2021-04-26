@@ -1,45 +1,20 @@
 import { useEffect, useState } from 'react';
-import { default as RouteLink } from './Link';
-import {
-  Grid,
-  List,
-  Snackbar,
-  makeStyles,
-  Typography,
-} from '@material-ui/core';
+import { Grid, List, Snackbar, Typography } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
-
-import { useLocation } from 'react-router-dom';
 import { useBoxes } from '../contexts/BoxContext';
-import useAPI from '../hooks/useAPI';
-import { useAuth } from '../contexts/AuthContext';
 import BoxListItem from './BoxListItem';
 
 // TODO add error state
 
-const useStyles = makeStyles((theme) => ({
-  link: {
-    '&:hover': {
-      textDecoration: 'none',
-    },
-  },
-}));
-
 export default function BoxList({ userOnly }) {
-  const classes = useStyles();
-  const location = useLocation();
-  const { user } = useAuth();
-  const allBoxes = useBoxes();
-  const userBoxes = useAPI(`/userBoxes/${user?._id}`, {
-    skipRequest: !user?._id,
-  });
+  const { all: allBoxes, user: userBoxes } = useBoxes();
 
   const [loading, setLoading] = useState(true);
   const [boxes, setBoxes] = useState([]);
 
   useEffect(() => {
     setLoading(userOnly ? userBoxes.loading : allBoxes.loading);
-    setBoxes(userOnly ? userBoxes.data?.boxes : allBoxes.boxes);
+    setBoxes(userOnly ? userBoxes.boxes : allBoxes.boxes);
   }, [userBoxes, allBoxes, userOnly]);
 
   return (
@@ -64,24 +39,10 @@ export default function BoxList({ userOnly }) {
                 />
               ))}
           {!loading &&
-            boxes?.map(({ _id, name, description, recipes }) => (
-              <RouteLink
-                to={{
-                  pathname: `/box/${_id}`,
-                  state: { backdrop: location },
-                }}
-                className={classes.link}
-                key={`box-${_id}`}
-              >
-                <BoxListItem
-                  _id={_id}
-                  name={name}
-                  recipes={recipes}
-                  description={description}
-                />
-              </RouteLink>
+            boxes?.map((box) => (
+              <BoxListItem key={`box-${box._id}`} {...box} />
             ))}
-          {!boxes?.length && (
+          {!loading && !boxes?.length && (
             <Grid item>
               <Typography variant="subtitle1">
                 Sorry, but there are no boxes here. How about you create one,
