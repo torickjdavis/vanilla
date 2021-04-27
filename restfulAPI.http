@@ -1,0 +1,197 @@
+# General Variables
+@host = localhost
+@port = 80
+@origin = {{host}}:{{port}}
+@apiURL = http://{{origin}}/api
+
+### ### ### Authentication / User (CRUDL) ### ### ###
+
+### Authentication - Register (Create)
+# @name register
+POST {{apiURL}}/user
+Content-Type: application/json
+
+{
+  "email": "j.doe@example.com",
+  "password": "example!password",
+  "name": {
+    "first": "J.",
+    "last": "Doe"
+  },
+  "picture": "https://source.unsplash.com/OfdDiqx8Cz8/512x512"
+}
+
+### Authentication - Login
+# @name login
+POST {{apiURL}}/login
+Content-Type: application/json
+
+{
+  "email": "j.doe@example.com",
+  "password": "example!password"
+}
+
+### Authentication - Token Response
+@accessToken = {{login.response.body.accessToken}}
+@userId = {{login.response.body.user._id}}
+
+### Authentication - Details Read
+# @name readUser
+GET {{apiURL}}/user/{{userId}}
+
+### Authentication - Update (Modify)
+# @name updateUser
+PATCH {{apiURL}}/user/{{userId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "name": {
+    "first": "J.",
+    "last": "Doe Jr."
+  }
+}
+
+### Authentication - Delete
+# @name deleteUser
+DELETE {{apiURL}}/user/{{userId}}
+Authorization: Bearer {{accessToken}}
+
+### Authentication - List Users
+# @name listUser
+GET {{apiURL}}/user
+
+### ### ### Recipe (CRUDL) ### ### ###
+
+### Recipe - Create
+# @name createRecipe
+POST {{apiURL}}/recipe
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "title": "Root Beer Float",
+  "image": "https://source.unsplash.com/3f0gAguHbNI",
+  "summary": "A delicious ice cream treat.",
+  "readyIn": 5,
+  "servings": 2,
+  "directions": [
+    {
+      "step": "Divide Ice Cream",
+      "details": "Divide it between two tall glasses."
+    },
+    {
+      "step": "Add Root Beer",
+      "details": "Add one can to each glass, or less if desired."
+    },
+    {
+      "step": "Serve and Enjoy!"
+    }
+  ],
+  "ingredients": [
+    {
+      "name": "Vanilla Ice Cream",
+      "quantity": 1,
+      "unit": "pint"
+    },
+    {
+      "name": "Root Beer",
+      "quantity": 24,
+      "unit": "fl oz"
+    }
+  ],
+  "created": {
+    "by": "{{userId}}"
+  }
+}
+
+### Recipe - Grab Created Recipe ID
+@recipeId = {{createRecipe.response.body._id}}
+
+### Recipe - Read
+# @name readRecipe
+GET {{apiURL}}/recipe/{{recipeId}}
+
+### Recipe - Update (Replace)
+# @name updateRecipe
+PUT {{apiURL}}/recipe/{{recipeId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Recipe - Update (Modify)
+# @name updateRecipe
+PATCH {{apiURL}}/recipe/{{recipeId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "title": "Simple Root Beer Float"
+}
+
+### Recipe - Delete
+# @name deleteRecipe
+DELETE {{apiURL}}/recipe/{{recipeId}}
+Authorization: Bearer {{accessToken}}
+
+### Recipe - List
+# @name listRecipes
+GET {{apiURL}}/recipe?limit=10&page=1&all=false
+Authorization: Bearer {{accessToken}}
+
+### ### ### Box (CRUDL) ### ### ###
+
+### Box - Create
+# @name createBox
+POST {{apiURL}}/box
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "name": "Demo Box",
+  "description": "API Demo with Root Beer Float",
+  "recipes": ["{{recipeId}}"],
+  "created": {
+    "by": "{{userId}}"
+  }
+}
+
+### Box - Grab Sample Box ID
+@boxId = {{createBox.response.body._id}}
+
+### Box - Read
+# @name readBox
+GET {{apiURL}}/box/{{boxId}}
+
+### Box - Update (Replace)
+# @name updateBox
+PUT {{apiURL}}/box/{{boxId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Box - Update (Modify)
+# @name updateBox
+PATCH {{apiURL}}/box/{{boxId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "title": "Sweet Summer"
+}
+
+### Box - Delete
+# @name deleteBox
+DELETE {{apiURL}}/box/{{boxId}}
+Authorization: Bearer {{accessToken}}
+
+### Box - List
+# @name listBoxes
+GET {{apiURL}}/box?limit=10&page=1&all=false
+
+### ### ### Utility Routes ### ### ###
+
+### User Recipes
+GET {{apiURL}}/userRecipes/{{userId}}
+
+### User Boxes
+GET {{apiURL}}/userBoxes/{{userId}}
+
