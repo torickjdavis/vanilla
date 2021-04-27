@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   List,
   ListItem,
@@ -12,20 +13,28 @@ import {
   CardHeader,
   Avatar,
   useTheme,
+  CardActions,
 } from '@material-ui/core';
 
 import RoutedModal from '../components/RoutedModal';
 
 import { useRecipes } from '../contexts/RecipeContext';
 import { useUsers } from '../contexts/UserContext';
+import { useAuth } from '../contexts/AuthContext';
 
 import { useRouterViewParams } from './RouterView';
 import routes from '../routes';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { colorHash } from '../theme';
 
 import DOMPurify from 'dompurify';
+import EditButton from '../components/EditButton';
+import DeleteButton from '../components/DeleteButton';
+
+import RecipeForm from '../components/RecipeForm';
+import { jsonDeepCopy, unhandledError } from '../util';
+import { useHistory } from 'react-router';
 
 const useStyles = (imageURL) =>
   makeStyles((theme) => ({
@@ -67,6 +76,11 @@ const useStyles = (imageURL) =>
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+      flexDirection: 'column',
+    },
+    actions: {
+      justifyContent: 'space-between',
+      padding: theme.spacing(2),
     },
     details: {
       display: 'flex',
@@ -84,23 +98,31 @@ const useStyles = (imageURL) =>
   }))();
 
 function RecipeDetails() {
+  const { user: authUser, isAuthenticated, token } = useAuth();
   const {
     all: { recipes },
+    refresh,
   } = useRecipes();
   const { users } = useUsers();
   const params = useRouterViewParams(routes);
   const id = params.id;
 
   const [tabIndex, setTabIndex] = useState(0);
+  const [recipe, setRecipe] = useState({});
+  const [working, setWorking] = useState(false);
+  const [recipeFormVisible, setRecipeFormVisible] = useState(false);
 
-  const recipe = recipes?.find((r) => r._id === id); // intentional similarity instead of identity
+  useEffect(() => {
+    setRecipe(recipes?.find((r) => r._id === id));
+  }, [recipes, id]);
 
   const {
-    // * overview data
     created,
     title,
     image,
     summary,
+    readyIn,
+    servings,
     directions,
     ingredients,
   } = recipe || {};
@@ -109,8 +131,15 @@ function RecipeDetails() {
 
   const classes = useStyles(image);
   const theme = useTheme();
+  const history = useHistory();
   const avatarBackground = colorHash(user?._id || '');
-  const fullname = `${user?.name.first} ${user?.name.last}`;
+  const fullname = user?.name.full || '';
+
+  const completeAction = () => {
+    console.debug('Refreshing Recipes');
+    refresh();
+    setWorking(false);
+  };
 
   return (
     <>
@@ -141,6 +170,43 @@ function RecipeDetails() {
                   </Avatar>
                 }
               />
+              {isAuthenticated && authUser?._id === user?._id && (
+                <CardActions className={classes.actions}>
+                  <EditButton
+                    pending={working}
+                    className={classes.userActions}
+                    onClick={() => {
+                      console.debug(`Edit Box (${id})`);
+                      setWorking(true);
+                      setRecipeFormVisible(true);
+                    }}
+                  >
+                    Edit Recipe
+                  </EditButton>
+
+                  <DeleteButton
+                    pending={working}
+                    onClick={() => {
+                      console.debug(`Delete Recipe (${id})`);
+                      setWorking(true);
+                      axios
+                        .delete(
+                          `${process.env.REACT_APP_API_URL}/recipe/${id}`,
+                          {
+                            headers: { Authorization: `Bearer ${token}` },
+                          }
+                        )
+                        .then(() => {
+                          completeAction();
+                          history.goBack();
+                        }) // refresh recipes
+                        .catch(unhandledError);
+                    }}
+                  >
+                    Delete Recipe
+                  </DeleteButton>
+                </CardActions>
+              )}
             </Card>
           </div>
         </Grid>
@@ -193,6 +259,33 @@ function RecipeDetails() {
           </Paper>
         </Grid>
       </Grid>
+      {recipeFormVisible && (
+        <RecipeForm
+          initialValues={jsonDeepCopy({
+            title,
+            image,
+            summary,
+            readyIn,
+            servings,
+            directions,
+            ingredients,
+          })}
+          onClose={() => {
+            setWorking(false);
+            setRecipeFormVisible(false);
+          }}
+          onSubmit={(values) => {
+            console.debug('Update Recipe', values);
+            axios
+              .patch(`${process.env.REACT_APP_API_URL}/recipe/${id}`, values, {
+                headers: { Authorization: `Bearer ${token}` },
+              })
+              .then(() => completeAction())
+              .catch(unhandledError)
+              .finally(() => setRecipeFormVisible(false));
+          }}
+        />
+      )}
     </>
   );
 }

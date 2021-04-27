@@ -69,13 +69,13 @@ export default function RecipeForm({
   const validationSchema = Yup.object().shape({
     title: Yup.string().required('Recipe title is required.'),
     image: Yup.string().url('Must be a valid URL.'),
-    summary: Yup.string(),
+    summary: Yup.string().required('Must explain the recipe.'),
     readyIn: Yup.number(),
     servings: Yup.number(),
     directions: Yup.array()
       .of(
         Yup.object().shape({
-          step: Yup.string(),
+          step: Yup.string().required('Step name required.'),
           details: Yup.string(),
         })
       )
@@ -83,9 +83,9 @@ export default function RecipeForm({
     ingredients: Yup.array()
       .of(
         Yup.object().shape({
-          name: Yup.string(),
-          quantity: Yup.number(),
-          unit: Yup.string(),
+          name: Yup.string().required('Ingredient name required.'),
+          quantity: Yup.number().required('Ingredient quantity required.'),
+          unit: Yup.string().required('Ingredient unit required.'),
         })
       )
       .required('Ingredients are required.'),
@@ -221,7 +221,9 @@ export default function RecipeForm({
                 <Grid item>
                   <Typography>Directions</Typography>
                   <Typography variant="caption" color="error">
-                    {errors.directions || blank}
+                    {(!(errors.directions instanceof Array) &&
+                      errors.directions) ||
+                      blank}
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -266,11 +268,11 @@ export default function RecipeForm({
                       value={direction.step}
                       error={
                         !!(
-                          touched.directions?.[index] &&
-                          errors.directions?.[index]
+                          touched.directions?.[index]?.step &&
+                          errors.directions?.[index]?.step
                         )
                       }
-                      helperText={errors.directions?.[index] || blank}
+                      helperText={errors.directions?.[index]?.step || blank}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       variant="outlined"
@@ -284,11 +286,11 @@ export default function RecipeForm({
                       value={direction.details}
                       error={
                         !!(
-                          touched.directions?.[index] &&
-                          errors.directions?.[index]
+                          touched.directions?.[index]?.details &&
+                          errors.directions?.[index]?.details
                         )
                       }
-                      helperText={errors.directions?.[index] || blank}
+                      helperText={errors.directions?.[index]?.details || blank}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       variant="outlined"
@@ -310,7 +312,9 @@ export default function RecipeForm({
                 <Grid item>
                   <Typography>Ingredients</Typography>
                   <Typography variant="caption" color="error">
-                    {errors.ingredients || blank}
+                    {(!(errors.ingredients instanceof Array) &&
+                      errors.ingredients) ||
+                      blank}
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -363,11 +367,11 @@ export default function RecipeForm({
                       value={ingredient.name}
                       error={
                         !!(
-                          touched.ingredients?.[index] &&
-                          errors.ingredients?.[index]
+                          touched.ingredients?.[index]?.name &&
+                          errors.ingredients?.[index]?.name
                         )
                       }
-                      helperText={errors.ingredients?.[index] || blank}
+                      helperText={errors.ingredients?.[index]?.name || blank}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       variant="outlined"
@@ -384,11 +388,13 @@ export default function RecipeForm({
                       value={ingredient.quantity}
                       error={
                         !!(
-                          touched.ingredients?.[index] &&
-                          errors.ingredients?.[index]
+                          touched.ingredients?.[index]?.quantity &&
+                          errors.ingredients?.[index]?.quantity
                         )
                       }
-                      helperText={errors.ingredients?.[index] || blank}
+                      helperText={
+                        errors.ingredients?.[index]?.quantity || blank
+                      }
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       variant="outlined"
@@ -405,11 +411,11 @@ export default function RecipeForm({
                       value={ingredient.unit}
                       error={
                         !!(
-                          touched.ingredients?.[index] &&
-                          errors.ingredients?.[index]
+                          touched.ingredients?.[index]?.unit &&
+                          errors.ingredients?.[index]?.unit
                         )
                       }
-                      helperText={errors.ingredients?.[index] || blank}
+                      helperText={errors.ingredients?.[index]?.unit || blank}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       variant="outlined"
