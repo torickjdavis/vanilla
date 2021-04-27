@@ -7,6 +7,7 @@ import express from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import cors from 'cors';
+import compression from 'compression';
 import * as middleware from './middleware.js';
 
 import { isDev } from './utils.js';
@@ -22,7 +23,16 @@ const db = await connect(); // connect to mongodb
 const app = express();
 
 app.use(morgan(isDev ? 'dev' : 'common'));
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+        'img-src': [`*`],
+      },
+    },
+  })
+);
 app.use(cors());
 app.use(compression());
 app.use(express.json());
