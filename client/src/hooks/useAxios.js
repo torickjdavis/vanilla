@@ -30,6 +30,7 @@ export const useAxios = (url, config = defaultConfig) => {
         }
       })();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url, refresh]); // adding config causes infinite loop (not sure why)
 
   return {
