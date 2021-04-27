@@ -39,18 +39,18 @@ The following is an overview checklist created from the requirements set out by 
 
 - [ ] Properly use Git with an Established Record of Commits
 - [ ] Detailed `README` for running code on Docker or accessing from deployed sites.
-- Front-End Client (General)
+- [Front-End Client (General)](https://vanilla-box.netlify.app)
   - [x] Conditional Logic, JS Array Methods, and Front-End Framework Elements for Lists
   - [x] Use VueJS or React to Manage Front-End Client
 - [x] Use NPM Scripts and Node for Backend
 - Data Stores Contain at Least _25 Items_
   - [ ] GraphQL API
-  - [ ] RESTful API
-- RESTful API
+  - [x] RESTful API
+- [RESTful API](https://vanilla-box.herokuapp.com/api)
   - [x] [Mongoose](https://mongoosejs.com/) for Data Modeling
   - [x] Use MongoDB Atlas for Data Store
   - [x] `seed` Script for Populating Data Store
-  - [ ] User Interface for RESTful API
+  - [x] User Interface for RESTful API
   - [x] 1+ `CREATE` Endpoints
   - [x] 3+ `GET` Endpoints
   - [x] 1+ `UPDATE` Endpoints

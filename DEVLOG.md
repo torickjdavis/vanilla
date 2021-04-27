@@ -592,3 +592,19 @@ I'm honestly quite happy with how it works and looks.
 
 Lastly, I prepared the application for deployment.
 In doing so, I plan to deploy to Heroku after creating a pull request for the `rest-api` branch.
+
+While working on the deployment, I have various issues.
+For example, the way I have my application set up, as a monorepo, I had to add script lifecycle hooks to install the dependencies and then properly run each.
+Instead, I decided to look into properly publishing a subtree/subfolder of the monorepo.
+
+For Heroku, deployment wasn't quite as simple as I had hoped.
+Instead, I scrapped the existing application, and then updated my deploy script to use a `subtree` instead.
+For this, I also needed to remember to set the `JWT_SECRET` and `MONGO_URI` environment variables.
+However, I have a specified `HOST` variable as well that defaults to `localhost`.
+Unfortunately, this causes Heroku to fail to realize the application has been bound.
+So, I had to set this to `0.0.0.0` instead, which really represents the same thing.
+Doing so was inspired by multiple searches, ending with [this article](https://help.heroku.com/P1AVPANS/why-is-my-node-js-app-crashing-with-an-r10-error).
+
+For Netlify, this was _really_ easy to do.
+I only needed to edit the _build & deploy_ settings and update the _base directory_.
+I made sure to set the `REACT_APP_API_URL` to the deployed [Heroku URL](https://vanilla-box.herokuapp.com/api/).
