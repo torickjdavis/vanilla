@@ -81,7 +81,7 @@ export default function RecipeCard({ recipe }) {
   } = recipe;
 
   const avatarBackground = colorHash(user?._id || '');
-  const fullname = user?.name.full;
+  const fullname = user?.name.full || '';
 
   const [recipeFormVisible, setRecipeFormVisible] = useState(false);
   const [working, setWorking] = useState(false);
