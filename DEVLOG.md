@@ -577,3 +577,18 @@ However, that only refreshed the lists relating to all data, and not the user sp
 So, I refactored the whole application starting from the `RecipeContext` and `BoxContext` in order to add the _user_ data to it, and make it more accessible across the application.
 
 Lastly, I completed the ability to create both recipes and boxes.
+
+## 2021-04-26
+
+I connected the edit and delete buttons to their respective actions for recipes.
+With that, I'm glad to say the RESTful interactions are in a completed state.
+It would be nice to include a confirmation prompt for deletes, but that's more of a _nice to have_ for users.
+It would also be _nice_ to be able to search for recipes when adding them to a box, instead of the dropdown.
+
+It would also be _nice_ to adjust the action buttons so that the used action (edit/delete) becomes _disabled_ instead of _pending_.
+
+I finally got the remaining CRUDL operations done for Recipes.
+I'm honestly quite happy with how it works and looks.
+
+Lastly, I prepared the application for deployment.
+In doing so, I plan to deploy to Heroku after creating a pull request for the `rest-api` branch.
