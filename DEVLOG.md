@@ -608,3 +608,9 @@ Doing so was inspired by multiple searches, ending with [this article](https://h
 For Netlify, this was _really_ easy to do.
 I only needed to edit the _build & deploy_ settings and update the _base directory_.
 I made sure to set the `REACT_APP_API_URL` to the deployed [Heroku URL](https://vanilla-box.herokuapp.com/api/).
+
+## 2021-04-27
+
+I updated the `README` with scripts and an how to configure the application to start.
+I also removed the unused `JWT_REFRESH_SECRET` from the `server/.env` file.
+Originally, it was going to be used to create refresh tokens; however, that feature fell into the _nice to have_ category.
