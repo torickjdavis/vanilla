@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import status from 'http-status';
-import { authorize } from './middleware';
+import { authorize } from './middleware.js';
 
 // Create
 const create = ({ model }) => async (req, res, next) => {
