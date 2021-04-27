@@ -4,7 +4,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "concurrently --kill-others \"npm run client:build\" \"npm run server:start\"",
+    "start": "npm run client:build && npm run server:start",
     "dev": "concurrently --kill-others \"npm run client:dev\" \"npm run server:dev\"",
     "client:dev": "cd client && npm run start",
     "client:build": "cd client && npm run build",
