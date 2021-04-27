@@ -16,6 +16,10 @@ const BoxContextProvider = ({ children }) => {
       value={{
         all: { ...allBoxes, boxes: allBoxes.data?.boxes },
         user: { ...userBoxes, boxes: userBoxes.data?.boxes },
+        async refresh() {
+          await allBoxes.refresh();
+          await userBoxes.refresh();
+        },
       }}
     >
       {children}

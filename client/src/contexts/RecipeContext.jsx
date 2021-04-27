@@ -16,6 +16,10 @@ const RecipeContextProvider = ({ children }) => {
       value={{
         all: { ...allRecipes, recipes: allRecipes.data?.recipes },
         user: { ...userRecipes, recipes: userRecipes.data?.recipes },
+        async refresh() {
+          await allRecipes.refresh();
+          await userRecipes.refresh();
+        },
       }}
     >
       {children}
