@@ -116,14 +116,10 @@ export default function ProfileView() {
   const { state: isOpen, toggle: toggleOpen } = useToggle(false);
 
   const [recipeFormVisible, setRecipeFormVisible] = useState(false);
-  const {
-    user: { refresh: recipeRefresh },
-  } = useRecipes();
+  const { refresh: refreshRecipes } = useRecipes();
 
   const [boxFormVisible, setBoxFormVisible] = useState(false);
-  const {
-    user: { refresh: boxRefresh },
-  } = useBoxes();
+  const { refresh: refreshBoxes } = useBoxes();
 
   const [working, setWorking] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -161,7 +157,7 @@ export default function ProfileView() {
                   console.error(error);
                 } finally {
                   setWorking(false);
-                  boxRefresh();
+                  refreshBoxes();
                 }
               }}
             />
@@ -200,7 +196,8 @@ export default function ProfileView() {
                   console.error(error);
                 } finally {
                   setWorking(false);
-                  recipeRefresh();
+                  console.debug('Refreshing Recipes');
+                  refreshRecipes();
                 }
               }}
             />

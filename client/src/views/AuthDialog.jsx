@@ -3,6 +3,8 @@ import { useLocation, Redirect, useHistory } from 'react-router-dom';
 import RoutedModal from '../components/RoutedModal';
 import { useAuth } from '../contexts/AuthContext';
 import AuthForm from '../components/AuthForm';
+import { useBoxes } from '../contexts/BoxContext';
+import { useRecipes } from '../contexts/RecipeContext';
 
 const Logout = ({ onLogout }) => {
   const confirmationText = 'Are you sure you want to logout?';
@@ -26,6 +28,12 @@ const Logout = ({ onLogout }) => {
 
 export default function AuthDialog() {
   const { isAuthenticated, login, logout, register } = useAuth();
+  const {
+    user: { refresh: refreshUserBoxes },
+  } = useBoxes();
+  const {
+    user: { refresh: refreshUserRecipes },
+  } = useRecipes();
   const history = useHistory();
   const query = new URLSearchParams(useLocation().search);
   const action = query.get('action');
@@ -47,6 +55,8 @@ export default function AuthDialog() {
         title="Login"
         onSubmit={async (values) => {
           await login(values);
+          await refreshUserBoxes();
+          await refreshUserRecipes();
           history.push('/profile');
         }}
       />
@@ -57,6 +67,8 @@ export default function AuthDialog() {
         title="Register"
         onSubmit={async (values) => {
           await register(values);
+          await refreshUserBoxes();
+          await refreshUserRecipes();
           history.push('/profile');
         }}
         showRegistration

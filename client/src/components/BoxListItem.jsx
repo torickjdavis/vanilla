@@ -21,6 +21,7 @@ import { default as RouteLink } from './Link';
 import { useAuth } from '../contexts/AuthContext';
 import { useBoxes } from '../contexts/BoxContext';
 import { useLocation } from 'react-router';
+import { jsonDeepCopy, unhandledError } from '../util';
 
 const useStyles = makeStyles((theme) => ({
   userActions: {
@@ -33,11 +34,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function unhandledError(error) {
-  alert('An Unhandled Error Occurred');
-  console.error(error);
-}
-
 export default function BoxListItem({
   _id,
   name,
@@ -46,17 +42,14 @@ export default function BoxListItem({
 }) {
   const classes = useStyles();
   const { token, isAuthenticated } = useAuth();
-  const {
-    all: { refresh: refreshAll },
-    user: { refresh: refreshUser },
-  } = useBoxes();
+  const { refresh } = useBoxes();
   const [boxFormVisible, setBoxFormVisible] = useState(false);
   const [working, setWorking] = useState(false);
   const location = useLocation();
 
   const completeAction = () => {
-    refreshAll();
-    refreshUser();
+    console.debug('Refreshing Boxes');
+    refresh();
     setWorking(false);
   };
 
@@ -90,7 +83,7 @@ export default function BoxListItem({
                 pending={working}
                 className={classes.userActions}
                 onClick={() => {
-                  console.log(`Edit Box (${_id})`);
+                  console.debug(`Edit Box (${_id})`);
                   setWorking(true);
                   setBoxFormVisible(true);
                 }}
@@ -100,7 +93,7 @@ export default function BoxListItem({
                 pending={working}
                 className={classes.userActions}
                 onClick={() => {
-                  console.log(`Delete Box (${_id})`);
+                  console.debug(`Delete Box (${_id})`);
                   setWorking(true);
                   axios
                     .delete(`${process.env.REACT_APP_API_URL}/box/${_id}`, {
@@ -116,7 +109,7 @@ export default function BoxListItem({
       </ListItem>
       {boxFormVisible && (
         <BoxForm
-          initialValues={{ name, description, recipes }}
+          initialValues={jsonDeepCopy({ name, description, recipes })}
           onClose={() => {
             setWorking(false);
             setBoxFormVisible(false);
