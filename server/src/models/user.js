@@ -65,4 +65,7 @@ UserSchema.post('remove', async function () {
   await Recipe.deleteMany({ 'created.by': { $in: [userId] } }).exec();
 });
 
+UserSchema.set('toObject', { virtuals: true });
+UserSchema.set('toJSON', { virtuals: true });
+
 export default mongoose.model('user', UserSchema);
