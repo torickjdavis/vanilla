@@ -4,7 +4,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "npm run client:build && npm run server:start",
+    "start": "npm run server:start",
+    "build": "npm run client:build",
     "dev": "concurrently --kill-others \"npm run client:dev\" \"npm run server:dev\"",
     "client:dev": "cd client && npm run start",
     "client:build": "cd client && npm run build",
@@ -12,6 +13,7 @@
     "server:dev": "cd server && npm run dev",
     "server:seed": "cd server && npm run seed",
     "server:seed:register": "cd server && npm run seed:register",
+    "deploy:heroku": "git push heroku main",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
