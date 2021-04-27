@@ -6,6 +6,8 @@
   "scripts": {
     "start": "npm run server:start",
     "build": "npm run client:build",
+    "postinstall": "concurrently --kill-others \"cd client && npm i\" \"cd server && npm i\"",
+    "heroku-postbuild": "npm run build",
     "dev": "concurrently --kill-others \"npm run client:dev\" \"npm run server:dev\"",
     "client:dev": "cd client && npm run start",
     "client:build": "cd client && npm run build",
