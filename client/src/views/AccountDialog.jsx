@@ -13,7 +13,7 @@ function AccountInformation() {
 
   const { user } = useAuth();
   console.log(user);
-  const fullName = `${user?.name.first} ${user?.name.last}`;
+  const fullName = user?.name.full;
   return (
     <List>
       <ListItem disableGutters>
