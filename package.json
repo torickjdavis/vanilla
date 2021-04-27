@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "license": "MIT",
   "private": true,
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "start": "npm run server:start",
     "build": "npm run client:build",
     "postinstall": "concurrently \"npm run client:install\" \"npm run server:install\"",
-    "heroku-postbuild": "npm run build",
     "dev": "concurrently --kill-others \"npm run client:dev\" \"npm run server:dev\"",
     "client:install": "cd client && npm install",
     "client:dev": "cd client && npm run start",
@@ -17,7 +19,7 @@
     "server:dev": "cd server && npm run dev",
     "server:seed": "cd server && npm run seed",
     "server:seed:register": "cd server && npm run seed:register",
-    "deploy:heroku": "git push heroku main",
+    "deploy:heroku": "git subtree push --prefix server heroku main",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
