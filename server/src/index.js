@@ -24,6 +24,7 @@ const app = express();
 app.use(morgan(isDev ? 'dev' : 'common'));
 app.use(helmet());
 app.use(cors());
+app.use(compression());
 app.use(express.json());
 
 app.use('/api', apiRouter);
