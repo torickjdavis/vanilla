@@ -25,12 +25,20 @@ const Query = objectType({
   definition(t) {
     t.nonNull.string('helloWorld', {
       type: 'String',
-      resolve(_parent, _args, context, _info) {
-        return `Hello World; The Programmers' Greeting`;
+      args: {
+        name: stringArg({
+          default: 'World',
+          description: 'The name of who to greet.',
+        }),
+      },
+      description: `The Programmers' Greeting`,
+      resolve(_parent, args, context, _info) {
+        return `Hello, ${args.name}!`;
       },
     });
   },
 });
+
 const schema = makeSchema({
   types: [
     Query,
