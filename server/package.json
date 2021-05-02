@@ -10,26 +10,37 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/index.js",
+    "start": "npm run docker:launch && node src/index.js",
     "dev": "nodemon src/index.js",
-    "seed": "node src/seed.js",
-    "seed:register": "node src/seed.js true"
+    "seed:rest": "node src/seed.js",
+    "seed:rest:register": "node src/seed.js true",
+    "seed:graphql": "",
+    "docker:launch": "docker run --name postgres-graphql --env-file .env.local -d -p 5432:5432 postgres:latest",
+    "docker:nuke": "docker stop postgres-graphql && docker rm postgres-graphql",
+    "prisma": "dotenv -c -- npx prisma"
   },
   "dependencies": {
+    "@prisma/client": "^2.21.2",
+    "apollo-server-express": "^2.23.0",
     "bcrypt": "^5.0.1",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "dotenv-cli": "^4.0.0",
     "dotenv-expand": "^5.1.0",
     "express": "^4.17.1",
+    "graphql": "^15.5.0",
+    "graphql-iso-date": "^3.6.1",
     "helmet": "^4.4.1",
     "http-status": "^1.5.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.2",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "nexus": "^1.0.0"
   },
   "devDependencies": {
     "axios": "^0.21.1",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "prisma": "^2.21.2"
   }
 }

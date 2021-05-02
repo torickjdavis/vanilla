@@ -614,3 +614,38 @@ I made sure to set the `REACT_APP_API_URL` to the deployed [Heroku URL](https://
 I updated the `README` with scripts and an how to configure the application to start.
 I also removed the unused `JWT_REFRESH_SECRET` from the `server/.env` file.
 Originally, it was going to be used to create refresh tokens; however, that feature fell into the _nice to have_ category.
+
+I began working on the GraphQL API; however, I quickly noticed the `BoxListItem` component wasn't as responsive as I would've liked.
+So, I quickly made a branch and began modifying it to something I liked better.
+
+For the GraphQL portion, I _really_ want to create a separate resource.
+This would be something just available publicly.
+That way I can still have the REST API, and don't need to worry about authorization and authentication.
+This is just because of the limits in remaining time for the semester.
+I'm struggling just a bit though to come up with something that is recipe-related.
+
+I might be able to keep my existing authentication system, and use that in the mutations and queries.
+
+I really should add a loading state to the `AuthForm`, but that'll have to come later.
+
+Regarding GraphQL, I've settled on `RecipeBookmarks`.
+A way to collect URLs of recipes from the internet.
+
+The plan for the resolvers will be as follows:
+
+- Create, Update, and Delete `Mutation`s
+- Get and Get All Queries
+- Either a Distinct Query or Count Query
+
+After my classes and working on my Computer Science capstone, I came back to work on this and make progress for GraphQL.
+
+After, reluctantly, about three hours of debugging and research I finally solved the problem I've been having.
+That is, I kept trying to run `npx prisma migrate`, and it kept failing to authenticate.
+That is, after I setup scripts to launch and teardown PostgreSQL on Docker.
+And also after setting up `dotenv-cli` to load the cascaded `.env` files.
+
+The solution: I already had PostgreSQL running on my local machine, so it took precedence over the Docker container.
+Eventually I found the Windows service for PosgreSQL then stopped and disabled it.
+
+Now I was able to successfully run the migration.
+I will probably focus on my Cloud Computing and Python classes after classes tomorrow, but I'll try to work on this between work and class.

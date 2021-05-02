@@ -15,6 +15,7 @@ import { isDev } from './utils.js';
 import { connect } from './config/database.js';
 
 import apiRouter from './routes/api.js';
+import applyApolloMiddleware from './graphql.js';
 
 const { PORT = 8080, HOST = 'localhost', PUBLIC_PATH } = process.env;
 
@@ -29,6 +30,7 @@ app.use(
       directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
         'img-src': [`*`],
+        'script-src': [`'unsafe-inline'`, 'https://cdn.jsdelivr.net'],
       },
     },
   })
@@ -38,6 +40,7 @@ app.use(compression());
 app.use(express.json());
 
 app.use('/api', apiRouter);
+applyApolloMiddleware(app);
 
 if (PUBLIC_PATH?.length && fs.existsSync(PUBLIC_PATH)) {
   app.use(express.static(path.resolve(PUBLIC_PATH)));
