@@ -1,11 +1,12 @@
 import {
   arg,
   asNexusMethod,
-  enumType,
+  // enumType,
+  // extendType,
   inputObjectType,
   intArg,
-  interfaceType,
-  list,
+  // interfaceType,
+  // list,
   makeSchema,
   nonNull,
   objectType,
@@ -19,9 +20,20 @@ import path from 'path';
 
 const DateTime = asNexusMethod(GraphQLDateTime, 'date');
 
+const Query = objectType({
+  name: 'Query',
+  definition(t) {
+    t.nonNull.string('helloWorld', {
+      type: 'String',
+      resolve(_parent, _args, context, _info) {
+        return `Hello World; The Programmers' Greeting`;
+      },
+    });
+  },
+});
 const schema = makeSchema({
   types: [
-    // Query,
+    Query,
     // Mutation,
     // RecipeBookmarks,
     // RecipeBookmarksCreateInput,
