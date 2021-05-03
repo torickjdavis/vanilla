@@ -86,11 +86,14 @@ The `.env` files have defaults that are overridden in the format [_Create React 
 
 Most importantly, the following environment variables **MUST** be configured before running the application:
 
-| Project  | Environment Variable | Description                               |
-| -------- | -------------------- | ----------------------------------------- |
-| `server` | `MONGO_URI`          | The URI to connect to a MongoDB instance. |
-| `server` | `JWT_SECRET`         | Some value used to sign access tokens.    |
-| `client` | `REACT_APP_API_URL`  | URL the server is hosted at.              |
+| Project  | Environment Variable    | Description                                          |
+| -------- | ----------------------- | ---------------------------------------------------- |
+| `server` | `MONGO_URI`             | The URI to connect to a MongoDB instance.            |
+| `server` | `POSTGRES_URI`          | The URI to connect to the PostgreSQL instance.       |
+| `server` | `POSTGRES_PASSWORD`     | The password to associate with PostgreSQL in Docker. |
+| `server` | `JWT_SECRET`            | Some value used to sign access tokens.               |
+| `client` | `REACT_APP_API_URL`     | URL the server REST API is hosted at.                |
+| `client` | `REACT_APP_GRAPHQL_URL` | URL the server GraphQL API is hosted at.             |
 
 The following don't need to be configured, but can be:
 
