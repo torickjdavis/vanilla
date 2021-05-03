@@ -110,9 +110,10 @@ The full workflow is as follows:
 
 1. Install Dependencies - `npm install`
 2. Launch Docker - `npm run server:docker:launch`
-3. Seed Including a Demo User - `server:seed:rest:register` (Only needed if the user details don't exist.)
-4. Seed REST and GraphQL - `npm run server:seed`
-5. Start Development Server for Client and Server - `npm run dev`
+3. Initialize PostgreSQL - `npm run server:migrate:dev`
+4. Seed Including a Demo User - `server:seed:rest:register` (Only needed if the user details don't exist.)
+5. Seed REST and GraphQL - `npm run server:seed`
+6. Start Development Server for Client and Server - `npm run dev`
 
 ## Application Scripts
 
