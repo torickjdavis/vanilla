@@ -53,7 +53,7 @@ export default function RecipeBookmarksForm({
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('Bookmarks group name is required.'),
     urls: Yup.array()
-      .of(Yup.string().url('Must be a valid URL.'))
+      .of(Yup.string().url('Must be a valid URL.').required('Must have a URL.'))
       .required('URLs are required.'),
   });
 

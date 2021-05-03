@@ -684,3 +684,8 @@ Up next, implementing the GraphQL API into the client and then researching to de
 I plan to fully implement the GraphQL API into the client, then go to sleep and research deployment tomorrow before the presentation.
 
 CRUDL functionality is now connected for `RecipeBookmarks`.
+
+I should update the server scripts in the README; however, that'll have to wait.
+The README does need to include the call to migrate Prisma.
+
+I fixed a handful of bugs that became apparent during the presentations today.

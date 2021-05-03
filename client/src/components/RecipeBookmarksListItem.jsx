@@ -20,6 +20,7 @@ import { useMutation, gql } from '@apollo/client';
 import RecipeBookmarksForm from './RecipeBookmarksForm';
 import DeleteButton from './DeleteButton';
 import EditButton from './EditButton';
+import { jsonDeepCopy } from '../util.js';
 
 // TODO add error state
 
@@ -102,7 +103,7 @@ export default function RecipeBookmarksList({ id, creator, name, urls }) {
       </Accordion>
       {recipeBookmarksFormVisible && (
         <RecipeBookmarksForm
-          initialValues={{ name, urls }}
+          initialValues={jsonDeepCopy({ name, urls })}
           onClose={() => setRecipeBookmarksFormVisible(false)}
           onSubmit={async (values) => {
             console.log('RecipeBookmarks', values);
