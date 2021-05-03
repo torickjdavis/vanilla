@@ -47,14 +47,14 @@ The following is an overview checklist created from the requirements set out by 
 
 ## Rich Internet Application Development 2 Project Requirements
 
-- [ ] Properly use Git with an Established Record of Commits
-- [ ] Detailed `README` for running code on Docker or accessing from deployed sites.
+- [x] Properly use Git with an Established Record of Commits
+- [x] Detailed `README` for running code on Docker or accessing from deployed sites.
 - [Front-End Client (General)](https://vanilla-box.netlify.app)
   - [x] Conditional Logic, JS Array Methods, and Front-End Framework Elements for Lists
   - [x] Use VueJS or React to Manage Front-End Client
 - [x] Use NPM Scripts and Node for Backend
 - Data Stores Contain at Least _25 Items_
-  - [ ] GraphQL API
+  - [x] GraphQL API
   - [x] RESTful API
 - [RESTful API](https://vanilla-box.herokuapp.com/api)
   - [x] [Mongoose](https://mongoosejs.com/) for Data Modeling
@@ -65,11 +65,12 @@ The following is an overview checklist created from the requirements set out by 
   - [x] 3+ `GET` Endpoints
   - [x] 1+ `UPDATE` Endpoints
   - [x] 1+ `DELETE` Endpoints
-- GraphQL API
+- GraphQL API **(Not Deployed)**
   - [x] [Prisma](https://www.prisma.io/) for Data Modeling
   - [x] Use Docker-based PostgreSQL or MySQL
+  - [ ] Deployable Locally using Docker
   - [x] `seed` Script for Populating Data Store
-  - [ ] UI Interface for GraphQL API
+  - [x] UI Interface for GraphQL API
   - [x] 1+ Create `Mutation` Resolvers
   - [x] 3+ Read/Get `Query` Resolvers
   - [x] 1+ Update `Mutation` Resolvers
