@@ -649,3 +649,23 @@ Eventually I found the Windows service for PosgreSQL then stopped and disabled i
 
 Now I was able to successfully run the migration.
 I will probably focus on my Cloud Computing and Python classes after classes tomorrow, but I'll try to work on this between work and class.
+
+## 2021-05-02
+
+After worrying about my Computer Science capstone for the past few days, I've finally returned to finish what I started.
+First I committed most of the changes I'd made previously.
+Then, I templated out what I felt I'd need for the each `query` and `mutation`.
+Realizing I was getting ahead of myself in new territory, I decided to make a simple `helloWorld` query as a foundation for my understanding.
+I mean, it's the first thing we, as developers, are conditioned to do when working through something new; start with a _Hello World_ and go from there.
+
+I've now layed out a series of GraphQL mutations and queries.
+Unfortunately, I am not familiar enough with GraphQL to know a good way to add authorization and authentication.
+So, although `RecipeBookmarks` will be associated with a user/creator; I will not be verifying who they are.
+
+I really like the Playground, and that you can do `Ctrl + Space` (Windows) to see all the properties at a given level.
+Additionally, the generated docs and schema reference are also amazing.
+
+Also, I found the Nexus documentation pretty lacking when creating the mutations and queries.
+I wanted primarily to find more details that way I could at least add some extra validation to the `creator` field.
+
+Just before the stroke of midnight, I've got a slew of mutations and queries that I am quite happy with, and I have tested each of them.

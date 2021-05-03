@@ -138,3 +138,6 @@ dist
 
 # nexus generated types
 src/nexus/generated
+
+# prisma generated migrations
+server/prisma/migrations

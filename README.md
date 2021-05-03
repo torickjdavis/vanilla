@@ -6,6 +6,16 @@ A digital place for collecting, storing, and sharing recipes alike a physical co
 
 For details about the development process and my notes while creating the application, check out the [`DEVLOG`](DEVLOG.md).
 
+The application is created with various technologies.
+The front end is done using [React](https://reactjs.org/) and [Material UI](https://material-ui.com/).
+The back end is primarily based in NodeJS with [Express](https://expressjs.com/).
+Most of the back end is a RESTful API using [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) as a datastore and [Mongoose](https://mongoosejs.com/) as a modeling tool.
+The remaining back end functionality is a GraphQL API using Docker-based PostgreSQL as a datastore, and [Prisma](https://www.prisma.io/) as a modeling tool.
+
+The front end is deployed on [Netlify](https://www.netlify.com/) and can be viewed here: https://vanilla-box.netlify.app/
+
+The backend is deployed on Heroku and the APIs can be accessed here: https://vanilla-box.herokuapp.com/api/ (RESTful), and https://vanilla-box.herokuapp.com/graphql/ (GraphQL).
+
 ## Rich Internet Application Development 1 Project Requirements
 
 The following is an overview checklist created from the requirements set out by [Thor Anderson](https://github.com/thortek).
@@ -57,7 +67,7 @@ The following is an overview checklist created from the requirements set out by 
   - [x] 1+ `DELETE` Endpoints
 - GraphQL API
   - [ ] [Prisma](https://www.prisma.io/) for Data Modeling
-  - [ ] Use Docker-based PostgreSQL or MySQL
+  - [x] Use Docker-based PostgreSQL or MySQL
   - [ ] `seed` Script for Populating Data Store
   - [ ] UI Interface for GraphQL API
   - [ ] 1+ Create `Mutation` Resolvers
@@ -65,7 +75,7 @@ The following is an overview checklist created from the requirements set out by 
   - [ ] 1+ Update `Mutation` Resolvers
   - [ ] 1+ Delete `Mutation` Resolvers
 
-## Getting Started with the Application
+## Getting Started with the Application Locally
 
 To run the application locally, make sure to install all dependencies for the `client`, `server`, and the root project.
 This can be done easily by simply running `npm install` in the root folder, which will trigger a `postinstall` hook which will install the dependencies of the `client` and `server`.
@@ -284,3 +294,44 @@ No authorization required for these routes, and these all also prefixed with `/a
 | `POST` | `/login`               | Request an access token to be authorized. |
 | `GET`  | `/userBoxes/:userId`   | Request all the boxes a user made.        |
 | `GET`  | `/userRecipes/:userId` | Request all the recipes a user made.      |
+
+### GraphQL
+
+For fully detailed documentation, visit the playground.
+Otherwise, here are some sample queries:
+
+```graphql
+# incredibly useful paginated query
+query {
+  paginateRecipeBookmarks {
+    recipeBookmarks {
+      id
+    }
+    meta {
+      page
+      pages
+      limit
+      count
+    }
+  }
+}
+```
+
+```graphql
+mutation {
+  createRecipeBookmarks(
+    data: {
+      creator: "<MONGO_DB_ID>"
+      name: "Demo Bookmarks"
+      urls: ["https://unsplash.com/", "https://unsplash.com/"]
+    }
+  ) {
+    id
+    creator
+    createdAt
+    updatedAt
+    name
+    urls
+  }
+}
+```

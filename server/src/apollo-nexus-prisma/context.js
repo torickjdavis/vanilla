@@ -1,8 +1,6 @@
 import prisma from '@prisma/client';
 const { PrismaClient } = prisma;
 
-export default {
-  context: {
-    prisma: new PrismaClient(),
-  },
-};
+const context = { prisma: new PrismaClient() };
+
+export default context;
