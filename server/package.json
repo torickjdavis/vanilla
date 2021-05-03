@@ -14,7 +14,10 @@
     "dev": "nodemon src/index.js",
     "seed:rest": "node src/seed/restful.js",
     "seed:rest:register": "node src/seed/restful.js true",
-    "seed:graphql": "",
+    "seed:rest:count": "node src/seed/restful.js false 25",
+    "seed:graphql": "node src/seed/graphql.js",
+    "seed:graphql:register": "node src/seed/graphql.js true",
+    "seed:graphql:count": "node src/seed/graphql.js false 25 3",
     "docker:launch": "docker run --name postgres-graphql --env-file .env.local -d -p 5432:5432 postgres:latest",
     "docker:nuke": "docker stop postgres-graphql && docker rm postgres-graphql",
     "prisma": "dotenv -c -- npx prisma"
