@@ -66,14 +66,14 @@ The following is an overview checklist created from the requirements set out by 
   - [x] 1+ `UPDATE` Endpoints
   - [x] 1+ `DELETE` Endpoints
 - GraphQL API
-  - [ ] [Prisma](https://www.prisma.io/) for Data Modeling
+  - [x] [Prisma](https://www.prisma.io/) for Data Modeling
   - [x] Use Docker-based PostgreSQL or MySQL
-  - [ ] `seed` Script for Populating Data Store
+  - [x] `seed` Script for Populating Data Store
   - [ ] UI Interface for GraphQL API
-  - [ ] 1+ Create `Mutation` Resolvers
-  - [ ] 3+ Read/Get `Query` Resolvers
-  - [ ] 1+ Update `Mutation` Resolvers
-  - [ ] 1+ Delete `Mutation` Resolvers
+  - [x] 1+ Create `Mutation` Resolvers
+  - [x] 3+ Read/Get `Query` Resolvers
+  - [x] 1+ Update `Mutation` Resolvers
+  - [x] 1+ Delete `Mutation` Resolvers
 
 ## Getting Started with the Application Locally
 
@@ -152,35 +152,53 @@ Moves into the `server` project and runs it's `dev` script.
 
 #### `server:seed`
 
-Moves into the `server` project and runs it's `seed` script with the default options, but the other options can be passed.
+Runs both the `server:seed:rest` and `server:seed:graphql` scripts concurrently.
+
+#### `server:seed:rest`
+
+Moves into the `server` project and runs it's `seed:rest:count` script, so the `recipeCount` is set to 25.
 The `<recipeCount>` is the number of recipes to grab from the [Spoonacular API](https://spoonacular.com/food-api/), and they will be put into a `box`.
 
+The following examples are different ways to seed the `RESTful` API from within the `server` folder.
+
 ```sh
-npm run server:seed <shouldRegister> <recipeCount>
+npm run seed:rest <shouldRegister> <recipeCount>
 ```
 
 ```sh
 # example executions
-npm run server:seed
-npm run server:seed false 5 # same as default
-npm run server:seed false 10 # grab ten recipes
-npm run server:seed false 25 # grab twenty-five
+npm run seed:rest
+npm run seed:rest false 5 # same as default
+npm run seed:rest false 10 # grab ten recipes
+npm run seed:rest false 25 # grab twenty-five
 ```
 
-#### `server:seed:register`
+#### `server:seed:rest:register`
 
-Moves into the `server` project and runs it's `seed` script, but defaults `<shouldRegister>` to `true` the configured user before creating resources.
+Moves into the `server` project and runs it's `seed:rest:register` script.
+So this runs the default `seed` script with using the default `5` for recipe count.
+
+#### `server:seed:graphql`
+
+Moves into the `server` project and runs it's `seed:graphql:count` script, so the `resultCount` set to 25, and `urlCount` is set to 3.
+That is, 3 URLs per seeded result.
+Additionally, the `shouldRegister` will be set to `false`.
+
+The `resultCount` is the number of instances to seed in database.
+The `<urlCount>` is the number of recipe source URLs to grab from the [Spoonacular API](https://spoonacular.com/food-api/).
+
+The following examples are different ways to seed the `GraphQL` API from within the `server` folder.
 
 ```sh
-npm run server:seed <recipeCount>
+npm run seed:graphql <shouldRegister> <resultCount> <urlCount>
 ```
 
 ```sh
 # example executions
-npm run server:seed:register
-npm run server:seed:register 5 # same as default
-npm run server:seed:register 10 # grab ten recipes
-npm run server:seed:register 25 # grab twenty-five
+npm run seed:graphql
+npm run seed:graphql false 5 5 # same as default
+npm run seed:graphql false 5 10 # grab ten urls for each of 5 iterations
+npm run seed:graphql false 25 # do 25 iterations with the default of 5 urls
 ```
 
 #### `deploy:heroku`

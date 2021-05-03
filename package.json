@@ -17,9 +17,10 @@
     "server:install": "cd server && npm install",
     "server:start": "cd server && npm run start",
     "server:dev": "cd server && npm run dev",
-    "server:seed:rest": "cd server && npm run seed:rest",
+    "server:seed": "concurrently \"npm run server:seed:rest\" \"npm run server:seed:graphql\"",
+    "server:seed:rest": "cd server && npm run seed:rest:count",
     "server:seed:rest:register": "cd server && npm run seed:rest:register",
-    "server:seed:graphql": "cd server && npm run seed:graphql",
+    "server:seed:graphql": "cd server && npm run seed:graphql:count",
     "deploy:heroku": "git subtree push --prefix server heroku main",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
