@@ -14,7 +14,7 @@ The remaining back end functionality is a GraphQL API using Docker-based Postgre
 
 The front end is deployed on [Netlify](https://www.netlify.com/) and can be viewed here: https://vanilla-box.netlify.app/
 
-The backend is deployed on Heroku and the APIs can be accessed here: https://vanilla-box.herokuapp.com/api/ (RESTful), and https://vanilla-box.herokuapp.com/graphql/ (GraphQL).
+The backend is deployed on Heroku and the APIs can be accessed here: https://vanilla-box.herokuapp.com/api/ (RESTful), and ~~https://vanilla-box.herokuapp.com/graphql/ (GraphQL)~~ **(Not Deployed)**.
 
 ## Rich Internet Application Development 1 Project Requirements
 
