@@ -14,7 +14,8 @@ import {
   stringArg,
 } from 'nexus';
 
-import { GraphQLDateTime } from 'graphql-iso-date';
+import GraphQLISODateTime from 'graphql-iso-date';
+const { GraphQLDateTime } = GraphQLISODateTime;
 
 import path from 'path';
 
