@@ -106,6 +106,14 @@ The following don't need to be configured, but can be:
 
 \*Although `localhost`, `127.0.0.1` are the same, this is commonly configured to `0.0.0.0` on hosting services, such as Heroku.
 
+The full workflow is as follows:
+
+1. Install Dependencies - `npm install`
+2. Launch Docker - `npm run server:docker:launch`
+3. Seed Including a Demo User - `server:seed:rest:register`
+4. Seed REST and GraphQL - `npm run server:seed`
+5. Start Development Server for Client and Server - `npm run dev`
+
 ## Application Scripts
 
 ### Root Project Scripts

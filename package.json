@@ -22,6 +22,9 @@
     "server:seed:rest:register": "cd server && npm run seed:rest:register",
     "server:seed:graphql": "cd server && npm run seed:graphql:count",
     "deploy:heroku": "git subtree push --prefix server heroku main",
+    "server:migrate:dev": "cd server && npm run prisma -- migrate dev --name init",
+    "server:docker:launch": "cd server && npm run docker:launch",
+    "server:docker:nuke": "cd server && npm run docker:nuke",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
