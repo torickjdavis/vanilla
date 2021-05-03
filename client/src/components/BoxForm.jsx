@@ -108,7 +108,7 @@ export default function BoxForm({
                   id="description"
                   name="description"
                   label="Description"
-                  type="url"
+                  type="text"
                   value={values.description}
                   error={!!(touched.description && errors.description)}
                   helperText={errors.description || blank}
