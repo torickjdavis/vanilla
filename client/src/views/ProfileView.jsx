@@ -20,16 +20,28 @@ import {
   MenuOpen as MenuOpenIcon,
   AllInbox as BoxesIcon,
   Receipt as RecipeIcon,
+  Bookmarks,
 } from '@material-ui/icons';
 import { useState } from 'react';
+import { useMutation, gql } from '@apollo/client';
 import { useAuth } from '../contexts/AuthContext';
 import { useRecipes } from '../contexts/RecipeContext';
 import { useBoxes } from '../contexts/BoxContext';
 import BoxForm from '../components/BoxForm';
 import RecipeForm from '../components/RecipeForm';
 import CreateButton from '../components/CreateButton';
+import RecipeBookmarksForm from '../components/RecipeBookmarksForm';
+import RecipeBookmarksContent from './RecipeBookmarksContent';
 
 const drawerWidth = 240;
+
+const CREATE_USER_BOOKMARKS = gql`
+  mutation createUserBookmarks($data: RecipeBookmarksDataInput!) {
+    createRecipeBookmarks(data: $data) {
+      id
+    }
+  }
+`;
 
 const useStyles = makeStyles((theme) => ({
   // heavily inspired by https://material-ui.com/components/drawers/#mini-variant-drawer
@@ -121,6 +133,10 @@ export default function ProfileView() {
   const [boxFormVisible, setBoxFormVisible] = useState(false);
   const { refresh: refreshBoxes } = useBoxes();
 
+  // prettier-ignore
+  const [recipeBookmarksFormVisible, setRecipeBookmarksFormVisible] = useState(false);
+  const [createUserBookmarks] = useMutation(CREATE_USER_BOOKMARKS);
+
   const [working, setWorking] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -203,6 +219,42 @@ export default function ProfileView() {
             />
           )}
           <RecipeContent userOnly />
+        </>
+      ),
+    },
+    {
+      primaryText: 'Recipe Bookmarks',
+      secondaryText: 'Bookmarked recipes.',
+      icon: Bookmarks,
+      content: (
+        <>
+          <CreateButton
+            onClick={() => setRecipeBookmarksFormVisible(true)}
+            className={classes.addButton}
+            pending={working}
+          >
+            Add Recipe Bookmarks
+          </CreateButton>
+          {recipeBookmarksFormVisible && (
+            <RecipeBookmarksForm
+              onClose={() => setRecipeBookmarksFormVisible(false)}
+              onSubmit={async (values) => {
+                console.log('RecipeBookmarks', values);
+                setWorking(true);
+                try {
+                  await createUserBookmarks({
+                    variables: { data: { ...values, creator: user._id } },
+                  });
+                } catch (error) {
+                  alert('An Unhandled Error Occurred');
+                  console.error(error);
+                } finally {
+                  setWorking(false);
+                }
+              }}
+            />
+          )}
+          <RecipeBookmarksContent />
         </>
       ),
     },

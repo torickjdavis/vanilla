@@ -669,3 +669,18 @@ Also, I found the Nexus documentation pretty lacking when creating the mutations
 I wanted primarily to find more details that way I could at least add some extra validation to the `creator` field.
 
 Just before the stroke of midnight, I've got a slew of mutations and queries that I am quite happy with, and I have tested each of them.
+
+## 2021-05-03
+
+Beyond the stroke of midnight, the plan is now to quickly integrate the GraphQL APIs into the profile
+
+Afterwards, hopefully quickly, deploying the application, the hard part will be launching the PostgreSQL Docker container, and getting it to always launch.
+I also need to create a quick seed script for the GraphQL API, that's where I'll probably start.
+
+I've created a way to seed the GraphQL API through the Prisma Client.
+With that, I also added scripts to the server and root packages.
+
+Up next, implementing the GraphQL API into the client and then researching to deploy it.
+I plan to fully implement the GraphQL API into the client, then go to sleep and research deployment tomorrow before the presentation.
+
+CRUDL functionality is now connected for `RecipeBookmarks`.
